@@ -3,7 +3,7 @@ pragma solidity >=0.8.9 <0.9.0;
 
 import "@openzeppelin/contracts/access/Ownable.sol";
 
-contract Events is Ownable {
+contract Fundraisers is Ownable {
     mapping(address => bool) public charities;
 
     modifier isOwnerOrCharity(address charityAddress) {

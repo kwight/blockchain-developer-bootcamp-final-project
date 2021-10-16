@@ -1,11 +1,11 @@
-const Events = artifacts.require('Events');
+const Fundraisers = artifacts.require('Fundraisers');
 const { expectRevert } = require('@openzeppelin/test-helpers');
 
-contract('Events', async accounts => {
+contract('Fundraisers', async accounts => {
   const [contractOwner, charity1, charity2] = accounts;
 
   beforeEach(async () => {
-    instance = await Events.new();
+    instance = await Fundraisers.new();
   });
 
   it('allows only the owner to add charities', async () => {
