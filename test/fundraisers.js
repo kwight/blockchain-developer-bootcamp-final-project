@@ -48,4 +48,26 @@ contract('Fundraisers', async accounts => {
       'unauthorized',
     );
   });
+
+  it('allows only registered active charities to create and remove events', async () => {
+    await instance.registerCharity(charity1);
+    await instance.registerCharity(charity2);
+    await instance.removeCharity(charity1);
+
+    assert.equal(
+      await instance.registerEvent.call('title', { from: charity2 }),
+      1,
+      'active charity cannot register events'
+    )
+
+    await expectRevert(
+      instance.registerEvent('title'),
+      'unauthorized',
+    );
+
+    await expectRevert(
+      instance.registerEvent.call('title', { from: charity1 }),
+      'unauthorized',
+    );
+  });
 });
