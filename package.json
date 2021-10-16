@@ -1,0 +1,25 @@
+{
+  "name": "blockchain-developer-bootcamp-final-project",
+  "version": "0.0.1",
+  "description": "## Charity Fun Run",
+  "main": "truffle-config.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "truffle test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kwight/blockchain-developer-bootcamp-final-project.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/kwight/blockchain-developer-bootcamp-final-project/issues"
+  },
+  "homepage": "https://github.com/kwight/blockchain-developer-bootcamp-final-project#readme",
+  "dependencies": {
+    "@openzeppelin/contracts": "^4.3.2"
+  }
+}
