@@ -21,5 +21,8 @@
   "homepage": "https://github.com/kwight/blockchain-developer-bootcamp-final-project#readme",
   "dependencies": {
     "@openzeppelin/contracts": "^4.3.2"
+  },
+  "devDependencies": {
+    "@openzeppelin/test-helpers": "^0.5.15"
   }
 }
