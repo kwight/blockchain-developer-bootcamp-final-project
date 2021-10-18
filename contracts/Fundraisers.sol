@@ -58,6 +58,17 @@ contract Fundraisers is Ownable {
             status: EventStatus.Active,
             charity: msg.sender
         });
+        eventsCount++;
         return events[eventsCount].id;
+    }
+
+    function cancelEvent(uint256 eventId) public onlyCharity returns (bool) {
+        require(events[eventId].charity == msg.sender, "donkeys");
+        require(
+            events[eventId].status == EventStatus.Active,
+            "event is not active"
+        );
+        events[eventId].status = EventStatus.Cancelled;
+        return true;
     }
 }

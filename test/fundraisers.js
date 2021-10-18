@@ -71,5 +71,11 @@ contract('Fundraisers', async accounts => {
       instance.registerEvent.call('title', { from: removedCharity }),
       'unauthorized',
     );
+
+    assert.equal(
+      await instance.cancelEvent.call(1, { from: activeCharity }),
+      Fundraisers.EventStatus.Cancelled,
+      'active charity cannot cancel events'
+    )
   });
 });
