@@ -5,6 +5,8 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script type="module" src="scripts/wallet.js"></script>
+    <script type="module" src="scripts/fundraisers.js" defer></script>
     <title>Fun Run</title>
 </head>
 
@@ -24,6 +26,13 @@
     <section>
         <h2>Event Details</h2>
     </section>
+    <section id="connect-section">
+        <h2>Connect</h2>
+        <button id="connect-button" autocomplete="off" disabled>Connect wallet</button>
+    </section>
+    <template id="install-metamask">
+        <p id="no-wallet-found">No wallet found. Please <a href="https://metamask.io/">install MetaMask</a>.</p>
+    </template>
 </body>
 
 </html>
