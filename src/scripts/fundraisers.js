@@ -20,7 +20,18 @@ const renderConnectButton = () => {
         return;
     }
 
-    connectButton.disabled = false;
+    if (!isMetaMaskConnected()) {
+        connectButton.disabled = false;
+        connectButton.addEventListener('click', async () => {
+            const selectedAddress = await connectToMetaMask();
+            const selectedAccount = document.getElementById('selected-account').content;
+            connectSection.appendChild(selectedAccount.cloneNode(true));
+            const accountAddress = document.getElementById('account-address');
+            accountAddress.innerHTML = selectedAddress;
+            connectButton.disabled = true;
+        });
+        return;
+    }
 }
 
 init();
