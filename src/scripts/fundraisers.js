@@ -15,8 +15,8 @@ const init = () => {
 
 const renderConnectButton = () => {
     if (!isMetaMaskInstalled()) {
-        const installMetaMask = document.getElementById('install-metamask');
-        connectSection.appendChild(installMetaMask.content.cloneNode(true));
+        const installMetaMask = document.getElementById('install-metamask').content;
+        connectSection.appendChild(installMetaMask.cloneNode(true));
         return;
     }
 
