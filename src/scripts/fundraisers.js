@@ -1,4 +1,10 @@
-import { isMetaMaskInstalled } from './wallet.js';
+import { connectToMetaMask, isMetaMaskConnected, isMetaMaskInstalled } from './wallet.js';
+
+window.fundraisers = {
+    isMetaMaskInstalled,
+    isMetaMaskConnected,
+    connectToMetaMask,
+};
 
 const connectButton = document.getElementById('connect-button');
 const connectSection = document.getElementById('connect-section');
