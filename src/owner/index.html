@@ -8,12 +8,13 @@
     <base href="/">
     <script type="module" src="scripts/wallet.js" defer></script>
     <script type="module" src="scripts/fundraisers.js" defer></script>
-    <title>Charity</title>
+    <!-- <script type="module" src="scripts/owner.js" defer></script> -->
+    <title>Owner</title>
 </head>
 
 <body>
     <header>
-        <h1>Charity Page</h1>
+        <h1>Owner Page</h1>
         <ul>
             <li><a href="/">Home</a></li>
             <li><a href="/owner/">Owner</a></li>
@@ -23,14 +24,12 @@
         </ul>
     </header>
     <section>
-        <h2>Add an event</h2>
-        <form action="" method="">
-            <button>Create an event</button>
-        </form>
+        <h2>Charities</h2>
+        <button id="register-charity" disabled>Register a charity</button>
     </section>
     <section id="connect-section">
         <h2>Connect</h2>
-        <button id="connect-button" autocomplete="off" disabled>Connect wallet</button>
+        <button id="connect-button" autocomplete="off">Connect wallet</button>
     </section>
     <template id="install-metamask">
         <p id="no-wallet-found">No wallet found. Please <a href="https://metamask.io/">install MetaMask</a>.</p>
