@@ -1,7 +1,7 @@
-import { connectToMetaMask, getConnectedAccount, isMetaMaskInstalled } from './wallet.js';
+import { connectAccount, getConnectedAccount, isMetaMaskInstalled } from './wallet.js';
 
 window.fundraisers = {
-    connectToMetaMask,
+    connectAccount,
     getConnectedAccount,
     isMetaMaskInstalled,
 };
@@ -22,11 +22,22 @@ const init = async () => {
     } catch (error) {
         console.log(error);
     }
+
+    connectButton.addEventListener('click', connectToMetaMask);
+}
+
+const connectToMetaMask = async () => {
+    try {
+        renderConnectionPending();
+        await connectAccount();
+
+    } catch (error) {
+        console.log(error);
+    }
 }
 
 const renderAccountData = (account) => {
     if (!account || account.length == 0) {
-        connectButton.addEventListener('click', connectToMetaMask);
         const accountData = document.getElementById('current-account');
         if (accountData) {
             accountData.remove();
@@ -44,6 +55,11 @@ const renderAccountData = (account) => {
 const renderInstallMetaMask = () => {
     const installMetaMask = document.getElementById('install-metamask').content;
     connectSection.appendChild(installMetaMask.cloneNode(true));
+}
+
+const renderConnectionPending = () => {
+    const connectionPending = document.getElementById('connection-pending').content;
+    connectSection.appendChild(connectionPending.cloneNode(true));
 }
 
 init();

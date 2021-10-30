@@ -1,6 +1,6 @@
 export const isMetaMaskInstalled = () => typeof ethereum !== 'undefined';
 
-export const connectToMetaMask = async () => {
+export const connectAccount = async () => {
     await ethereum.request({ method: 'eth_requestAccounts' });
     return ethereum.selectedAddress;
 }
