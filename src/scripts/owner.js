@@ -1,6 +1,7 @@
 import { getConnectedAccount } from './wallet.js';
 
-const registerCharityButton = document.getElementById('register-charity');
+const registerCharityForm = document.getElementById('register-charity');
+const registerCharityButton = document.getElementById('register-charity-button');
 
 const init = async () => {
     try {
@@ -13,7 +14,19 @@ const init = async () => {
 }
 
 const updateRegisterCharityButton = (account) => {
-    registerCharityButton.disabled = (!account || account.length == 0) ? true : false;
+    if (!account || account.length == 0) {
+        registerCharityForm.removeEventListener('submit', registerCharity);
+        registerCharityButton.disabled = true;
+    } else {
+        registerCharityForm.addEventListener('submit', registerCharity);
+        registerCharityButton.disabled = false;
+    }
+}
+
+const registerCharity = (event) => {
+    event.preventDefault();
+    const data = new FormData(registerCharityForm);
+    console.log(data.get('address'));
 }
 
 init();
