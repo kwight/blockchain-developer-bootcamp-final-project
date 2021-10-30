@@ -26,7 +26,7 @@ const init = async () => {
 
 const renderAccountData = (account) => {
     if (!account || account.length == 0) {
-        connectButton.addEventListener('click', async () => await connectToMetaMask());
+        connectButton.addEventListener('click', connectToMetaMask);
         const accountData = document.getElementById('current-account');
         if (accountData) {
             accountData.remove();
