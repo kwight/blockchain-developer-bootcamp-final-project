@@ -1,34 +1,49 @@
-import { connectToMetaMask, isMetaMaskInstalled } from './wallet.js';
+import { connectToMetaMask, getConnectedAccount, isMetaMaskInstalled } from './wallet.js';
 
 window.fundraisers = {
-    isMetaMaskInstalled,
     connectToMetaMask,
+    getConnectedAccount,
+    isMetaMaskInstalled,
 };
 
 const connectButton = document.getElementById('connect-button');
 const connectSection = document.getElementById('connect-section');
 
-const init = () => {
-    renderConnectButton();
-}
-
-const renderConnectButton = () => {
+const init = async () => {
     if (!isMetaMaskInstalled()) {
-        const installMetaMask = document.getElementById('install-metamask').content;
-        connectSection.appendChild(installMetaMask.cloneNode(true));
+        renderInstallMetaMask();
         return;
     }
 
-    connectButton.addEventListener('click', async () => {
-        const selectedAddress = await connectToMetaMask();
+    try {
+        const account = await getConnectedAccount();
+        renderAccountData(account);
+        ethereum.on('accountsChanged', renderAccountData);
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+const renderAccountData = (account) => {
+    if (!account || account.length == 0) {
+        connectButton.addEventListener('click', async () => await connectToMetaMask());
+        const accountData = document.getElementById('current-account');
+        if (accountData) {
+            accountData.remove();
+        }
+        connectButton.disabled = false;
+    } else {
         const selectedAccount = document.getElementById('selected-account').content;
         connectSection.appendChild(selectedAccount.cloneNode(true));
         const accountAddress = document.getElementById('account-address');
-        accountAddress.innerHTML = selectedAddress;
+        accountAddress.innerHTML = account;
         connectButton.disabled = true;
-        registerCharityButton.disabled = false;
-    });
-    return;
+    }
+}
+
+const renderInstallMetaMask = () => {
+    const installMetaMask = document.getElementById('install-metamask').content;
+    connectSection.appendChild(installMetaMask.cloneNode(true));
 }
 
 init();
