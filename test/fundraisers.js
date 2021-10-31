@@ -84,6 +84,16 @@ contract('Fundraisers', async accounts => {
       instance.registerCharity(accounts[6]),
       'maximum charities already registered',
     );
+  });
 
+  it('allows anyone to get all registered charities', async () => {
+    await instance.registerCharity(charity1);
+    const result = await instance.getCharities.call({ from: charity2 });
+
+    assert.equal(
+      result[0],
+      charity1,
+      'charities could not be properly read'
+    );
   });
 });

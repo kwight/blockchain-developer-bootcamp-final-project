@@ -178,3 +178,7 @@ export const registerCharity = async (address) => {
     const writableContract = new ethers.Contract(contractAddress, abi, signer);
     return await writableContract.registerCharity(address);
 }
+
+export const getCharities = (quantity) => {
+
+}

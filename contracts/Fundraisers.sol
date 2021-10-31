@@ -49,6 +49,10 @@ contract Fundraisers is Ownable {
         delete charities[charityAddress];
     }
 
+    function getCharities() public view returns (address[] memory) {
+        return charityList;
+    }
+
     function registerEvent(string memory title)
         public
         onlyCharity
