@@ -72,4 +72,18 @@ contract('Fundraisers', async accounts => {
       'unauthorized',
     );
   });
+
+  it('allows only five charities to be registered', async () => {
+    await instance.registerCharity(accounts[1]);
+    await instance.registerCharity(accounts[2]);
+    await instance.registerCharity(accounts[3]);
+    await instance.registerCharity(accounts[4]);
+    await instance.registerCharity(accounts[5]);
+
+    await expectRevert(
+      instance.registerCharity(accounts[6]),
+      'maximum charities already registered',
+    );
+
+  });
 });

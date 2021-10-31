@@ -5,7 +5,7 @@ import "@openzeppelin/contracts/access/Ownable.sol";
 
 contract Fundraisers is Ownable {
     mapping(address => bool) public charities;
-
+    address[] public charityList;
     mapping(uint256 => Event) public events;
 
     uint256 eventsCount = 1;
@@ -37,7 +37,9 @@ contract Fundraisers is Ownable {
     }
 
     function registerCharity(address charityAddress) public onlyOwner {
+        require(charityList.length < 5, "maximum charities already registered");
         charities[charityAddress] = true;
+        charityList.push(charityAddress);
     }
 
     function removeCharity(address charityAddress)
