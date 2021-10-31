@@ -1,4 +1,4 @@
-import { getConnectedAccount } from './wallet.js';
+import { addAccountsChangedListener, getConnectedAccount, isValidAddress } from './utils.js';
 
 const registerCharityForm = document.getElementById('register-charity');
 const registerCharityButton = document.getElementById('register-charity-button');
@@ -7,7 +7,7 @@ const init = async () => {
     try {
         const account = await getConnectedAccount();
         updateRegisterCharityButton(account);
-        ethereum.on('accountsChanged', updateRegisterCharityButton);
+        addAccountsChangedListener(updateRegisterCharityButton);
     } catch (error) {
         console.log(error);
     }
@@ -23,10 +23,14 @@ const updateRegisterCharityButton = (account) => {
     }
 }
 
-const registerCharity = (event) => {
+const registerCharity = async (event) => {
     event.preventDefault();
-    const data = new FormData(registerCharityForm);
-    console.log(data.get('address'));
+    const address = new FormData(registerCharityForm).get('address');
+    if (!isValidAddress(address)) {
+        alert('Address is invalid.');
+        return;
+    }
+    console.log(address);
 }
 
 init();

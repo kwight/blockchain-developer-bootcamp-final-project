@@ -1,3 +1,7 @@
+import { ethers } from './ethers-5.1.esm.min.js';
+
+const { ethereum } = window;
+
 export const isMetaMaskInstalled = () => typeof ethereum !== 'undefined';
 
 export const connectToMetaMask = async () => {
@@ -9,3 +13,7 @@ export const getConnectedAccount = async () => {
     const accounts = await ethereum.request({ method: 'eth_accounts' });
     return (accounts.length > 0) ? ethereum.selectedAddress : false;
 }
+
+export const isValidAddress = (address) => ethers.utils.isAddress(address);
+
+export const addAccountsChangedListener = (listener) => ethereum.on('accountsChanged', listener);
