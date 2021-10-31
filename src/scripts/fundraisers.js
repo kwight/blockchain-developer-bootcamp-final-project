@@ -36,6 +36,10 @@ const renderAccountData = (account) => {
         }
         connectButton.disabled = false;
     } else {
+        const existingAccount = document.querySelector('#connect-section #current-account');
+        if (existingAccount) {
+            existingAccount.remove();
+        }
         const selectedAccount = document.getElementById('selected-account').content;
         connectSection.appendChild(selectedAccount.cloneNode(true));
         const accountAddress = document.getElementById('account-address');
