@@ -1,9 +1,13 @@
-import { addAccountsChangedListener, getConnectedAccount, isValidAddress, registerCharity } from './utils.js';
+import { addAccountsChangedListener, getConnectedAccount, isMetaMaskInstalled, isValidAddress, registerCharity } from './utils.js';
 
 const registerCharityForm = document.getElementById('register-charity');
 const registerCharityButton = document.getElementById('register-charity-button');
 
 const init = async () => {
+    if (!isMetaMaskInstalled()) {
+        return;
+    }
+
     try {
         const account = await getConnectedAccount();
         updateRegisterCharityButton(account);

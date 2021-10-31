@@ -1,9 +1,8 @@
-import { connectToMetaMask, getConnectedAccount, instantiateContract, isMetaMaskInstalled } from './utils.js';
+import { connectToMetaMask, getConnectedAccount, isMetaMaskInstalled } from './utils.js';
 import { ethers } from './ethers-5.1.esm.min.js';
 
 window.fundraisers = {
     connectToMetaMask,
-    contract: instantiateContract(),
     ethers,
     getConnectedAccount,
     isMetaMaskInstalled,

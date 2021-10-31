@@ -157,8 +157,6 @@ const abi = [
         "type": "function"
     }
 ];
-const provider = new ethers.providers.Web3Provider(ethereum);
-const signer = provider.getSigner();
 
 export const isMetaMaskInstalled = () => typeof ethereum !== 'undefined';
 
@@ -180,5 +178,3 @@ export const registerCharity = async (address) => {
     const writableContract = new ethers.Contract(contractAddress, abi, signer);
     return await writableContract.registerCharity(address);
 }
-
-export const instantiateContract = () => new ethers.Contract(contractAddress, abi, provider);
