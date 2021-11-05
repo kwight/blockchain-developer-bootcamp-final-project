@@ -1,9 +1,10 @@
-import { connectToMetaMask, getConnectedAccount, isMetaMaskInstalled } from './utils.js';
+import { connectToMetaMask, getCharities, getConnectedAccount, isMetaMaskInstalled } from './utils.js';
 import { ethers } from './ethers-5.1.esm.min.js';
 
 window.fundraisers = {
     connectToMetaMask,
     ethers,
+    getCharities,
     getConnectedAccount,
     isMetaMaskInstalled,
 };
