@@ -1,6 +1,7 @@
 import { connectToMetaMask, getConnectedAccount, isMetaMaskInstalled } from './utils.js';
+import { ethers } from './ethers-5.1.esm.min.js';
 
-window.fundraisers = {
+const walletEntities = {
     connectToMetaMask,
     getConnectedAccount,
     isMetaMaskInstalled,
@@ -19,6 +20,9 @@ const init = async () => {
         const account = await getConnectedAccount();
         renderAccountData(account);
         ethereum.on('accountsChanged', renderAccountData);
+        walletEntities.provider = new ethers.providers.Web3Provider(ethereum);
+        walletEntities.signer = walletEntities.provider.getSigner();
+        Object.assign(window.fundraisers, walletEntities);
     } catch (error) {
         console.log(error);
     }

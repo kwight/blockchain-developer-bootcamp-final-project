@@ -1,4 +1,5 @@
-import { addAccountsChangedListener, getConnectedAccount, isMetaMaskInstalled, isValidAddress, registerCharity } from './utils.js';
+import { addAccountsChangedListener, getConnectedAccount, isMetaMaskInstalled, isValidAddress } from './utils.js';
+import { ethers } from './ethers-5.1.esm.min.js';
 
 const registerCharityForm = document.getElementById('register-charity');
 const registerCharityButton = document.getElementById('register-charity-button');
@@ -12,6 +13,7 @@ const init = async () => {
         const account = await getConnectedAccount();
         updateRegisterCharityButton(account);
         addAccountsChangedListener(updateRegisterCharityButton);
+        Object.assign(window.fundraisers, { registerCharity });
     } catch (error) {
         console.log(error);
     }
@@ -41,6 +43,12 @@ const registerCharityListener = async (event) => {
         console.log(error);
     }
 
+}
+
+const registerCharity = async (address) => {
+    const { abi, contractAddress, signer } = window.fundraisers;
+    const contract = new ethers.Contract(contractAddress, abi, signer);
+    return await contract.registerCharity(address);
 }
 
 init();
