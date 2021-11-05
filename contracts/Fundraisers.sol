@@ -47,6 +47,12 @@ contract Fundraisers is Ownable {
         isOwnerOrCharity(charityAddress)
     {
         delete charities[charityAddress];
+        for (uint256 index = 0; index < charityList.length; index++) {
+            if (charityList[index] == charityAddress) {
+                charityList[index] = charityList[charityList.length - 1];
+                charityList.pop();
+            }
+        }
     }
 
     function getCharities() public view returns (address[] memory) {
