@@ -22,6 +22,12 @@ contract('Fundraisers', async accounts => {
       'the owner cannot register charities'
     )
 
+    assert.equal(
+      await instance.charityList(0),
+      charity1,
+      'the owner cannot register charities'
+    )
+
     await expectRevert(
       instance.registerCharity.call(charity1, { from: charity1 }),
       'Ownable: caller is not the owner',
