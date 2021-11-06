@@ -1,16 +1,16 @@
 import { ethers } from './ethers-5.1.esm.min.js';
 
-const contractAddress = '0x17ea93d5357b1e371561740883AB6A56993C2b22';
+const contractAddress = '0xb4896ea2F21DFbE58fe0439E3d2a16F8561b15D7';
 const abi = [
     "function getCharities() public view returns (address[] memory)",
     "function registerCharity(address charityAddress) public",
 ];
 const provider = ethers.getDefaultProvider('http://localhost:9545');
+const contract = new ethers.Contract(contractAddress, abi, provider);
 
 const init = async () => {
     window.fundraisers = {
-        abi,
-        contractAddress,
+        contract,
         ethers,
         getCharities,
         provider,
@@ -18,8 +18,8 @@ const init = async () => {
 }
 
 export const getCharities = async () => {
-    const fundraisers = new ethers.Contract(contractAddress, abi, provider);
-    return await fundraisers.getCharities();
+    const { contract } = window.fundraisers;
+    return await contract.getCharities();
 }
 
 init();

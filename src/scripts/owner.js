@@ -46,9 +46,9 @@ const registerCharityListener = async (event) => {
 }
 
 const registerCharity = async (address) => {
-    const { abi, contractAddress, signer } = window.fundraisers;
-    const contract = new ethers.Contract(contractAddress, abi, signer);
-    return await contract.registerCharity(address);
+    const { contract, signer } = window.fundraisers;
+    const writableContract = new ethers.Contract(contract.address, contract.interface.fragments, signer);
+    return await writableContract.registerCharity(address);
 }
 
 init();
