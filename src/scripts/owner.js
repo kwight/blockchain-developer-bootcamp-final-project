@@ -13,7 +13,7 @@ const init = async () => {
         const account = await getConnectedAccount();
         updateRegisterCharityButton(account);
         addAccountsChangedListener(updateRegisterCharityButton);
-        Object.assign(window.fundraisers, { registerCharity });
+        Object.assign(window.fundraisers, { registerCharity, removeCharity });
     } catch (error) {
         console.log(error);
     }
@@ -49,6 +49,12 @@ const registerCharity = async (address) => {
     const { contract, signer } = window.fundraisers;
     const writableContract = new ethers.Contract(contract.address, contract.interface.fragments, signer);
     return await writableContract.registerCharity(address);
+}
+
+const removeCharity = async (address) => {
+    const { contract, signer } = window.fundraisers;
+    const writableContract = new ethers.Contract(contract.address, contract.interface.fragments, signer);
+    return await writableContract.removeCharity(address);
 }
 
 init();
