@@ -23,6 +23,8 @@ contract Fundraisers is Ownable {
         address charity;
     }
 
+    event CharityRegistered(address charity);
+
     modifier isOwnerOrCharity(address charityAddress) {
         require(
             msg.sender == owner() || msg.sender == charityAddress,
@@ -40,6 +42,7 @@ contract Fundraisers is Ownable {
         require(charityList.length < 5, "maximum charities already registered");
         charities[charityAddress] = true;
         charityList.push(charityAddress);
+        emit CharityRegistered(charityAddress);
     }
 
     function removeCharity(address charityAddress)
