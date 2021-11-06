@@ -3,7 +3,7 @@ import { ethers } from './ethers-5.1.esm.min.js';
 
 const registerCharityForm = document.getElementById('register-charity');
 const registerCharityButton = document.getElementById('register-charity-button');
-const charitiesSection = document.getElementById('charities-section');
+const registeredCharities = document.getElementById('registered-charities');
 const registeredCharity = document.getElementById('registered-charity').content;
 
 const init = async () => {
@@ -49,9 +49,14 @@ const registerCharityListener = async (event) => {
 }
 
 const registerCharity = async (address) => {
-    const { contract, signer } = window.fundraisers;
-    const writableContract = new ethers.Contract(contract.address, contract.interface.fragments, signer);
-    return await writableContract.registerCharity(address);
+    try {
+        const { contract, signer } = window.fundraisers;
+        const writableContract = new ethers.Contract(contract.address, contract.interface.fragments, signer);
+        await writableContract.registerCharity(address);
+        renderCharities();
+    } catch (error) {
+        console.log(error);
+    }
 }
 
 const removeCharity = async (address) => {
@@ -62,9 +67,10 @@ const removeCharity = async (address) => {
 
 const renderCharities = async () => {
     const charities = await window.fundraisers.getCharities();
+    registeredCharities.innerHTML = '';
     charities.forEach(charity => {
         registeredCharity.querySelector('.charity-address').innerText = charity;
-        charitiesSection.appendChild(registeredCharity.cloneNode(true));
+        registeredCharities.appendChild(registeredCharity.cloneNode(true));
     });
 }
 
