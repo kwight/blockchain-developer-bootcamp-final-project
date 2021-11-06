@@ -40,8 +40,7 @@ const registerCharityListener = async (event) => {
         return;
     }
     try {
-        const result = await registerCharity(address);
-        console.log(result);
+        await registerCharity(address);
     } catch (error) {
         console.log(error);
     }
