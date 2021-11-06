@@ -15,6 +15,7 @@ const init = async () => {
         const account = await getConnectedAccount();
         updateRegisterCharityButton(account);
         addAccountsChangedListener(updateRegisterCharityButton);
+        window.fundraisers.provider.on('block', renderCharities);
         Object.assign(window.fundraisers, { registerCharity, removeCharity });
         renderCharities();
     } catch (error) {
@@ -59,9 +60,14 @@ const registerCharity = async (address) => {
 }
 
 const removeCharity = async (address) => {
-    const { contract, signer } = window.fundraisers;
-    const writableContract = new ethers.Contract(contract.address, contract.interface.fragments, signer);
-    return await writableContract.removeCharity(address);
+    try {
+        const { contract, signer } = window.fundraisers;
+        const writableContract = new ethers.Contract(contract.address, contract.interface.fragments, signer);
+        await writableContract.removeCharity(address);
+        renderCharities();
+    } catch (error) {
+        console.log(error);
+    }
 }
 
 const renderCharities = async () => {
