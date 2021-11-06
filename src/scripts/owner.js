@@ -51,7 +51,7 @@ const registerCharityListener = async (event) => {
 const registerCharity = async (address) => {
     try {
         const { contract, signer } = window.fundraisers;
-        const writableContract = new ethers.Contract(contract.address, contract.interface.fragments, signer);
+        const writableContract = contract.connect(signer);
         await writableContract.registerCharity(address);
         renderCharities();
     } catch (error) {
@@ -62,7 +62,7 @@ const registerCharity = async (address) => {
 const removeCharity = async (address) => {
     try {
         const { contract, signer } = window.fundraisers;
-        const writableContract = new ethers.Contract(contract.address, contract.interface.fragments, signer);
+        const writableContract = contract.connect(signer);
         await writableContract.removeCharity(address);
         renderCharities();
     } catch (error) {
