@@ -3,6 +3,8 @@ import { ethers } from './ethers-5.1.esm.min.js';
 
 const registerCharityForm = document.getElementById('register-charity');
 const registerCharityButton = document.getElementById('register-charity-button');
+const charitiesSection = document.getElementById('charities-section');
+const registeredCharity = document.getElementById('registered-charity').content;
 
 const init = async () => {
     if (!isMetaMaskInstalled()) {
@@ -14,6 +16,7 @@ const init = async () => {
         updateRegisterCharityButton(account);
         addAccountsChangedListener(updateRegisterCharityButton);
         Object.assign(window.fundraisers, { registerCharity, removeCharity });
+        renderCharities();
     } catch (error) {
         console.log(error);
     }
@@ -55,6 +58,14 @@ const removeCharity = async (address) => {
     const { contract, signer } = window.fundraisers;
     const writableContract = new ethers.Contract(contract.address, contract.interface.fragments, signer);
     return await writableContract.removeCharity(address);
+}
+
+const renderCharities = async () => {
+    const charities = await window.fundraisers.getCharities();
+    charities.forEach(charity => {
+        registeredCharity.querySelector('.charity-address').innerText = charity;
+        charitiesSection.appendChild(registeredCharity.cloneNode(true));
+    });
 }
 
 init();

@@ -24,7 +24,7 @@
             <li><a href="/doner/">Donate</a></li>
         </ul>
     </header>
-    <section>
+    <section id="charities-section">
         <h2>Charities</h2>
         <form id="register-charity">
             <label>Address:
@@ -32,6 +32,7 @@
             </label>
             <button id="register-charity-button" disabled>Register a charity</button>
         </form>
+        <h4>Registered Charities</h4>
     </section>
     <section id="connect-section">
         <h2>Connect</h2>
@@ -43,6 +44,9 @@
     <template id="selected-account">
         <p id="current-account">Current account: <span id="account-address"></span>
         </p>
+    </template>
+    <template id="registered-charity">
+        <p class="charity"><span class="charity-address"></span><button class="remove-charity">X</button></p>
     </template>
 </body>
 
