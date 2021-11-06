@@ -68,9 +68,11 @@ const removeCharity = async (address) => {
 const renderCharities = async () => {
     const charities = await window.fundraisers.getCharities();
     registeredCharities.innerHTML = '';
-    charities.forEach(charity => {
-        registeredCharity.querySelector('.charity-address').innerText = charity;
-        registeredCharities.appendChild(registeredCharity.cloneNode(true));
+    charities.forEach(address => {
+        const charity = registeredCharity.cloneNode(true);
+        charity.querySelector('.charity-address').innerText = address;
+        charity.querySelector('.remove-charity').addEventListener('click', () => removeCharity(address));
+        registeredCharities.appendChild(charity);
     });
 }
 
