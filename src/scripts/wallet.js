@@ -9,6 +9,8 @@ const walletEntities = {
 
 const connectButton = document.getElementById('connect-button');
 const connectSection = document.getElementById('connect-section');
+const selectedAccount = document.getElementById('selected-account').content;
+const installMetaMask = document.getElementById('install-metamask').content;
 
 const init = async () => {
     if (!isMetaMaskInstalled()) {
@@ -41,7 +43,6 @@ const renderAccountData = (account) => {
         if (existingAccount) {
             existingAccount.remove();
         }
-        const selectedAccount = document.getElementById('selected-account').content;
         connectSection.appendChild(selectedAccount.cloneNode(true));
         const accountAddress = document.getElementById('account-address');
         accountAddress.innerHTML = account;
@@ -50,7 +51,6 @@ const renderAccountData = (account) => {
 }
 
 const renderInstallMetaMask = () => {
-    const installMetaMask = document.getElementById('install-metamask').content;
     connectSection.appendChild(installMetaMask.cloneNode(true));
 }
 
