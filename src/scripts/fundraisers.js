@@ -5,6 +5,7 @@ const abi = [
     'function getCharities() public view returns (address[] memory)',
     'function registerCharity(address charityAddress) public',
     'function removeCharity(address charityAddress) public',
+    'function getEvents() view returns (tuple(string title, uint8 status, address charity, uint256 timestamp)[])',
     'function registerEvent(string memory title, uint256 timestamp)',
 ];
 const provider = ethers.getDefaultProvider('http://localhost:9545');
@@ -15,6 +16,7 @@ const init = async () => {
         contract,
         ethers,
         getCharities,
+        getEvents,
         provider,
     };
 }
@@ -22,6 +24,11 @@ const init = async () => {
 export const getCharities = async () => {
     const { contract } = window.fundraisers;
     return await contract.getCharities();
+}
+
+export const getEvents = async () => {
+    const { contract } = window.fundraisers;
+    return await contract.getEvents();
 }
 
 init();

@@ -2,7 +2,7 @@ import { addAccountsChangedListener, getConnectedAccount, isMetaMaskInstalled, i
 
 const registerEventForm = document.getElementById('register-event');
 const registerEventButton = document.getElementById('register-event-button');
-const registeredCharities = document.getElementById('registered-events');
+const registeredEvents = document.getElementById('registered-events');
 const registeredEvent = document.getElementById('registered-event').content;
 
 const init = async () => {
@@ -14,7 +14,7 @@ const init = async () => {
         const account = await getConnectedAccount();
         updateRegisterEventButton(account);
         addAccountsChangedListener(updateRegisterEventButton);
-        // window.fundraisers.provider.on('block', renderCharities);
+        window.fundraisers.provider.on('block', renderEvents);
         // Object.assign(window.fundraisers, { registerEvent, removeEvent });
         // renderEvents();
     } catch (error) {
@@ -53,7 +53,7 @@ const registerEvent = async (title, date) => {
         const { contract, signer } = window.fundraisers;
         const writableContract = contract.connect(signer);
         await writableContract.registerEvent(title, date);
-        // renderEvents();
+        renderEvents();
     } catch (error) {
         console.log(error);
     }
@@ -70,15 +70,15 @@ const registerEvent = async (title, date) => {
 //     }
 // }
 
-// const renderEvents = async () => {
-//     const events = await window.fundraisers.getCharities();
-//     registeredCharities.innerHTML = '';
-//     events.forEach(address => {
-//         const event = registeredEvent.cloneNode(true);
-//         event.querySelector('.event-address').innerText = address;
-//         event.querySelector('.remove-event').addEventListener('click', () => removeEvent(address));
-//         registeredCharities.appendChild(event);
-//     });
-// }
+const renderEvents = async () => {
+    const events = await window.fundraisers.getEvents();
+    registeredEvents.innerHTML = '';
+    events.forEach((eventData, index) => {
+        const event = registeredEvent.cloneNode(true);
+        event.querySelector('.event-title').innerText = eventData.title;
+        event.querySelector('.remove-event').addEventListener('click', () => removeEvent(index));
+        registeredEvents.appendChild(event);
+    });
+}
 
 init();
