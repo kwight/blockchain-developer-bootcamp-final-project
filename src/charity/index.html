@@ -6,6 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <base href="/">
+    <link rel="stylesheet" href="styles.css">
     <script type="module" src="scripts/utils.js" defer></script>
     <script type="module" src="scripts/fundraisers.js" defer></script>
     <title>Charity</title>
@@ -22,9 +23,18 @@
             <li><a href="/doner/">Donate</a></li>
         </ul>
     </header>
-    <section>
-        <h2>Add an event</h2>
-        <button>Create an event</button>
+    <section id="events-section">
+        <h2>Events</h2>
+        <div id="registered-events"></div>
+        <form id="register-event">
+            <label>Title:
+                <input placeholder="Event title" name="title">
+            </label>
+            <label>Date and time:
+                <input type="datetime-local" name="date">
+            </label>
+            <button id="register-event-button" disabled>Register an event</button>
+        </form>
     </section>
     <section id="connect-section">
         <h2>Connect</h2>
@@ -36,6 +46,9 @@
     <template id="selected-account">
         <p id="current-account">Current account: <span id="account-address"></span>
         </p>
+    </template>
+    <template id="registered-event">
+        <p class="event"><span class="event-title"></span><button class="remove-event">X</button></p>
     </template>
 </body>
 
