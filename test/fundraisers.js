@@ -61,10 +61,12 @@ contract('Fundraisers', async accounts => {
     await instance.registerCharity(activeCharity);
     await instance.registerCharity(removedCharity);
     await instance.removeCharity(removedCharity);
+    await instance.registerEvent.call('title', { from: activeCharity });
+    const event = await instance.events.call(0);
 
     assert.equal(
-      await instance.registerEvent.call('title', { from: activeCharity }),
-      0,
+      event.title,
+      'title',
       'active charity cannot register events'
     )
 

@@ -7,7 +7,6 @@ contract Fundraisers is Ownable {
     mapping(address => bool) public charities;
     address[] public charityList;
     Event[] public events;
-    mapping(address => uint256[]) public eventsByCharity;
 
     enum EventStatus {
         Active,
@@ -64,11 +63,7 @@ contract Fundraisers is Ownable {
         return events;
     }
 
-    function registerEvent(string memory title)
-        public
-        onlyCharity
-        returns (uint256)
-    {
+    function registerEvent(string memory title) public onlyCharity {
         events.push(
             Event({
                 title: title,
@@ -76,8 +71,5 @@ contract Fundraisers is Ownable {
                 charity: msg.sender
             })
         );
-        uint256 index = events.length - 1;
-        eventsByCharity[msg.sender].push(index);
-        return index;
     }
 }
