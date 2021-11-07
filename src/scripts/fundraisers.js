@@ -5,6 +5,7 @@ const abi = [
     'function getCharities() public view returns (address[] memory)',
     'function registerCharity(address charityAddress) public',
     'function removeCharity(address charityAddress) public',
+    'function registerEvent(string memory title, uint256 timestamp)',
 ];
 const provider = ethers.getDefaultProvider('http://localhost:9545');
 const contract = new ethers.Contract(contractAddress, abi, provider);

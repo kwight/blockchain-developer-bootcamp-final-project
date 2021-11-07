@@ -38,9 +38,11 @@ const registerEventListener = async (event) => {
     const date = new FormData(registerEventForm).get('date');
     if (!title || !date) {
         alert('Both fields are required.');
+        return;
     }
+    const timestamp = Math.floor(new Date(date).getTime() / 1000);
     try {
-        await registerEvent(title, date);
+        await registerEvent(title, timestamp);
     } catch (error) {
         console.log(error);
     }

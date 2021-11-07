@@ -18,6 +18,7 @@ contract Fundraisers is Ownable {
         string title;
         EventStatus status;
         address charity;
+        uint256 timestamp;
     }
 
     event CharityRegistered(address charity);
@@ -63,12 +64,16 @@ contract Fundraisers is Ownable {
         return events;
     }
 
-    function registerEvent(string memory title) public onlyCharity {
+    function registerEvent(string memory title, uint256 timestamp)
+        public
+        onlyCharity
+    {
         events.push(
             Event({
                 title: title,
                 status: EventStatus.Active,
-                charity: msg.sender
+                charity: msg.sender,
+                timestamp: timestamp
             })
         );
     }
