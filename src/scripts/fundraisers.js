@@ -7,6 +7,7 @@ const abi = [
     'function removeCharity(address charityAddress) public',
     'function getEvents() view returns (tuple(string title, uint8 status, address charity, uint256 timestamp)[])',
     'function registerEvent(string memory title, uint256 timestamp)',
+    'function cancelEvent(uint256 index)',
 ];
 const provider = ethers.getDefaultProvider('http://localhost:9545');
 const contract = new ethers.Contract(contractAddress, abi, provider);

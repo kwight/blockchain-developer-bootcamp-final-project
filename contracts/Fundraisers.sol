@@ -77,4 +77,8 @@ contract Fundraisers is Ownable {
             })
         );
     }
+
+    function cancelEvent(uint256 index) public onlyCharity {
+        events[index].status = EventStatus.Cancelled;
+    }
 }
