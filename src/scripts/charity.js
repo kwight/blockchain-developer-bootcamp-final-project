@@ -36,6 +36,9 @@ const registerEventListener = async (event) => {
     event.preventDefault();
     const title = new FormData(registerEventForm).get('title');
     const date = new FormData(registerEventForm).get('date');
+    if (!title || !date) {
+        alert('Both fields are required.');
+    }
     try {
         await registerEvent(title, date);
     } catch (error) {
