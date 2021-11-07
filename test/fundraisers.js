@@ -64,7 +64,7 @@ contract('Fundraisers', async accounts => {
 
     assert.equal(
       await instance.registerEvent.call('title', { from: activeCharity }),
-      1,
+      0,
       'active charity cannot register events'
     )
 

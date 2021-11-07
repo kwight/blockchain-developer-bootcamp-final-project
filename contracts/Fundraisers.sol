@@ -6,9 +6,8 @@ import "@openzeppelin/contracts/access/Ownable.sol";
 contract Fundraisers is Ownable {
     mapping(address => bool) public charities;
     address[] public charityList;
-    mapping(uint256 => Event) public events;
-
-    uint256 eventsCount = 1;
+    Event[] public events;
+    mapping(address => uint256[]) public eventsByCharity;
 
     enum EventStatus {
         Active,
@@ -17,7 +16,6 @@ contract Fundraisers is Ownable {
     }
 
     struct Event {
-        uint256 id;
         string title;
         EventStatus status;
         address charity;
@@ -62,17 +60,24 @@ contract Fundraisers is Ownable {
         return charityList;
     }
 
+    function getEvents() public view returns (Event[] memory) {
+        return events;
+    }
+
     function registerEvent(string memory title)
         public
         onlyCharity
         returns (uint256)
     {
-        events[eventsCount] = Event({
-            id: eventsCount,
-            title: title,
-            status: EventStatus.Active,
-            charity: msg.sender
-        });
-        return events[eventsCount].id;
+        events.push(
+            Event({
+                title: title,
+                status: EventStatus.Active,
+                charity: msg.sender
+            })
+        );
+        uint256 index = events.length - 1;
+        eventsByCharity[msg.sender].push(index);
+        return index;
     }
 }
