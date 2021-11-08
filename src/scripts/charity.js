@@ -80,6 +80,7 @@ const renderEvents = async () => {
     registeredEvents.innerHTML = '';
     events.forEach((eventData, index) => {
         const event = registeredEvent.cloneNode(true);
+        event.querySelector('.event').id = `event-${index}`;
         event.querySelector('.event-title').innerText = eventData.title;
         event.querySelector('.event-status').innerText = status[eventData.status];
         event.querySelector('.cancel-event').addEventListener('click', () => cancelEvent(index));
