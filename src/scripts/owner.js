@@ -2,8 +2,6 @@ import { addAccountsChangedListener, getConnectedAccount, isMetaMaskInstalled, i
 
 const registerCharityForm = document.getElementById('register-charity');
 const registerCharityButton = document.getElementById('register-charity-button');
-const registeredCharities = document.getElementById('registered-charities');
-const registeredCharity = document.getElementById('registered-charity').content;
 
 const init = async () => {
     if (!isMetaMaskInstalled()) {
@@ -67,17 +65,6 @@ const removeCharity = async (address) => {
     } catch (error) {
         console.log(error);
     }
-}
-
-const renderCharities = async () => {
-    const charities = await window.fundraisers.getCharities();
-    registeredCharities.innerHTML = '';
-    charities.forEach(address => {
-        const charity = registeredCharity.cloneNode(true);
-        charity.querySelector('.charity-address').innerText = address;
-        charity.querySelector('.remove-charity').addEventListener('click', () => removeCharity(address));
-        registeredCharities.appendChild(charity);
-    });
 }
 
 init();

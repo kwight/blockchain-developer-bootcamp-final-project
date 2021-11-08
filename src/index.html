@@ -21,12 +21,19 @@
             <li><a href="/doner/">Donate</a></li>
         </ul>
     </header>
-    <section>
+    <section id="charities-section">
+        <h2>Charities</h2>
+        <div id="registered-charities"></div>
+    </section>
+    <section id="events-section">
         <h2>Events</h2>
     </section>
     <section>
         <h2>Event Details</h2>
     </section>
+    <template id="registered-charity">
+        <p class="charity"><span class="charity-address"></span><button class="remove-charity">X</button></p>
+    </template>
 </body>
 
 </html>
