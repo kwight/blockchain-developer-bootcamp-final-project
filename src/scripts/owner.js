@@ -1,4 +1,5 @@
 import { addAccountsChangedListener, getConnectedAccount, isMetaMaskInstalled, isValidAddress } from './utils.js';
+import { renderCharities } from './fundraisers.js';
 
 const registerCharityForm = document.getElementById('register-charity');
 const registerCharityButton = document.getElementById('register-charity-button');
@@ -12,9 +13,9 @@ const init = async () => {
         const account = await getConnectedAccount();
         updateRegisterCharityButton(account);
         addAccountsChangedListener(updateRegisterCharityButton);
-        window.fundraisers.provider.on('block', renderCharities);
+        window.fundraisers.provider.on('block', () => renderCharities(true));
         Object.assign(window.fundraisers, { registerCharity, removeCharity });
-        renderCharities();
+        renderCharities(true);
     } catch (error) {
         console.log(error);
     }
@@ -50,7 +51,7 @@ const registerCharity = async (address) => {
         const { contract, signer } = window.fundraisers;
         const writableContract = contract.connect(signer);
         await writableContract.registerCharity(address);
-        renderCharities();
+        renderCharities(true);
     } catch (error) {
         console.log(error);
     }
@@ -61,7 +62,7 @@ const removeCharity = async (address) => {
         const { contract, signer } = window.fundraisers;
         const writableContract = contract.connect(signer);
         await writableContract.removeCharity(address);
-        renderCharities();
+        renderCharities(true);
     } catch (error) {
         console.log(error);
     }
