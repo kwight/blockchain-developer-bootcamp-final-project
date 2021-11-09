@@ -36,20 +36,13 @@ export const getEvents = async () => {
     return await contract.getEvents();
 }
 
-export const renderCharities = async (isOwner = false) => {
+export const renderCharities = async () => {
     const charities = await window.fundraisers.getCharities();
     registeredCharities.innerHTML = '';
     charities.forEach(address => {
         const charity = registeredCharity.cloneNode(true);
         charity.querySelector('.charity').id = `charity-${address}`;
         charity.querySelector('.charity-address').innerText = address;
-        if (isOwner) {
-            const button = document.createElement('button');
-            button.classList.add('remove-charity');
-            button.innerText = 'X';
-            button.addEventListener('click', () => removeCharity(address));
-            charity.querySelector('.charity').appendChild(button);
-        }
         registeredCharities.appendChild(charity);
     });
 }
