@@ -1,3 +1,6 @@
+import { renderEvents } from './events.js';
+import { addAccountsChangedListener, getConnectedAccount, isMetaMaskInstalled } from './wallet.js';
+
 const registerEventForm = document.getElementById('register-event');
 const registerEventButton = document.getElementById('register-event-button');
 const registeredEvents = document.getElementById('registered-events');
