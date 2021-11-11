@@ -12,14 +12,6 @@ const abi = [
 const provider = ethers.getDefaultProvider('http://localhost:9545');
 const contract = new ethers.Contract(contractAddress, abi, provider);
 
-// const registeredEvents = document.getElementById('registered-events');
-// const registeredEvent = document.getElementById('registered-event');
-// const status = [
-//     'active',
-//     'complete',
-//     'cancelled',
-// ];
-
 const init = () => {
     window.fundraisers = {
         contract,
