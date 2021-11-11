@@ -9,8 +9,8 @@ const abi = [
     'function registerEvent(string memory title, uint256 timestamp)',
     'function cancelEvent(uint256 index)',
 ];
-const provider = ethers.getDefaultProvider('http://localhost:9545');
-const contract = new ethers.Contract(contractAddress, abi, provider);
+export const provider = ethers.getDefaultProvider('http://localhost:9545');
+export const contract = new ethers.Contract(contractAddress, abi, provider);
 
 const init = () => {
     window.fundraisers = {
