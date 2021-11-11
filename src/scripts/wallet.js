@@ -1,11 +1,4 @@
-import { connectToMetaMask, getConnectedAccount, isMetaMaskInstalled } from './utils.js';
 import { ethers } from './ethers-5.1.esm.min.js';
-
-const walletEntities = {
-    connectToMetaMask,
-    getConnectedAccount,
-    isMetaMaskInstalled,
-};
 
 const connectButton = document.getElementById('connect-button');
 const connectSection = document.getElementById('connect-section');
@@ -17,6 +10,12 @@ const init = async () => {
         renderInstallMetaMask();
         return;
     }
+
+    const walletEntities = {
+        connectToMetaMask,
+        getConnectedAccount,
+        isMetaMaskInstalled,
+    };
 
     try {
         const account = await getConnectedAccount();
@@ -49,6 +48,20 @@ const renderAccountData = (account) => {
         connectButton.disabled = true;
     }
 }
+
+export const isMetaMaskInstalled = () => typeof ethereum !== 'undefined';
+
+export const connectToMetaMask = async () => {
+    await ethereum.request({ method: 'eth_requestAccounts' });
+    return ethereum.selectedAddress;
+}
+
+export const getConnectedAccount = async () => {
+    const accounts = await ethereum.request({ method: 'eth_accounts' });
+    return (accounts.length > 0) ? ethereum.selectedAddress : false;
+}
+
+export const addAccountsChangedListener = (listener) => ethereum.on('accountsChanged', listener);
 
 const renderInstallMetaMask = () => {
     connectSection.appendChild(installMetaMask.cloneNode(true));

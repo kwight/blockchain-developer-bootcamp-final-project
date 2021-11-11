@@ -12,39 +12,20 @@ const abi = [
 const provider = ethers.getDefaultProvider('http://localhost:9545');
 const contract = new ethers.Contract(contractAddress, abi, provider);
 
-const registeredCharities = document.getElementById('registered-charities');
-const registeredCharity = document.getElementById('registered-charity').content;
+// const registeredEvents = document.getElementById('registered-events');
+// const registeredEvent = document.getElementById('registered-event');
+// const status = [
+//     'active',
+//     'complete',
+//     'cancelled',
+// ];
 
 const init = () => {
     window.fundraisers = {
         contract,
         ethers,
-        getCharities,
-        getEvents,
         provider,
     };
-    renderCharities();
-}
-
-export const getCharities = async () => {
-    const { contract } = window.fundraisers;
-    return await contract.getCharities();
-}
-
-export const getEvents = async () => {
-    const { contract } = window.fundraisers;
-    return await contract.getEvents();
-}
-
-export const renderCharities = async () => {
-    const charities = await window.fundraisers.getCharities();
-    registeredCharities.innerHTML = '';
-    charities.forEach(address => {
-        const charity = registeredCharity.cloneNode(true);
-        charity.querySelector('.charity').id = `charity-${address}`;
-        charity.querySelector('.charity-address').innerText = address;
-        registeredCharities.appendChild(charity);
-    });
 }
 
 init();

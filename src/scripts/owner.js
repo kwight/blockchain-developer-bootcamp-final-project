@@ -1,5 +1,6 @@
-import { addAccountsChangedListener, getConnectedAccount, isMetaMaskInstalled, isValidAddress } from './utils.js';
-import { renderCharities } from './fundraisers.js';
+import { ethers } from './ethers-5.1.esm.min.js';
+import { renderCharities } from './charities.js';
+import { addAccountsChangedListener, getConnectedAccount, isMetaMaskInstalled } from './wallet.js';
 
 const registerCharityForm = document.getElementById('register-charity');
 const registerCharityButton = document.getElementById('register-charity-button');
@@ -34,7 +35,7 @@ const updateRegisterCharityButton = (account) => {
 const registerCharityListener = async (event) => {
     event.preventDefault();
     const address = new FormData(registerCharityForm).get('address');
-    if (!isValidAddress(address)) {
+    if (!ethers.utils.isAddress(address)) {
         alert('Address is invalid.');
         return;
     }
