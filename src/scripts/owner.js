@@ -14,7 +14,8 @@ const init = async () => {
         const account = await getConnectedAccount();
         updateRegisterCharityButton(account);
         addAccountsChangedListener(updateRegisterCharityButton);
-        window.fundraisers.provider.on('block', () => renderCharitiesWithButtons());
+        addAccountsChangedListener(renderOwnerCharities);
+        window.fundraisers.provider.on('block', renderOwnerCharities);
         Object.assign(window.fundraisers, { registerCharity, removeCharity });
     } catch (error) {
         console.log(error);
@@ -25,11 +26,9 @@ const updateRegisterCharityButton = (account) => {
     if (!account || account.length == 0) {
         registerCharityForm.removeEventListener('submit', registerCharityListener);
         registerCharityButton.disabled = true;
-        renderCharities();
     } else {
         registerCharityForm.addEventListener('submit', registerCharityListener);
         registerCharityButton.disabled = false;
-        renderCharitiesWithButtons();
     }
 }
 
@@ -53,7 +52,7 @@ const registerCharity = async (address) => {
         const { contract, signer } = window.fundraisers;
         const writableContract = contract.connect(signer);
         await writableContract.registerCharity(address);
-        renderCharitiesWithButtons();
+        renderOwnerCharities();
     } catch (error) {
         console.log(error);
     }
@@ -64,23 +63,26 @@ const removeCharity = async (address) => {
         const { contract, signer } = window.fundraisers;
         const writableContract = contract.connect(signer);
         await writableContract.removeCharity(address);
-        renderCharitiesWithButtons();
+        renderOwnerCharities();
     } catch (error) {
         console.log(error);
     }
 }
 
-const renderCharitiesWithButtons = async () => {
+const renderOwnerCharities = async () => {
     await renderCharities();
+    const account = await getConnectedAccount();
     const charities = document.querySelectorAll('.charity');
-    charities.forEach(charity => {
-        const address = charity.querySelector('.charity-address').innerText;
-        const button = document.createElement('button');
-        button.classList.add('remove-charity');
-        button.innerText = 'X';
-        button.addEventListener('click', () => removeCharity(address));
-        charity.appendChild(button);
-    });
+    if (account) {
+        charities.forEach(charity => {
+            const address = charity.querySelector('.charity-address').innerText;
+            const button = document.createElement('button');
+            button.classList.add('remove-charity');
+            button.innerText = 'X';
+            button.addEventListener('click', () => removeCharity(address));
+            charity.appendChild(button);
+        });
+    }
 }
 
 init();
