@@ -16,7 +16,6 @@ const init = async () => {
         addAccountsChangedListener(updateRegisterCharityButton);
         window.fundraisers.provider.on('block', () => renderCharitiesWithButtons());
         Object.assign(window.fundraisers, { registerCharity, removeCharity });
-        renderCharitiesWithButtons();
     } catch (error) {
         console.log(error);
     }
@@ -26,9 +25,11 @@ const updateRegisterCharityButton = (account) => {
     if (!account || account.length == 0) {
         registerCharityForm.removeEventListener('submit', registerCharityListener);
         registerCharityButton.disabled = true;
+        renderCharities();
     } else {
         registerCharityForm.addEventListener('submit', registerCharityListener);
         registerCharityButton.disabled = false;
+        renderCharitiesWithButtons();
     }
 }
 
