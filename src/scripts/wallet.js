@@ -49,19 +49,19 @@ const renderAccountData = (account) => {
     }
 }
 
-export const isMetaMaskInstalled = () => typeof ethereum !== 'undefined';
+export const isMetaMaskInstalled = () => typeof window.ethereum !== 'undefined';
 
 export const connectToMetaMask = async () => {
-    await ethereum.request({ method: 'eth_requestAccounts' });
-    return ethereum.selectedAddress;
+    await window.ethereum.request({ method: 'eth_requestAccounts' });
+    return window.ethereum.selectedAddress;
 }
 
 export const getConnectedAccount = async () => {
-    const accounts = await ethereum.request({ method: 'eth_accounts' });
-    return (accounts.length > 0) ? ethereum.selectedAddress : false;
+    const accounts = await window.ethereum.request({ method: 'eth_accounts' });
+    return (accounts.length > 0) ? window.ethereum.selectedAddress : false;
 }
 
-export const addAccountsChangedListener = (listener) => ethereum.on('accountsChanged', listener);
+export const addAccountsChangedListener = (listener) => window.ethereum.on('accountsChanged', listener);
 
 const renderInstallMetaMask = () => {
     connectSection.appendChild(installMetaMask.cloneNode(true));
