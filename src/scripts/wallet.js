@@ -11,19 +11,19 @@ const init = async () => {
         return;
     }
 
-    const walletEntities = {
-        connectToMetaMask,
-        getConnectedAccount,
-        isMetaMaskInstalled,
-    };
-
     try {
         const account = await getConnectedAccount();
+        const provider = new ethers.providers.Web3Provider(window.ethereum);
+        const signer = provider.getSigner();
         renderAccountData(account);
-        ethereum.on('accountsChanged', renderAccountData);
-        walletEntities.provider = new ethers.providers.Web3Provider(ethereum);
-        walletEntities.signer = walletEntities.provider.getSigner();
-        Object.assign(window.fundraisers, walletEntities);
+        window.ethereum.on('accountsChanged', renderAccountData);
+        Object.assign(window.fundraisers, {
+            connectToMetaMask,
+            getConnectedAccount,
+            isMetaMaskInstalled,
+            provider,
+            signer,
+        });
     } catch (error) {
         console.log(error);
     }
