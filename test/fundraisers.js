@@ -55,20 +55,20 @@ contract('Fundraisers', async accounts => {
     );
   });
 
-  it('allows only registered active charities to create and remove events', async () => {
+  it.only('allows only registered active charities to create and remove events', async () => {
     const activeCharity = charity1;
     const removedCharity = charity2;
     await instance.registerCharity(activeCharity);
     await instance.registerCharity(removedCharity);
     await instance.removeCharity(removedCharity);
-    await instance.registerEvent.call('title', { from: activeCharity });
+    await instance.registerEvent.call('title', Math.floor(Date.now() / 1000), { from: activeCharity });
     const event = await instance.events.call(0);
 
     assert.equal(
       event.title,
       'title',
       'active charity cannot register events'
-    )
+    );
 
     await expectRevert(
       instance.registerEvent('title'),
