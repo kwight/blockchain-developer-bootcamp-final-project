@@ -78,10 +78,15 @@ const renderCharityEvents = async () => {
     if (account) {
         events.forEach(event => {
             const index = event.id.match(/(?<=event-).+/)[0];
+            const status = event.querySelector('.event-status').innerText;
             const button = document.createElement('button');
             button.classList.add('cancel-event');
             button.innerText = 'Cancel';
-            button.addEventListener('click', () => cancelEvent(index));
+            button.disabled = true;
+            if ('active' == status) {
+                button.disabled = false;
+                button.addEventListener('click', () => cancelEvent(index));
+            }
             event.appendChild(button);
         });
     }
