@@ -12,7 +12,7 @@ const init = async () => {
         // const account = await getConnectedAccount();
         // updateRegisterEventButton(account);
         // addAccountsChangedListener(updateRegisterEventButton);
-        // addAccountsChangedListener(renderParticipantEvents);
+        addAccountsChangedListener(renderParticipantEvents);
         // window.fundraisers.provider.on('block', renderParticipantEvents);
         // Object.assign(window.fundraisers, { registerEvent, cancelEvent });
         renderParticipantEvents();
