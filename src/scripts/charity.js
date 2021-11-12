@@ -15,9 +15,9 @@ const init = async () => {
         const account = await getConnectedAccount();
         updateRegisterEventButton(account);
         addAccountsChangedListener(updateRegisterEventButton);
-        window.fundraisers.provider.on('block', renderEvents);
+        addAccountsChangedListener(renderCharityEvents);
+        window.fundraisers.provider.on('block', renderCharityEvents);
         Object.assign(window.fundraisers, { registerEvent, cancelEvent });
-        renderEvents();
     } catch (error) {
         console.log(error);
     }
@@ -68,6 +68,22 @@ const cancelEvent = async (index) => {
         renderEvents();
     } catch (error) {
         console.log(error);
+    }
+}
+
+const renderCharityEvents = async () => {
+    await renderEvents();
+    const account = await getConnectedAccount();
+    const events = document.querySelectorAll('.event');
+    if (account) {
+        events.forEach(event => {
+            const index = event.id.match(/(?<=event-).+/)[0];
+            const button = document.createElement('button');
+            button.classList.add('cancel-event');
+            button.innerText = 'Cancel';
+            button.addEventListener('click', () => cancelEvent(index));
+            event.appendChild(button);
+        });
     }
 }
 
