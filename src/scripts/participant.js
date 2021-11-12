@@ -1,10 +1,7 @@
 import { renderEvents } from './events.js';
 import { addAccountsChangedListener, getConnectedAccount, isMetaMaskInstalled } from './wallet.js';
 
-// const registerEventForm = document.getElementById('register-event');
-// const registerEventButton = document.getElementById('register-event-button');
-// const registeredEvents = document.getElementById('registered-events');
-// const registeredEvent = document.getElementById('registered-event').content;
+const registeredEvents = document.getElementById('registered-events');
 
 const init = async () => {
     if (!isMetaMaskInstalled()) {
@@ -75,7 +72,7 @@ const registerForEvent = async (index) => {
 const renderParticipantEvents = async () => {
     await renderEvents();
     const account = await getConnectedAccount();
-    const events = document.querySelectorAll('.event');
+    const events = registeredEvents.querySelectorAll('.event');
     if (account) {
         events.forEach(event => {
             const index = event.id.match(/(?<=event-).+/)[0];
