@@ -54,7 +54,7 @@ const registerEvent = async (title, date) => {
         const { contract, signer } = window.fundraisers;
         const writableContract = contract.connect(signer);
         await writableContract.registerEvent(title, date);
-        renderEvents();
+        renderCharityEvents();
     } catch (error) {
         console.log(error);
     }
@@ -65,7 +65,7 @@ const cancelEvent = async (index) => {
         const { contract, signer } = window.fundraisers;
         const writableContract = contract.connect(signer);
         await writableContract.cancelEvent(index);
-        renderEvents();
+        renderCharityEvents();
     } catch (error) {
         console.log(error);
     }
