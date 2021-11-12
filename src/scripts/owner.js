@@ -1,4 +1,5 @@
 import { ethers } from './ethers-5.1.esm.min.js';
+import { contract } from './fundraisers.js';
 import { renderCharities } from './charities.js';
 import { addAccountsChangedListener, getConnectedAccount, isMetaMaskInstalled } from './wallet.js';
 
@@ -49,8 +50,7 @@ const registerCharityListener = async (event) => {
 
 const registerCharity = async (address) => {
     try {
-        const { contract, signer } = window.fundraisers;
-        const writableContract = contract.connect(signer);
+        const writableContract = contract.connect(window.fundraisers.signer);
         await writableContract.registerCharity(address);
         renderOwnerCharities();
     } catch (error) {
