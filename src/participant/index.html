@@ -26,7 +26,22 @@
     <section>
         <h2>Events</h2>
         <p>Choose an event in which to participate.</p>
+        <div id="registered-events"></div>
     </section>
+    <section id="connect-section">
+        <h2>Connect</h2>
+        <button id="connect-button" autocomplete="off">Connect wallet</button>
+    </section>
+    <template id="install-metamask">
+        <p id="no-wallet-found">No wallet found. Please <a href="https://metamask.io/">install MetaMask</a>.</p>
+    </template>
+    <template id="selected-account">
+        <p id="current-account">Current account: <span id="account-address"></span>
+        </p>
+    </template>
+    <template id="registered-event">
+        <p class="event"><span class="event-title"></span><span class="event-status"></span></p>
+    </template>
 </body>
 
 </html>
