@@ -150,4 +150,22 @@ contract('Fundraisers', async accounts => {
       );
     });
   });
+
+  describe('Participants', () => {
+    beforeEach(async () => {
+      await instance.registerCharity(charity1);
+      await instance.registerEvent('event1', Math.floor(Date.now() / 1000), { from: charity1 });
+    });
+
+    it.only('allows anyone to participate in an event', async () => {
+      await instance.registerForEvent(0, { from: bystander });
+      const participant = await instance.eventParticipants(0, 0);
+
+      assert.equal(
+        participant,
+        bystander,
+        'not anyone can participate in an event'
+      );
+    });
+  });
 });

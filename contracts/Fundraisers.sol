@@ -7,6 +7,7 @@ contract Fundraisers is Ownable {
     mapping(address => bool) public charities;
     address[] public charityList;
     Event[] public events;
+    mapping(uint256 => address[]) public eventParticipants;
 
     enum EventStatus {
         Active,
@@ -81,5 +82,9 @@ contract Fundraisers is Ownable {
     function cancelEvent(uint256 index) public onlyCharity {
         require(events[index].charity == msg.sender, "unauthorized");
         events[index].status = EventStatus.Cancelled;
+    }
+
+    function registerForEvent(uint256 index) public {
+        eventParticipants[index].push(msg.sender);
     }
 }
