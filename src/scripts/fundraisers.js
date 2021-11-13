@@ -8,6 +8,8 @@ const abi = [
     'function getEvents() view returns (tuple(string title, uint8 status, address charity, uint256 timestamp)[])',
     'function registerEvent(string memory title, uint256 timestamp)',
     'function cancelEvent(uint256 index)',
+    'function registerForEvent(uint256 id) public',
+    'function deregisterForEvent(uint256 id) public',
 ];
 export const provider = ethers.getDefaultProvider('http://localhost:9545');
 export const contract = new ethers.Contract(contractAddress, abi, provider);

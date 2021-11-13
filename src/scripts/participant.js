@@ -47,15 +47,15 @@ const init = async () => {
 //     }
 // }
 
-const registerForEvent = async (index) => {
-    // try {
-    //     const { contract, signer } = window.fundraisers;
-    //     const writableContract = contract.connect(signer);
-    //     await writableContract.registerEvent(title, date);
-    //     renderParticipantEvents();
-    // } catch (error) {
-    //     console.log(error);
-    // }
+const registerForEvent = async (id) => {
+    try {
+        const { contract, signer } = window.fundraisers;
+        const writableContract = contract.connect(signer);
+        await writableContract.registerForEvent(id);
+        renderParticipantEvents();
+    } catch (error) {
+        console.log(error);
+    }
 }
 
 // const cancelEvent = async (index) => {
