@@ -141,10 +141,10 @@ contract('Fundraisers', async accounts => {
         'unauthorized',
       );
 
-      // await expectRevert(
-      //   instance.cancelEvent(1, { from: charity2 }),
-      //   'unauthorized',
-      // );
+      await expectRevert(
+        instance.cancelEvent(1, { from: charity2 }),
+        'unauthorized',
+      );
 
       await instance.removeCharity(charity1);
       await expectRevert(
