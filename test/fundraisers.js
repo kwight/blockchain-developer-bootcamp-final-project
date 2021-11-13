@@ -55,7 +55,7 @@ contract('Fundraisers', async accounts => {
     );
   });
 
-  it('allows only registered active charities to create and remove events', async () => {
+  it.skip('allows only registered active charities to create and remove events', async () => {
     const activeCharity = charity1;
     const removedCharity = charity2;
     await instance.registerCharity(activeCharity);
