@@ -95,19 +95,20 @@ contract('Fundraisers', async accounts => {
   });
 
   describe('Events', () => {
+    beforeEach(async () => {
+      await instance.registerCharity(charity1);
+      await instance.registerCharity(charity2);
+      await instance.registerEvent('event1', Math.floor(Date.now() / 1000), { from: charity1 });
+      await instance.registerEvent('event2', Math.floor(Date.now() / 1000), { from: charity1 });
+    });
+
     it('allows only active charities to create events', async () => {
-      const activeCharity = charity1;
-      const removedCharity = charity2;
-      await instance.registerCharity(activeCharity);
-      await instance.registerCharity(removedCharity);
-      await instance.removeCharity(removedCharity);
+      await instance.removeCharity(charity2);
 
-      await instance.registerEvent('title', Math.floor(Date.now() / 1000), { from: activeCharity });
       const event = await instance.events(0);
-
       assert.equal(
         event.title,
-        'title',
+        'event1',
         'active charity cannot register events'
       );
 
@@ -117,16 +118,12 @@ contract('Fundraisers', async accounts => {
       );
 
       await expectRevert(
-        instance.registerEvent('title', Math.floor(Date.now() / 1000), { from: removedCharity }),
+        instance.registerEvent('title', Math.floor(Date.now() / 1000), { from: charity2 }),
         'unauthorized',
       );
     });
 
     it('allows only active charities to cancel their events', async () => {
-      await instance.registerCharity(charity1);
-      await instance.registerCharity(charity2);
-      await instance.registerEvent('event1', Math.floor(Date.now() / 1000), { from: charity1 });
-      await instance.registerEvent('event2', Math.floor(Date.now() / 1000), { from: charity1 });
       await instance.cancelEvent(0, { from: charity1 });
       const cancelledEvent = await instance.events(0);
 
