@@ -7,7 +7,7 @@ contract Fundraisers is Ownable {
     mapping(address => bool) public charities;
     address[] public charityList;
     Event[] public events;
-    mapping(uint256 => address[]) public eventParticipants;
+    mapping(uint256 => mapping(address => bool)) public eventParticipants;
 
     enum EventStatus {
         Active,
@@ -84,7 +84,11 @@ contract Fundraisers is Ownable {
         events[index].status = EventStatus.Cancelled;
     }
 
-    function registerForEvent(uint256 index) public {
-        eventParticipants[index].push(msg.sender);
+    function registerForEvent(uint256 id) public {
+        eventParticipants[id][msg.sender] = true;
+    }
+
+    function deregisterForEvent(uint256 id) public {
+        eventParticipants[id][msg.sender] = false;
     }
 }

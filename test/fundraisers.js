@@ -157,14 +157,24 @@ contract('Fundraisers', async accounts => {
       await instance.registerEvent('event1', Math.floor(Date.now() / 1000), { from: charity1 });
     });
 
-    it.only('allows anyone to participate in an event', async () => {
+    it('allows anyone to participate in an event', async () => {
       await instance.registerForEvent(0, { from: bystander });
-      const participant = await instance.eventParticipants(0, 0);
 
       assert.equal(
-        participant,
-        bystander,
+        await instance.eventParticipants(0, bystander),
+        true,
         'not anyone can participate in an event'
+      );
+    });
+
+    it('allows a participant to deregister', async () => {
+      await instance.registerForEvent(0, { from: bystander });
+      await instance.deregisterForEvent(0, { from: bystander });
+
+      assert.equal(
+        await instance.eventParticipants(0, bystander),
+        false,
+        'a participant cannot deregister'
       );
     });
   });
