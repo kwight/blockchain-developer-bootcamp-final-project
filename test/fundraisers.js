@@ -31,7 +31,7 @@ contract('Fundraisers', async accounts => {
       )
 
       await expectRevert(
-        instance.registerCharity.call(charity1, { from: charity1 }),
+        instance.registerCharity(charity1, { from: charity1 }),
         'Ownable: caller is not the owner',
       );
     });
