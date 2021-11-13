@@ -2,106 +2,155 @@ const Fundraisers = artifacts.require('Fundraisers');
 const { expectRevert } = require('@openzeppelin/test-helpers');
 
 contract('Fundraisers', async accounts => {
-  const [contractOwner, charity1, charity2] = accounts;
+  const [contractOwner, charity1, charity2, bystander] = accounts;
+  let instance;
 
   beforeEach(async () => {
     instance = await Fundraisers.new();
   });
 
-  it('allows only the owner to add charities', async () => {
-    assert.equal(
-      contractOwner,
-      await instance.owner(),
-      'the owner is not properly assigned',
-    );
+  describe('Charities', () => {
+    it('allows only the owner to add charities', async () => {
+      assert.equal(
+        contractOwner,
+        await instance.owner(),
+        'the owner is not properly assigned',
+      );
 
-    await instance.registerCharity(charity1);
-    assert.equal(
-      await instance.charities(charity1),
-      true,
-      'the owner cannot register charities'
-    )
+      await instance.registerCharity(charity1);
+      assert.equal(
+        await instance.charities(charity1),
+        true,
+        'the owner cannot register charities'
+      )
 
-    assert.equal(
-      await instance.charityList(0),
-      charity1,
-      'the owner cannot register charities'
-    )
+      assert.equal(
+        await instance.charityList(0),
+        charity1,
+        'the owner cannot register charities'
+      )
 
-    await expectRevert(
-      instance.registerCharity.call(charity1, { from: charity1 }),
-      'Ownable: caller is not the owner',
-    );
+      await expectRevert(
+        instance.registerCharity.call(charity1, { from: charity1 }),
+        'Ownable: caller is not the owner',
+      );
+    });
+
+    it('allows the owner to remove charities', async () => {
+      await instance.registerCharity(charity1);
+      await instance.removeCharity(charity1);
+
+      assert.equal(
+        await instance.charities(charity1),
+        false,
+        'the owner cannot remove a charity'
+      );
+    });
+
+    it('allows a charity to only remove itself', async () => {
+      await instance.registerCharity(charity1);
+      await instance.registerCharity(charity2);
+
+      await expectRevert(
+        instance.removeCharity(charity1, { from: charity2 }),
+        'unauthorized',
+      );
+
+      await expectRevert(
+        instance.removeCharity(charity1, { from: bystander }),
+        'unauthorized',
+      );
+
+      await instance.removeCharity(charity1, { from: charity1 });
+      assert.equal(
+        await instance.charities(charity1),
+        false,
+        'a charity cannot remove itself'
+      );
+    });
+
+    it('allows only five charities to be registered', async () => {
+      await instance.registerCharity(accounts[1]);
+      await instance.registerCharity(accounts[2]);
+      await instance.registerCharity(accounts[3]);
+      await instance.registerCharity(accounts[4]);
+      await instance.registerCharity(accounts[5]);
+
+      await expectRevert(
+        instance.registerCharity(accounts[6]),
+        'maximum charities already registered',
+      );
+    });
+
+    it('allows anyone to get all registered charities', async () => {
+      await instance.registerCharity(charity1);
+      const result = await instance.getCharities({ from: bystander });
+
+      assert.equal(
+        result[0],
+        charity1,
+        'charities could not be properly read'
+      );
+    });
   });
 
-  it('allows the owner or the charity itself to remove charities', async () => {
-    await instance.removeCharity(charity1);
-    assert.equal(
-      await instance.charities(charity1),
-      false,
-      'the owner cannot remove a charity'
-    );
+  describe('Events', () => {
+    it('allows only active charities to create events', async () => {
+      const activeCharity = charity1;
+      const removedCharity = charity2;
+      await instance.registerCharity(activeCharity);
+      await instance.registerCharity(removedCharity);
+      await instance.removeCharity(removedCharity);
 
-    await instance.removeCharity.call(charity1, { from: charity1 });
-    assert.equal(
-      await instance.charities(charity1),
-      false,
-      'a charity cannot remove itself'
-    );
+      await instance.registerEvent('title', Math.floor(Date.now() / 1000), { from: activeCharity });
+      const event = await instance.events(0);
 
-    await expectRevert(
-      instance.removeCharity.call(charity1, { from: charity2 }),
-      'unauthorized',
-    );
-  });
+      assert.equal(
+        event.title,
+        'title',
+        'active charity cannot register events'
+      );
 
-  it.skip('allows only registered active charities to create and remove events', async () => {
-    const activeCharity = charity1;
-    const removedCharity = charity2;
-    await instance.registerCharity(activeCharity);
-    await instance.registerCharity(removedCharity);
-    await instance.removeCharity(removedCharity);
-    await instance.registerEvent.call('title', Math.floor(Date.now() / 1000), { from: activeCharity });
-    const event = await instance.events.call(0);
+      await expectRevert(
+        instance.registerEvent('title', Math.floor(Date.now() / 1000)),
+        'unauthorized',
+      );
 
-    assert.equal(
-      event.title,
-      'title',
-      'active charity cannot register events'
-    );
+      await expectRevert(
+        instance.registerEvent('title', Math.floor(Date.now() / 1000), { from: removedCharity }),
+        'unauthorized',
+      );
+    });
 
-    await expectRevert(
-      instance.registerEvent('title'),
-      'unauthorized',
-    );
+    it('allows only active charities to cancel their events', async () => {
+      await instance.registerCharity(charity1);
+      await instance.registerCharity(charity2);
+      await instance.registerEvent('event1', Math.floor(Date.now() / 1000), { from: charity1 });
+      await instance.registerEvent('event2', Math.floor(Date.now() / 1000), { from: charity1 });
+      await instance.cancelEvent(0, { from: charity1 });
+      const cancelledEvent = await instance.events(0);
 
-    await expectRevert(
-      instance.registerEvent.call('title', { from: removedCharity }),
-      'unauthorized',
-    );
-  });
+      assert.equal(
+        cancelledEvent.status.toNumber(),
+        2,
+        'charity cannot cancel its events'
+      );
 
-  it('allows only five charities to be registered', async () => {
-    await instance.registerCharity(accounts[1]);
-    await instance.registerCharity(accounts[2]);
-    await instance.registerCharity(accounts[3]);
-    await instance.registerCharity(accounts[4]);
-    await instance.registerCharity(accounts[5]);
+      await expectRevert(
+        instance.cancelEvent(1),
+        'unauthorized',
+      );
 
-    await expectRevert(
-      instance.registerCharity(accounts[6]),
-      'maximum charities already registered',
-    );
-  });
+      // await expectRevert(
+      //   instance.cancelEvent(1, { from: charity2 }),
+      //   'unauthorized',
+      // );
 
-  it('allows anyone to get all registered charities', async () => {
-    await instance.registerCharity(charity1);
-    const result = await instance.getCharities.call({ from: charity2 });
-
-    assert.equal(
-      result[0],
-      charity1,
-      'charities could not be properly read'
-    );
+      await instance.removeCharity(charity1);
+      await expectRevert(
+        instance.cancelEvent(1, { from: charity1 }),
+        'unauthorized',
+      );
+    });
   });
 });
