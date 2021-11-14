@@ -52,16 +52,22 @@ const renderParticipantEvents = async () => {
     const account = await getConnectedAccount();
     const events = registeredEvents.querySelectorAll('.event');
     if (account) {
-        events.forEach(event => {
-            const index = event.id.match(/(?<=event-).+/)[0];
+        events.forEach(async (event) => {
             const status = event.querySelector('.event-status').innerText;
+            if ('active' !== status) {
+                return;
+            }
+            const id = event.id.match(/(?<=event-).+/)[0];
             const button = document.createElement('button');
-            button.classList.add('register-for-event');
-            button.innerText = 'Register';
-            button.disabled = true;
-            if ('active' == status) {
-                button.disabled = false;
-                button.addEventListener('click', () => registerForEvent(index));
+            const isParticipating = await isParticipatingInEvent(account, id);
+            if (isParticipating) {
+                button.classList.add('deregister-for-event');
+                button.innerText = 'Deregister';
+                button.addEventListener('click', () => deregisterForEvent(id));
+            } else {
+                button.classList.add('register-for-event');
+                button.innerText = 'Register';
+                button.addEventListener('click', () => registerForEvent(id));
             }
             event.appendChild(button);
         });
