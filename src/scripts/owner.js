@@ -17,6 +17,7 @@ const init = async () => {
         addAccountsChangedListener(updateRegisterCharityButton);
         addAccountsChangedListener(renderOwnerCharities);
         Object.assign(window.fundraisers, { registerCharity, removeCharity });
+        renderOwnerCharities();
     } catch (error) {
         console.log(error);
     }
