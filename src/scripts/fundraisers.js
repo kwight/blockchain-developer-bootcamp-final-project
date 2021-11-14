@@ -18,15 +18,5 @@ const abi = [
     'event ParticipantRegistered(address participantAddress, uint256 eventId)',
     'event ParticipantDeregistered(address participantAddress, uint256 eventId)',
 ];
-export const provider = ethers.getDefaultProvider('http://localhost:9545');
+const provider = ethers.getDefaultProvider('http://localhost:9545');
 export const contract = new ethers.Contract(contractAddress, abi, provider);
-
-const init = () => {
-    window.fundraisers = {
-        contract,
-        ethers,
-        provider,
-    };
-}
-
-init();

@@ -23,5 +23,3 @@ export const renderEvents = async () => {
         registeredEvents.appendChild(event);
     });
 }
-
-Object.assign(window.fundraisers, { getEvents });

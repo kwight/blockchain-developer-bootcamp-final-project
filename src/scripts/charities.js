@@ -17,5 +17,3 @@ export const renderCharities = async () => {
         registeredCharities.appendChild(charity);
     });
 }
-
-Object.assign(window.fundraisers, { getCharities });
