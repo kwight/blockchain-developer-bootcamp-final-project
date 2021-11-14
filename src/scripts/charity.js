@@ -1,5 +1,6 @@
+import { contract } from './fundraisers.js';
 import { renderEvents } from './events.js';
-import { addAccountsChangedListener, getConnectedAccount, isMetaMaskInstalled } from './wallet.js';
+import { addAccountsChangedListener, getConnectedAccount, getMetaMaskProvider, isMetaMaskInstalled } from './wallet.js';
 
 const registerEventForm = document.getElementById('register-event');
 const registerEventButton = document.getElementById('register-event-button');
@@ -47,8 +48,7 @@ const registerEventListener = async (event) => {
 
 const registerEvent = async (title, date) => {
     try {
-        const { contract, signer } = window.fundraisers;
-        const writableContract = contract.connect(signer);
+        const writableContract = contract.connect(getMetaMaskProvider().getSigner());
         await writableContract.registerEvent(title, date);
         renderCharityEvents();
     } catch (error) {
@@ -58,8 +58,7 @@ const registerEvent = async (title, date) => {
 
 const cancelEvent = async (index) => {
     try {
-        const { contract, signer } = window.fundraisers;
-        const writableContract = contract.connect(signer);
+        const writableContract = contract.connect(getMetaMaskProvider().getSigner());
         await writableContract.cancelEvent(index);
         renderCharityEvents();
     } catch (error) {
