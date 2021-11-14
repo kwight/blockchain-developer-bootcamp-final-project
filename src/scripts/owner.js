@@ -19,7 +19,6 @@ const init = async () => {
         addAccountsChangedListener(renderOwnerCharities);
         contract.on('CharityRegistered', renderOwnerCharities);
         contract.on('CharityRemoved', renderOwnerCharities);
-        Object.assign(window.fundraisers, { registerCharity, removeCharity });
         renderOwnerCharities();
     } catch (error) {
         console.log(error);

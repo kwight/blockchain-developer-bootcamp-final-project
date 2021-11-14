@@ -17,13 +17,6 @@ const init = async () => {
         const signer = provider.getSigner();
         renderAccountData(account);
         window.ethereum.on('accountsChanged', renderAccountData);
-        Object.assign(window.fundraisers, {
-            connectToMetaMask,
-            getConnectedAccount,
-            isMetaMaskInstalled,
-            provider,
-            signer,
-        });
     } catch (error) {
         console.log(error);
     }
