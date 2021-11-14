@@ -26,6 +26,8 @@ contract Fundraisers is Ownable {
     event CharityRemoved(address charityAddress);
     event EventRegistered(uint256 eventId);
     event EventCancelled(uint256 eventId);
+    event ParticipantRegistered(address participantAddress, uint256 eventId);
+    event ParticipantDeregistered(address participantAddress, uint256 eventId);
 
     modifier isOwnerOrCharity(address charityAddress) {
         require(
@@ -92,9 +94,11 @@ contract Fundraisers is Ownable {
 
     function registerForEvent(uint256 id) public {
         eventParticipants[id][msg.sender] = true;
+        emit ParticipantRegistered(msg.sender, id);
     }
 
     function deregisterForEvent(uint256 id) public {
         eventParticipants[id][msg.sender] = false;
+        emit ParticipantDeregistered(msg.sender, id);
     }
 }

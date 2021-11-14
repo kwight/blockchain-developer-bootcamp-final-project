@@ -211,5 +211,22 @@ contract('Fundraisers', async accounts => {
         'a participant cannot deregister'
       );
     });
+
+    it('emits events on participant registration and deregistration', async () => {
+      const registration = await instance.registerForEvent(0);
+      const deregistration = await instance.deregisterForEvent(0);
+
+      assert.equal(
+        registration.logs[0].event,
+        'ParticipantRegistered',
+        'no event emitted on charity event registration'
+      );
+
+      assert.equal(
+        deregistration.logs[0].event,
+        'ParticipantDeregistered',
+        'no event emitted on charity event cancellation'
+      );
+    });
   });
 });
