@@ -11,6 +11,12 @@ const abi = [
     'function registerForEvent(uint256 id) public',
     'function deregisterForEvent(uint256 id) public',
     'function eventParticipants(uint256 id, address account) view returns (bool)',
+    'event CharityRegistered(address charityAddress)',
+    'event CharityRemoved(address charityAddress)',
+    'event EventRegistered(uint256 eventId, address charityAddress)',
+    'event EventCancelled(uint256 eventId, address charityAddress)',
+    'event ParticipantRegistered(address participantAddress, uint256 eventId)',
+    'event ParticipantDeregistered(address participantAddress, uint256 eventId)',
 ];
 export const provider = ethers.getDefaultProvider('http://localhost:9545');
 export const contract = new ethers.Contract(contractAddress, abi, provider);
