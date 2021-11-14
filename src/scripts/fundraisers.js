@@ -17,6 +17,7 @@ const abi = [
     'event EventCancelled(uint256 eventId, address charityAddress)',
     'event ParticipantRegistered(address participantAddress, uint256 eventId)',
     'event ParticipantDeregistered(address participantAddress, uint256 eventId)',
+    'function getParticipants() public view returns (address[] memory)',
 ];
 const provider = ethers.getDefaultProvider('http://localhost:9545');
 export const contract = new ethers.Contract(contractAddress, abi, provider);
