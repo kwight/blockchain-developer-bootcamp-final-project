@@ -22,7 +22,10 @@ contract Fundraisers is Ownable {
         uint256 timestamp;
     }
 
-    event CharityRegistered(address charity);
+    event CharityRegistered(address charityAddress);
+    event CharityRemoved(address charityAddress);
+    event EventRegistered(uint256 eventId);
+    event EventCancelled(uint256 eventId);
 
     modifier isOwnerOrCharity(address charityAddress) {
         require(
@@ -55,6 +58,7 @@ contract Fundraisers is Ownable {
                 charityList.pop();
             }
         }
+        emit CharityRemoved(charityAddress);
     }
 
     function getCharities() public view returns (address[] memory) {
@@ -77,11 +81,13 @@ contract Fundraisers is Ownable {
                 timestamp: timestamp
             })
         );
+        emit EventRegistered(events.length - 1);
     }
 
     function cancelEvent(uint256 index) public onlyCharity {
         require(events[index].charity == msg.sender, "unauthorized");
         events[index].status = EventStatus.Cancelled;
+        emit EventCancelled(index);
     }
 
     function registerForEvent(uint256 id) public {

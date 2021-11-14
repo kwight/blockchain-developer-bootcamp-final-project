@@ -82,6 +82,23 @@ contract('Fundraisers', async accounts => {
       );
     });
 
+    it('emits events on charity registration and removal', async () => {
+      const registration = await instance.registerCharity(accounts[1]);
+      const removal = await instance.removeCharity(accounts[1]);
+
+      assert.equal(
+        registration.logs[0].event,
+        'CharityRegistered',
+        'no event emitted on charity registration'
+      );
+
+      assert.equal(
+        removal.logs[0].event,
+        'CharityRemoved',
+        'no event emitted on charity registration'
+      );
+    });
+
     it('allows anyone to get all registered charities', async () => {
       await instance.registerCharity(charity1);
       const result = await instance.getCharities({ from: bystander });
@@ -147,6 +164,23 @@ contract('Fundraisers', async accounts => {
       await expectRevert(
         instance.cancelEvent(1, { from: charity1 }),
         'unauthorized',
+      );
+    });
+
+    it('emits events on charity event registration and cancellation', async () => {
+      const registration = await instance.registerEvent('event3', Math.floor(Date.now() / 1000), { from: charity1 });
+      const cancellation = await instance.cancelEvent(0, { from: charity1 });
+
+      assert.equal(
+        registration.logs[0].event,
+        'EventRegistered',
+        'no event emitted on charity event registration'
+      );
+
+      assert.equal(
+        cancellation.logs[0].event,
+        'EventCancelled',
+        'no event emitted on charity event cancellation'
       );
     });
   });
