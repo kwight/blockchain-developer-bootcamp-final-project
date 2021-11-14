@@ -1,16 +1,17 @@
+import { contract } from './fundraisers.js';
 import { renderEvents } from './events.js';
-import { addAccountsChangedListener, getConnectedAccount, isMetaMaskInstalled } from './wallet.js';
+import { addAccountsChangedListener, getConnectedAccount, getMetaMaskProvider, isMetaMaskInstalled } from './wallet.js';
 
 const registeredEvents = document.getElementById('registered-events');
 
 const init = async () => {
+    renderEvents();
     if (!isMetaMaskInstalled()) {
         return;
     }
 
     try {
         addAccountsChangedListener(renderParticipantEvents);
-        Object.assign(window.fundraisers, { isParticipatingInEvent, registerForEvent, deregisterForEvent });
         renderParticipantEvents();
     } catch (error) {
         console.log(error);
@@ -19,7 +20,7 @@ const init = async () => {
 
 const isParticipatingInEvent = async (account, id) => {
     try {
-        return await window.fundraisers.contract.eventParticipants(id, account);
+        return await contract.eventParticipants(id, account);
     } catch (error) {
         console.log(error);
     }
@@ -27,8 +28,7 @@ const isParticipatingInEvent = async (account, id) => {
 
 const registerForEvent = async (id) => {
     try {
-        const { contract, signer } = window.fundraisers;
-        const writableContract = contract.connect(signer);
+        const writableContract = contract.connect(getMetaMaskProvider().getSigner());
         await writableContract.registerForEvent(id);
         renderParticipantEvents();
     } catch (error) {
@@ -38,8 +38,7 @@ const registerForEvent = async (id) => {
 
 const deregisterForEvent = async (id) => {
     try {
-        const { contract, signer } = window.fundraisers;
-        const writableContract = contract.connect(signer);
+        const writableContract = contract.connect(getMetaMaskProvider().getSigner());
         await writableContract.deregisterForEvent(id);
         renderParticipantEvents();
     } catch (error) {
