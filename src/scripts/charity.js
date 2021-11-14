@@ -3,8 +3,6 @@ import { addAccountsChangedListener, getConnectedAccount, isMetaMaskInstalled } 
 
 const registerEventForm = document.getElementById('register-event');
 const registerEventButton = document.getElementById('register-event-button');
-const registeredEvents = document.getElementById('registered-events');
-const registeredEvent = document.getElementById('registered-event').content;
 
 const init = async () => {
     if (!isMetaMaskInstalled()) {
