@@ -28,6 +28,12 @@
         <h2>Donate by Participant</h2>
         <p>Select a participant</p>
         <div id="participants"></div>
+        <form id="donation-form">
+            <label>Donation amount
+                <input type="number" name="" id="">
+            </label>
+            <button id="register-event-button" disabled>Donate!</button>
+        </form>
     </section>
     <section id="connect-section">
         <h2>Connect</h2>
@@ -40,8 +46,9 @@
         <p id="current-account">Current account: <span id="account-address"></span>
         </p>
     </template>
-    <template id="participant-template">
-        <p class="participant"><span class="participant-address"></span></p>
+    <template id="participant-radio-button">
+        <input type="radio" name="participant">
+        <label></label>
     </template>
 </body>
 
