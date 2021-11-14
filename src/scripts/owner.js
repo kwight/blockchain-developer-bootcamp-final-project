@@ -1,7 +1,7 @@
 import { ethers } from './ethers-5.1.esm.min.js';
 import { contract } from './fundraisers.js';
 import { renderCharities } from './charities.js';
-import { addAccountsChangedListener, getConnectedAccount, isMetaMaskInstalled } from './wallet.js';
+import { addAccountsChangedListener, getConnectedAccount, getMetaMaskProvider, isMetaMaskInstalled } from './wallet.js';
 
 const registerCharityForm = document.getElementById('register-charity');
 const registerCharityButton = document.getElementById('register-charity-button');
@@ -52,7 +52,7 @@ const registerCharityListener = async (event) => {
 
 const registerCharity = async (address) => {
     try {
-        const writableContract = contract.connect(window.fundraisers.signer);
+        const writableContract = contract.connect(getMetaMaskProvider().getSigner());
         await writableContract.registerCharity(address);
         renderOwnerCharities();
     } catch (error) {
@@ -62,7 +62,7 @@ const registerCharity = async (address) => {
 
 const removeCharity = async (address) => {
     try {
-        const writableContract = contract.connect(window.fundraisers.signer);
+        const writableContract = contract.connect(getMetaMaskProvider().getSigner());
         await writableContract.removeCharity(address);
         renderOwnerCharities();
     } catch (error) {
