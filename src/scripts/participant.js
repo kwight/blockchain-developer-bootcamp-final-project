@@ -9,43 +9,13 @@ const init = async () => {
     }
 
     try {
-        // const account = await getConnectedAccount();
-        // updateRegisterEventButton(account);
-        // addAccountsChangedListener(updateRegisterEventButton);
         addAccountsChangedListener(renderParticipantEvents);
-        // window.fundraisers.provider.on('block', renderParticipantEvents);
         Object.assign(window.fundraisers, { isParticipatingInEvent, registerForEvent, deregisterForEvent });
         renderParticipantEvents();
     } catch (error) {
         console.log(error);
     }
 }
-
-// const updateRegisterEventButton = (account) => {
-//     if (!account || account.length == 0) {
-//         registerEventForm.removeEventListener('submit', registerEventListener);
-//         registerEventButton.disabled = true;
-//     } else {
-//         registerEventForm.addEventListener('submit', registerEventListener);
-//         registerEventButton.disabled = false;
-//     }
-// }
-
-// const registerEventListener = async (event) => {
-//     event.preventDefault();
-//     const title = new FormData(registerEventForm).get('title');
-//     const date = new FormData(registerEventForm).get('date');
-//     if (!title || !date) {
-//         alert('Both fields are required.');
-//         return;
-//     }
-//     const timestamp = Math.floor(new Date(date).getTime() / 1000);
-//     try {
-//         await registerEvent(title, timestamp);
-//     } catch (error) {
-//         console.log(error);
-//     }
-// }
 
 const isParticipatingInEvent = async (account, id) => {
     try {
@@ -66,16 +36,16 @@ const registerForEvent = async (id) => {
     }
 }
 
-// const cancelEvent = async (index) => {
-//     try {
-//         const { contract, signer } = window.fundraisers;
-//         const writableContract = contract.connect(signer);
-//         await writableContract.cancelEvent(index);
-//         renderParticipantEvents();
-//     } catch (error) {
-//         console.log(error);
-//     }
-// }
+const deregisterForEvent = async (id) => {
+    try {
+        const { contract, signer } = window.fundraisers;
+        const writableContract = contract.connect(signer);
+        await writableContract.deregisterForEvent(id);
+        renderParticipantEvents();
+    } catch (error) {
+        console.log(error);
+    }
+}
 
 const renderParticipantEvents = async () => {
     await renderEvents();
