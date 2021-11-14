@@ -54,6 +54,8 @@ export const getConnectedAccount = async () => {
 
 export const addAccountsChangedListener = (listener) => window.ethereum.on('accountsChanged', listener);
 
+export const getMetaMaskProvider = () => new ethers.providers.Web3Provider(window.ethereum);
+
 const renderInstallMetaMask = () => {
     connectSection.appendChild(installMetaMask.cloneNode(true));
 }
