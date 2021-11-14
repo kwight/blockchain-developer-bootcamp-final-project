@@ -12,6 +12,10 @@ const init = async () => {
 
     try {
         addAccountsChangedListener(renderParticipantEvents);
+        contract.on('EventRegistered', renderParticipantEvents);
+        contract.on('EventCancelled', renderParticipantEvents);
+        contract.on('ParticipantRegistered', renderParticipantEvents);
+        contract.on('ParticipantDeregistered', renderParticipantEvents);
         renderParticipantEvents();
     } catch (error) {
         console.log(error);
