@@ -13,8 +13,6 @@ const init = async () => {
 
     try {
         const account = await getConnectedAccount();
-        const provider = new ethers.providers.Web3Provider(window.ethereum);
-        const signer = provider.getSigner();
         renderAccountData(account);
         window.ethereum.on('accountsChanged', renderAccountData);
     } catch (error) {
