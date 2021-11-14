@@ -16,8 +16,8 @@ const init = async () => {
         updateRegisterCharityButton(account);
         addAccountsChangedListener(updateRegisterCharityButton);
         addAccountsChangedListener(renderOwnerCharities);
-        window.fundraisers.contract.on('CharityRegistered', renderOwnerCharities);
-        window.fundraisers.contract.on('CharityRemoved', renderOwnerCharities);
+        contract.on('CharityRegistered', renderOwnerCharities);
+        contract.on('CharityRemoved', renderOwnerCharities);
         Object.assign(window.fundraisers, { registerCharity, removeCharity });
         renderOwnerCharities();
     } catch (error) {
@@ -62,8 +62,7 @@ const registerCharity = async (address) => {
 
 const removeCharity = async (address) => {
     try {
-        const { contract, signer } = window.fundraisers;
-        const writableContract = contract.connect(signer);
+        const writableContract = contract.connect(window.fundraisers.signer);
         await writableContract.removeCharity(address);
         renderOwnerCharities();
     } catch (error) {
