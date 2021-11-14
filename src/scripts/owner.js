@@ -7,6 +7,7 @@ const registerCharityForm = document.getElementById('register-charity');
 const registerCharityButton = document.getElementById('register-charity-button');
 
 const init = async () => {
+    renderCharities();
     if (!isMetaMaskInstalled()) {
         return;
     }
