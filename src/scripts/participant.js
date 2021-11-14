@@ -14,7 +14,7 @@ const init = async () => {
         // addAccountsChangedListener(updateRegisterEventButton);
         addAccountsChangedListener(renderParticipantEvents);
         // window.fundraisers.provider.on('block', renderParticipantEvents);
-        // Object.assign(window.fundraisers, { registerEvent, cancelEvent });
+        Object.assign(window.fundraisers, { isParticipatingInEvent, registerForEvent, deregisterForEvent });
         renderParticipantEvents();
     } catch (error) {
         console.log(error);
@@ -46,6 +46,14 @@ const init = async () => {
 //         console.log(error);
 //     }
 // }
+
+const isParticipatingInEvent = async (account, id) => {
+    try {
+        return await window.fundraisers.contract.eventParticipants(id, account);
+    } catch (error) {
+        console.log(error);
+    }
+}
 
 const registerForEvent = async (id) => {
     try {
