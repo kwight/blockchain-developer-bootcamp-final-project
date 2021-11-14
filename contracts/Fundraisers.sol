@@ -8,6 +8,7 @@ contract Fundraisers is Ownable {
     address[] public charityList;
     Event[] public events;
     mapping(uint256 => mapping(address => bool)) public eventParticipants;
+    address[] public participants;
 
     enum EventStatus {
         Active,
@@ -94,11 +95,16 @@ contract Fundraisers is Ownable {
 
     function registerForEvent(uint256 id) public {
         eventParticipants[id][msg.sender] = true;
+        participants.push(msg.sender);
         emit ParticipantRegistered(msg.sender, id);
     }
 
     function deregisterForEvent(uint256 id) public {
         eventParticipants[id][msg.sender] = false;
         emit ParticipantDeregistered(msg.sender, id);
+    }
+
+    function getParticipants() public view returns (address[] memory) {
+        return participants;
     }
 }
