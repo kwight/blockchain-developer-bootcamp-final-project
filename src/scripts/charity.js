@@ -15,6 +15,8 @@ const init = async () => {
         updateRegisterEventButton(account);
         addAccountsChangedListener(updateRegisterEventButton);
         addAccountsChangedListener(renderCharityEvents);
+        contract.on('EventRegistered', renderCharityEvents);
+        contract.on('EventCancelled', renderCharityEvents);
         renderCharityEvents();
     } catch (error) {
         console.log(error);
