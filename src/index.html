@@ -8,6 +8,7 @@
     <script type="module" src="scripts/fundraisers.js" defer></script>
     <script type="module" src="scripts/charities.js" defer></script>
     <script type="module" src="scripts/events.js" defer></script>
+    <script type="module" src="scripts/participants.js" defer></script>
     <script type="module" src="scripts/home.js" defer></script>
     <title>Fun Run</title>
 </head>
@@ -31,14 +32,18 @@
         <h2>Events</h2>
         <div id="registered-events"></div>
     </section>
-    <section>
-        <h2>Event Details</h2>
+    <section id="participants-section">
+        <h2>Participants</h2>
+        <div id="participants"></div>
     </section>
     <template id="registered-charity">
         <p class="charity"><span class="charity-address"></span></p>
     </template>
     <template id="registered-event">
         <p class="event"><span class="event-title"></span><span class="event-status"></span></p>
+    </template>
+    <template id="participant-template">
+        <p class="participant"><span class="participant-address"></span></p>
     </template>
 </body>
 
