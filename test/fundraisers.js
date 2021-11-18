@@ -2,7 +2,7 @@ const Fundraisers = artifacts.require('Fundraisers');
 const { expectRevert } = require('@openzeppelin/test-helpers');
 
 contract('Fundraisers', async accounts => {
-  const [contractOwner, charity1, charity2, bystander] = accounts;
+  const [contractOwner, charity1, charity2, charity3, bystander] = accounts;
   let instance;
 
   beforeEach(async () => {
@@ -10,68 +10,120 @@ contract('Fundraisers', async accounts => {
   });
 
   describe('Charities', () => {
+    it('can add charities', async () => {
+      await instance.registerCharity(charity1, 'charity1');
+      const charities = await instance.getCharities();
+      const charity = await instance.getCharity(charity1);
+
+      assert.equal(
+        charities[0],
+        charity1,
+        'the charity is not listed'
+      );
+
+      assert.equal(
+        charity.name,
+        'charity1',
+        'the charity is not being mapped'
+      );
+    });
+
+    it('can remove charities', async () => {
+      await instance.registerCharity(charity1, 'charity1');
+      await instance.registerCharity(charity2, 'charity2');
+      await instance.registerCharity(charity3, 'charity3');
+      await instance.removeCharity(charity1);
+      const charities = await instance.getCharities();
+
+      assert.equal(
+        charities.includes(charity1),
+        false,
+        'the charity is still listed'
+      );
+
+      assert.equal(
+        charities[0],
+        charity3,
+        'charities were not properly reordered'
+      );
+
+      assert.equal(
+        charities.length,
+        2,
+        'charitt list length is incorrect'
+      );
+    });
+
     it('allows only the owner to add charities', async () => {
+      await instance.registerCharity(charity1, 'charity1');
+      const charities = await instance.getCharities();
+
       assert.equal(
         contractOwner,
         await instance.owner(),
         'the owner is not properly assigned',
       );
 
-      await instance.registerCharity(charity1);
       assert.equal(
-        await instance.charities(charity1),
-        true,
-        'the owner cannot register charities'
-      )
-
-      assert.equal(
-        await instance.charityList(0),
+        charities[0],
         charity1,
         'the owner cannot register charities'
       )
 
       await expectRevert(
-        instance.registerCharity(charity1, { from: charity1 }),
+        instance.registerCharity(charity2, 'charity2', { from: charity1 }),
         'Ownable: caller is not the owner',
       );
     });
 
+    it('ensures charities are uniquely registered', async () => {
+      await instance.registerCharity(charity1, 'charity1');
+
+      await expectRevert(
+        instance.registerCharity(charity1, 'charity1'),
+        'charity already exists',
+      );
+    });
+
     it('allows the owner to remove charities', async () => {
-      await instance.registerCharity(charity1);
+      await instance.registerCharity(charity1, 'charity1');
       await instance.removeCharity(charity1);
+      const charities = await instance.getCharities();
 
       assert.equal(
-        await instance.charities(charity1),
-        false,
+        charities.length,
+        0,
         'the owner cannot remove a charity'
       );
     });
 
     it('allows a charity to only remove itself', async () => {
-      await instance.registerCharity(charity1);
-      await instance.registerCharity(charity2);
-
-      await expectRevert(
-        instance.removeCharity(charity1, { from: charity2 }),
-        'unauthorized',
-      );
-
-      await expectRevert(
-        instance.removeCharity(charity1, { from: bystander }),
-        'unauthorized',
-      );
-
+      await instance.registerCharity(charity1, 'charity1');
+      await instance.registerCharity(charity2, 'charity2');
+      await instance.registerCharity(charity3, 'charity3');
       await instance.removeCharity(charity1, { from: charity1 });
+      const charities = await instance.getCharities();
+
       assert.equal(
-        await instance.charities(charity1),
+        charities.includes(charity1),
         false,
         'a charity cannot remove itself'
+      );
+
+      await expectRevert(
+        instance.removeCharity(charity2, { from: charity3 }),
+        'unauthorized',
+      );
+
+      await expectRevert(
+        instance.removeCharity(charity2, { from: bystander }),
+        'unauthorized',
       );
     });
 
     it('emits events on charity registration and removal', async () => {
-      const registration = await instance.registerCharity(accounts[1]);
-      const removal = await instance.removeCharity(accounts[1]);
+      const registration = await instance.registerCharity(charity1, 'charity1');
+      const removal = await instance.removeCharity(charity1);
 
       assert.equal(
         registration.logs[0].event,
@@ -87,7 +139,7 @@ contract('Fundraisers', async accounts => {
     });
 
     it('allows anyone to get all registered charities', async () => {
-      await instance.registerCharity(charity1);
+      await instance.registerCharity(charity1, 'charity1');
       const result = await instance.getCharities({ from: bystander });
 
       assert.equal(
