@@ -132,7 +132,7 @@ contract Fundraisers is Ownable {
         require(events[index].charity == msg.sender, "unauthorized");
         require(
             events[index].status == EventStatus.Active,
-            "event cannot be cancelled"
+            "event is not active"
         );
         events[index].status = EventStatus.Cancelled;
         emit EventCancelled(index, msg.sender);

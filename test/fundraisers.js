@@ -212,7 +212,22 @@ contract('Fundraisers', async accounts => {
 
       await expectRevert(
         instance.cancelEvent(0, { from: charity1 }),
-        'event cannot be cancelled',
+        'event is not active',
+      );
+    });
+
+    it('only allows existing active events to be completed', async () => {
+      await instance.cancelEvent(0, { from: charity1 });
+      await instance.completeEvent(1, { from: charity1 });
+
+      await expectRevert(
+        instance.completeEvent(2, { from: charity1 }),
+        'event does not exist',
+      );
+
+      await expectRevert(
+        instance.completeEvent(0, { from: charity1 }),
+        'event is not active',
       );
     });
 
