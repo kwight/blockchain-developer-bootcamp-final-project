@@ -161,21 +161,15 @@ contract('Fundraisers', async accounts => {
 
     it('allows only active charities to create events', async () => {
       await instance.removeCharity(charity2);
-
-      const event = await instance.events(0);
-      assert.equal(
-        event.title,
-        'event1',
-        'active charity cannot register events'
-      );
+      const latestBlock = await web3.eth.getBlock('latest');
 
       await expectRevert(
-        instance.registerEvent('title', Math.floor(Date.now() / 1000)),
+        instance.registerEvent('event3', latestBlock.timestamp + 45000),
         'unauthorized',
       );
 
       await expectRevert(
-        instance.registerEvent('title', Math.floor(Date.now() / 1000), { from: charity2 }),
+        instance.registerEvent('event4', latestBlock.timestamp + 45000, { from: charity2 }),
         'unauthorized',
       );
     });
