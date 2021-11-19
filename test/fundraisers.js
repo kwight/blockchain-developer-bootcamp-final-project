@@ -210,7 +210,8 @@ contract('Fundraisers', async accounts => {
     });
 
     it('emits events on charity event registration and cancellation', async () => {
-      const registration = await instance.registerEvent('event3', Math.floor(Date.now() / 1000), { from: charity1 });
+      const latestBlock = await web3.eth.getBlock('latest');
+      const registration = await instance.registerEvent('event1', latestBlock.timestamp + 43205, { from: charity1 });
       const cancellation = await instance.cancelEvent(0, { from: charity1 });
 
       assert.equal(
