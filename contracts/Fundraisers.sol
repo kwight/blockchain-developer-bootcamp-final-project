@@ -111,6 +111,10 @@ contract Fundraisers is Ownable {
         public
         onlyCharity
     {
+        require(
+            block.timestamp + 43200 < timestamp,
+            "event is scheduled too soon"
+        );
         events.push(
             Event({
                 title: title,

@@ -207,6 +207,14 @@ contract('Fundraisers', async accounts => {
       );
     });
 
+    it('only allows events to be registered at least twelve hours in advance', async () => {
+      let latestBlock = await web3.eth.getBlock('latest');
+      await expectRevert(
+        instance.registerEvent('event3', latestBlock.timestamp + 43200, { from: charity1 }),
+        'event is scheduled too soon',
+      );
+    });
+
     it('emits events on charity event registration and cancellation', async () => {
       const registration = await instance.registerEvent('event3', Math.floor(Date.now() / 1000), { from: charity1 });
       const cancellation = await instance.cancelEvent(0, { from: charity1 });
