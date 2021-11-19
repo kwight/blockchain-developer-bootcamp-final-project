@@ -6,7 +6,7 @@ import "@openzeppelin/contracts/access/Ownable.sol";
 contract Fundraisers is Ownable {
     mapping(address => Charity) private charities;
     address[] private charityList;
-    Event[] public events;
+    Event[] private events;
     mapping(uint256 => mapping(address => bool)) public eventParticipants;
     address[] public participants;
 

@@ -176,10 +176,10 @@ contract('Fundraisers', async accounts => {
 
     it('allows only active charities to cancel their events', async () => {
       await instance.cancelEvent(0, { from: charity1 });
-      const cancelledEvent = await instance.events(0);
+      const events = await instance.getEvents();
 
       assert.equal(
-        cancelledEvent.status.toNumber(),
+        events[0].status,
         2,
         'charity cannot cancel its events'
       );
