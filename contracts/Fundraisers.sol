@@ -127,7 +127,12 @@ contract Fundraisers is Ownable {
     }
 
     function cancelEvent(uint256 index) public onlyCharity {
+        require(events.length > index, "event does not exist");
         require(events[index].charity == msg.sender, "unauthorized");
+        require(
+            events[index].status == EventStatus.Active,
+            "event cannot be cancelled"
+        );
         events[index].status = EventStatus.Cancelled;
         emit EventCancelled(index, msg.sender);
     }

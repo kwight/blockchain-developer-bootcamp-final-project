@@ -201,6 +201,21 @@ contract('Fundraisers', async accounts => {
       );
     });
 
+    it('only allows existing active events to be cancelled', async () => {
+      await instance.cancelEvent(0, { from: charity1 });
+      await instance.completeEvent(1, { from: charity1 });
+
+      await expectRevert(
+        instance.cancelEvent(2, { from: charity1 }),
+        'event does not exist',
+      );
+
+      await expectRevert(
+        instance.cancelEvent(0, { from: charity1 }),
+        'event cannot be cancelled',
+      );
+    });
+
     it('only allows events to be registered at least twelve hours in advance', async () => {
       let latestBlock = await web3.eth.getBlock('latest');
       await expectRevert(
