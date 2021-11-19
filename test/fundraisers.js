@@ -239,10 +239,11 @@ contract('Fundraisers', async accounts => {
       );
     });
 
-    it('emits events on charity event registration and cancellation', async () => {
+    it('emits events on charity event registration, cancellation, and completion', async () => {
       const latestBlock = await web3.eth.getBlock('latest');
       const registration = await instance.registerEvent('event1', latestBlock.timestamp + 43205, { from: charity1 });
       const cancellation = await instance.cancelEvent(0, { from: charity1 });
+      const completion = await instance.completeEvent(1, { from: charity1 });
 
       assert.equal(
         registration.logs[0].event,
@@ -254,6 +255,12 @@ contract('Fundraisers', async accounts => {
         cancellation.logs[0].event,
         'EventCancelled',
         'no event emitted on charity event cancellation'
+      );
+
+      assert.equal(
+        completion.logs[0].event,
+        'EventCompleted',
+        'no event emitted on charity event completion'
       );
     });
   });
