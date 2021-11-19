@@ -32,6 +32,7 @@ contract Fundraisers is Ownable {
     event CharityRemoved(address charityAddress);
     event EventRegistered(uint256 eventId, address charityAddress);
     event EventCancelled(uint256 eventId, address charityAddress);
+    event EventCompleted(uint256 eventId, address charityAddress);
     event ParticipantRegistered(address participantAddress, uint256 eventId);
     event ParticipantDeregistered(address participantAddress, uint256 eventId);
 
@@ -135,6 +136,17 @@ contract Fundraisers is Ownable {
         );
         events[index].status = EventStatus.Cancelled;
         emit EventCancelled(index, msg.sender);
+    }
+
+    function completeEvent(uint256 index) public onlyCharity {
+        require(events.length > index, "event does not exist");
+        require(events[index].charity == msg.sender, "unauthorized");
+        require(
+            events[index].status == EventStatus.Active,
+            "event is not active"
+        );
+        events[index].status = EventStatus.Complete;
+        emit EventCompleted(index, msg.sender);
     }
 
     function registerForEvent(uint256 id) public {
