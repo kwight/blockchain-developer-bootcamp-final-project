@@ -8,7 +8,7 @@ contract Fundraisers is Ownable {
     address[] private charityList;
     Event[] private events;
     mapping(uint256 => mapping(address => bool)) private eventParticipants;
-    Pledge[] private pledges;
+    Donation[] private donations;
 
     enum EventStatus {
         Active,
@@ -28,7 +28,7 @@ contract Fundraisers is Ownable {
         uint256 timestamp;
     }
 
-    struct Pledge {
+    struct Donation {
         address doner;
         address participant;
         uint256 eventId;
@@ -199,8 +199,8 @@ contract Fundraisers is Ownable {
             "participant is not registered in this event"
         );
         require(msg.value == amount, "amount must equal value sent");
-        pledges.push(
-            Pledge({
+        donations.push(
+            Donation({
                 doner: msg.sender,
                 participant: participant,
                 eventId: eventId,
@@ -209,7 +209,7 @@ contract Fundraisers is Ownable {
         );
     }
 
-    function getPledges() public view returns (Pledge[] memory) {
-        return pledges;
+    function getDonations() public view returns (Donation[] memory) {
+        return donations;
     }
 }
