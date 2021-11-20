@@ -4,13 +4,12 @@ pragma solidity >=0.8.9 <0.9.0;
 import "@openzeppelin/contracts/access/Ownable.sol";
 
 contract Fundraisers is Ownable {
-    mapping(address => Charity) private charities;
-    address[] private charityList;
-    Event[] private events;
-    mapping(uint256 => mapping(address => bool)) private eventParticipants;
+    mapping(address => Charity) private charityRegistry;
+    address[] private charities;
+    Program[] private programs;
     Donation[] private donations;
 
-    enum EventStatus {
+    enum ProgramStatus {
         Active,
         Complete,
         Cancelled
@@ -21,27 +20,23 @@ contract Fundraisers is Ownable {
         uint256 index;
     }
 
-    struct Event {
+    struct Program {
         string title;
-        EventStatus status;
+        ProgramStatus status;
         address charity;
-        uint256 timestamp;
     }
 
     struct Donation {
         address doner;
-        address participant;
-        uint256 eventId;
+        uint256 programId;
         uint256 amount;
     }
 
     event CharityRegistered(address charityAddress, string name);
     event CharityRemoved(address charityAddress);
-    event EventRegistered(uint256 eventId, address charityAddress);
-    event EventCancelled(uint256 eventId, address charityAddress);
-    event EventCompleted(uint256 eventId, address charityAddress);
-    event ParticipantRegistered(address participantAddress, uint256 eventId);
-    event ParticipantDeregistered(address participantAddress, uint256 eventId);
+    event ProgramRegistered(uint256 programId, address charityAddress);
+    event ProgramCancelled(uint256 programId, address charityAddress);
+    event ProgramCompleted(uint256 programId, address charityAddress);
 
     modifier isOwnerOrCharity(address charityAddress) {
         require(
@@ -61,8 +56,9 @@ contract Fundraisers is Ownable {
         view
         returns (bool)
     {
-        if (charityList.length == 0) return false;
-        return (charityList[charities[charityAddress].index] == charityAddress);
+        if (charities.length == 0) return false;
+        return (charities[charityRegistry[charityAddress].index] ==
+            charityAddress);
     }
 
     function registerCharity(address charityAddress, string memory name)
@@ -73,9 +69,9 @@ contract Fundraisers is Ownable {
             isRegisteredCharity(charityAddress) == false,
             "charity already exists"
         );
-        charityList.push(charityAddress);
-        charities[charityAddress].name = name;
-        charities[charityAddress].index = charityList.length - 1;
+        charities.push(charityAddress);
+        charityRegistry[charityAddress].name = name;
+        charityRegistry[charityAddress].index = charities.length - 1;
         emit CharityRegistered(charityAddress, name);
     }
 
@@ -87,11 +83,11 @@ contract Fundraisers is Ownable {
             isRegisteredCharity(charityAddress) == true,
             "charity does not exist"
         );
-        uint256 toRemove = charities[charityAddress].index;
-        address toMove = charityList[charityList.length - 1];
-        charities[toMove].index = toRemove;
-        charityList[toRemove] = toMove;
-        charityList.pop();
+        uint256 toRemove = charityRegistry[charityAddress].index;
+        address toMove = charities[charities.length - 1];
+        charityRegistry[toMove].index = toRemove;
+        charities[toRemove] = toMove;
+        charities.pop();
         emit CharityRemoved(charityAddress);
     }
 
@@ -104,108 +100,59 @@ contract Fundraisers is Ownable {
             isRegisteredCharity(charityAddress) == true,
             "charity does not exist"
         );
-        return charities[charityAddress];
+        return charityRegistry[charityAddress];
     }
 
     function getCharities() public view returns (address[] memory) {
-        return charityList;
+        return charities;
     }
 
-    function getEvents() public view returns (Event[] memory) {
-        return events;
+    function getPrograms() public view returns (Program[] memory) {
+        return programs;
     }
 
-    function registerEvent(string memory title, uint256 timestamp)
-        public
-        onlyCharity
-    {
-        require(
-            block.timestamp + 43200 < timestamp,
-            "event is scheduled too soon"
-        );
-        events.push(
-            Event({
+    function registerProgram(string memory title) public onlyCharity {
+        programs.push(
+            Program({
                 title: title,
-                status: EventStatus.Active,
-                charity: msg.sender,
-                timestamp: timestamp
+                status: ProgramStatus.Active,
+                charity: msg.sender
             })
         );
-        emit EventRegistered(events.length - 1, msg.sender);
+        emit ProgramRegistered(programs.length - 1, msg.sender);
     }
 
-    function cancelEvent(uint256 index) public onlyCharity {
-        require(events.length > index, "event does not exist");
-        require(events[index].charity == msg.sender, "unauthorized");
+    function cancelProgram(uint256 programId) public onlyCharity {
+        require(programs.length > programId, "program does not exist");
+        require(programs[programId].charity == msg.sender, "unauthorized");
         require(
-            events[index].status == EventStatus.Active,
-            "event is not active"
+            programs[programId].status == ProgramStatus.Active,
+            "program is not active"
         );
-        events[index].status = EventStatus.Cancelled;
-        emit EventCancelled(index, msg.sender);
+        programs[programId].status = ProgramStatus.Cancelled;
+        emit ProgramCancelled(programId, msg.sender);
     }
 
-    function completeEvent(uint256 index) public onlyCharity {
-        require(events.length > index, "event does not exist");
-        require(events[index].charity == msg.sender, "unauthorized");
+    function completeProgram(uint256 programId) public onlyCharity {
+        require(programs.length > programId, "program does not exist");
+        require(programs[programId].charity == msg.sender, "unauthorized");
         require(
-            events[index].status == EventStatus.Active,
-            "event is not active"
+            programs[programId].status == ProgramStatus.Active,
+            "program is not active"
         );
-        events[index].status = EventStatus.Complete;
-        emit EventCompleted(index, msg.sender);
+        programs[programId].status = ProgramStatus.Complete;
+        emit ProgramCompleted(programId, msg.sender);
     }
 
-    function registerForEvent(uint256 id) public {
-        require(events.length > id, "event does not exist");
+    function donate(uint256 programId, uint256 amount) public payable {
+        require(programs.length > programId, "program does not exist");
         require(
-            eventParticipants[id][msg.sender] == false,
-            "already registered for event"
-        );
-        eventParticipants[id][msg.sender] = true;
-        emit ParticipantRegistered(msg.sender, id);
-    }
-
-    function deregisterForEvent(uint256 id) public {
-        require(events.length > id, "event does not exist");
-        require(
-            eventParticipants[id][msg.sender] == true,
-            "not registered for event"
-        );
-        eventParticipants[id][msg.sender] = false;
-        emit ParticipantDeregistered(msg.sender, id);
-    }
-
-    function isParticipatingInEvent(address participant, uint256 id)
-        public
-        view
-        returns (bool)
-    {
-        return eventParticipants[id][participant];
-    }
-
-    function donate(
-        uint256 eventId,
-        address participant,
-        uint256 amount
-    ) public payable {
-        require(events.length > eventId, "event does not exist");
-        require(
-            events[eventId].status == EventStatus.Active,
-            "event is not active"
-        );
-        require(
-            isParticipatingInEvent(participant, eventId),
-            "participant is not registered in this event"
+            programs[programId].status == ProgramStatus.Active,
+            "program is not active"
         );
         require(msg.value == amount, "amount must equal value sent");
         donations.push(
-            Donation({
-                doner: msg.sender,
-                participant: participant,
-                eventId: eventId,
-                amount: amount
-            })
+            Donation({doner: msg.sender, programId: programId, amount: amount})
         );
     }
 
