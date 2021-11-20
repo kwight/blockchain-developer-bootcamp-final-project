@@ -183,4 +183,33 @@ contract Fundraisers is Ownable {
     {
         return eventParticipants[id][participant];
     }
+
+    function donate(
+        uint256 eventId,
+        address participant,
+        uint256 amount
+    ) public payable {
+        require(events.length > eventId, "event does not exist");
+        require(
+            events[eventId].status == EventStatus.Active,
+            "event is not active"
+        );
+        require(
+            isParticipatingInEvent(participant, eventId),
+            "participant is not registered in this event"
+        );
+        require(msg.value == amount, "amount must equal value sent");
+        pledges.push(
+            Pledge({
+                doner: msg.sender,
+                participant: participant,
+                eventId: eventId,
+                amount: amount
+            })
+        );
+    }
+
+    function getPledges() public view returns (Pledge[] memory) {
+        return pledges;
+    }
 }
