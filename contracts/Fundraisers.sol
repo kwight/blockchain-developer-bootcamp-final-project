@@ -8,6 +8,7 @@ contract Fundraisers is Ownable {
     address[] private charityList;
     Event[] private events;
     mapping(uint256 => mapping(address => bool)) private eventParticipants;
+    Pledge[] private pledges;
 
     enum EventStatus {
         Active,
@@ -25,6 +26,13 @@ contract Fundraisers is Ownable {
         EventStatus status;
         address charity;
         uint256 timestamp;
+    }
+
+    struct Pledge {
+        address doner;
+        address participant;
+        uint256 eventId;
+        uint256 amount;
     }
 
     event CharityRegistered(address charityAddress, string name);
