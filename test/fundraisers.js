@@ -319,7 +319,7 @@ contract('Fundraisers', async accounts => {
       await instance.registerForEvent(0, { from: participant });
     });
 
-    it.only('allows donations for only active events', async () => {
+    it('allows donations for only active events', async () => {
       const latestBlock = await web3.eth.getBlock('latest');
       await instance.registerEvent('cancelledEvent', latestBlock.timestamp + 43205, { from: charity1 });
       await instance.cancelEvent(1, { from: charity1 });
@@ -340,6 +340,20 @@ contract('Fundraisers', async accounts => {
       await expectRevert(
         instance.donate(1, participant, 12345, { from: doner, value: 12345 }),
         'event is not active',
+      );
+    });
+
+    it('only allows donations for registered participants', async () => {
+      await expectRevert(
+        instance.donate(0, bystander, 12345, { from: doner, value: 12345 }),
+        'participant is not registered in this event',
+      );
+    });
+
+    it('only allows donations for the given amount', async () => {
+      await expectRevert(
+        instance.donate(0, participant, 12345, { from: doner, value: 55555 }),
+        'amount must equal value sent',
       );
     });
   });
