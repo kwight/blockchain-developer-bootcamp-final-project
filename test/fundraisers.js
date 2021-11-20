@@ -276,20 +276,9 @@ contract('Fundraisers', async accounts => {
       await instance.registerForEvent(0, { from: bystander });
 
       assert.equal(
-        await instance.eventParticipants(0, bystander),
+        await instance.isParticipatingInEvent(bystander, 0),
         true,
         'not anyone can participate in an event'
-      );
-    });
-
-    it('allows anyone to get all participants', async () => {
-      await instance.registerForEvent(0, { from: charity1 });
-      const result = await instance.getParticipants({ from: bystander });
-
-      assert.equal(
-        result[0],
-        charity1,
-        'participants could not be properly read'
       );
     });
 
@@ -298,7 +287,7 @@ contract('Fundraisers', async accounts => {
       await instance.deregisterForEvent(0, { from: bystander });
 
       assert.equal(
-        await instance.eventParticipants(0, bystander),
+        await instance.isParticipatingInEvent(bystander, 0),
         false,
         'a participant cannot deregister'
       );

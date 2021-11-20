@@ -149,17 +149,30 @@ contract Fundraisers is Ownable {
     }
 
     function registerForEvent(uint256 id) public {
+        require(events.length > id, "event does not exist");
+        require(
+            eventParticipants[id][msg.sender] == false,
+            "already registered for event"
+        );
         eventParticipants[id][msg.sender] = true;
-        participants.push(msg.sender);
         emit ParticipantRegistered(msg.sender, id);
     }
 
     function deregisterForEvent(uint256 id) public {
+        require(events.length > id, "event does not exist");
+        require(
+            eventParticipants[id][msg.sender] == true,
+            "not registered for event"
+        );
         eventParticipants[id][msg.sender] = false;
         emit ParticipantDeregistered(msg.sender, id);
     }
 
-    function getParticipants() public view returns (address[] memory) {
-        return participants;
+    function isParticipatingInEvent(address participant, uint256 id)
+        public
+        view
+        returns (bool)
+    {
+        return eventParticipants[id][participant];
     }
 }
