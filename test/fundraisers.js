@@ -154,7 +154,7 @@ contract('Fundraisers', async accounts => {
     beforeEach(async () => {
       await instance.registerCharity(charity1, 'charity1');
       await instance.registerCharity(charity2, 'charity2');
-      let latestBlock = await web3.eth.getBlock('latest');
+      const latestBlock = await web3.eth.getBlock('latest');
       await instance.registerEvent('event1', latestBlock.timestamp + 43205, { from: charity1 });
       await instance.registerEvent('event2', latestBlock.timestamp + 43205, { from: charity1 });
     });
@@ -267,8 +267,9 @@ contract('Fundraisers', async accounts => {
 
   describe('Participants', () => {
     beforeEach(async () => {
-      await instance.registerCharity(charity1);
-      await instance.registerEvent('event1', Math.floor(Date.now() / 1000), { from: charity1 });
+      await instance.registerCharity(charity1, 'charity1');
+      const latestBlock = await web3.eth.getBlock('latest');
+      await instance.registerEvent('event1', latestBlock.timestamp + 43205, { from: charity1 });
     });
 
     it('allows anyone to participate in an event', async () => {
