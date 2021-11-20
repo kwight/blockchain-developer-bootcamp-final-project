@@ -7,8 +7,7 @@ contract Fundraisers is Ownable {
     mapping(address => Charity) private charities;
     address[] private charityList;
     Event[] private events;
-    mapping(uint256 => mapping(address => bool)) public eventParticipants;
-    address[] public participants;
+    mapping(uint256 => mapping(address => bool)) private eventParticipants;
 
     enum EventStatus {
         Active,
