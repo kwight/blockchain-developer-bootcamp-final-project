@@ -2,7 +2,7 @@ const Fundraisers = artifacts.require('Fundraisers');
 const { expectRevert } = require('@openzeppelin/test-helpers');
 
 contract('Fundraisers', async accounts => {
-  const [contractOwner, charity1, charity2, charity3, bystander] = accounts;
+  const [contractOwner, charity1, charity2, charity3, participant, doner, bystander] = accounts;
   let instance;
 
   beforeEach(async () => {
@@ -307,6 +307,39 @@ contract('Fundraisers', async accounts => {
         deregistration.logs[0].event,
         'ParticipantDeregistered',
         'no event emitted on charity event cancellation'
+      );
+    });
+  });
+
+  describe('Donations', () => {
+    beforeEach(async () => {
+      await instance.registerCharity(charity1, 'charity1');
+      const latestBlock = await web3.eth.getBlock('latest');
+      await instance.registerEvent('event1', latestBlock.timestamp + 43205, { from: charity1 });
+      await instance.registerForEvent(0, { from: participant });
+    });
+
+    it.only('allows donations for only active events', async () => {
+      const latestBlock = await web3.eth.getBlock('latest');
+      await instance.registerEvent('cancelledEvent', latestBlock.timestamp + 43205, { from: charity1 });
+      await instance.cancelEvent(1, { from: charity1 });
+      const contractBalance = Number(await web3.eth.getBalance(instance.address));
+      await instance.donate(0, participant, 12345, { from: doner, value: 12345 });
+
+      assert.equal(
+        await web3.eth.getBalance(instance.address),
+        contractBalance + 12345,
+        'donations are not properly received by contract'
+      );
+
+      await expectRevert(
+        instance.donate(2, participant, 12345, { from: doner, value: 12345 }),
+        'event does not exist',
+      );
+
+      await expectRevert(
+        instance.donate(1, participant, 12345, { from: doner, value: 12345 }),
+        'event is not active',
       );
     });
   });
