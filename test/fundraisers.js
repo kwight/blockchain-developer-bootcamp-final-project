@@ -258,46 +258,42 @@ contract('Fundraisers', async accounts => {
   describe('Donations', () => {
     beforeEach(async () => {
       await instance.registerCharity(charity1, 'charity1');
-      const latestBlock = await web3.eth.getBlock('latest');
-      await instance.registerEvent('event1', latestBlock.timestamp + 43205, { from: charity1 });
-      await instance.registerForEvent(0, { from: participant });
+      await instance.registerProgram('program1', { from: charity1 });
     });
 
-    it('allows donations for only active events', async () => {
-      const latestBlock = await web3.eth.getBlock('latest');
-      await instance.registerEvent('cancelledEvent', latestBlock.timestamp + 43205, { from: charity1 });
-      await instance.cancelEvent(1, { from: charity1 });
-      const contractBalance = Number(await web3.eth.getBalance(instance.address));
-      await instance.donate(0, participant, 12345, { from: doner, value: 12345 });
+    it('transfers donations to the charity', async () => {
+      const charityBalance = Number(await web3.eth.getBalance(charity1));
+      await instance.donate(0, { from: doner, value: 12345 });
 
       assert.equal(
-        await web3.eth.getBalance(instance.address),
-        contractBalance + 12345,
-        'donations are not properly received by contract'
-      );
-
-      await expectRevert(
-        instance.donate(2, participant, 12345, { from: doner, value: 12345 }),
-        'event does not exist',
-      );
-
-      await expectRevert(
-        instance.donate(1, participant, 12345, { from: doner, value: 12345 }),
-        'event is not active',
+        await web3.eth.getBalance(charity1),
+        charityBalance + 12345,
+        'donations are not properly sent to charity'
       );
     });
 
-    it('only allows donations for registered participants', async () => {
+    it('allows donations for only active programs', async () => {
+      await instance.registerProgram('program2', { from: charity1 });
+      await instance.cancelProgram(1, { from: charity1 });
+
       await expectRevert(
-        instance.donate(0, bystander, 12345, { from: doner, value: 12345 }),
-        'participant is not registered in this event',
+        instance.donate(2, { from: doner, value: 12345 }),
+        'program does not exist',
+      );
+
+      await expectRevert(
+        instance.donate(1, { from: doner, value: 12345 }),
+        'program is not active',
       );
     });
 
-    it('only allows donations for the given amount', async () => {
-      await expectRevert(
-        instance.donate(0, participant, 12345, { from: doner, value: 55555 }),
-        'amount must equal value sent',
+    it('emits an event on successful donation', async () => {
+      const donation = await instance.donate(0, { from: doner, value: 12345 });
+
+      assert.equal(
+        donation.logs[0].event,
+        'DonationReceived',
+        'no event emitted on donation'
       );
     });
   });
