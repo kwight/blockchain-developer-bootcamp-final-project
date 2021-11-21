@@ -37,6 +37,12 @@ contract Fundraisers is Ownable {
     event ProgramRegistered(uint256 programId, address charityAddress);
     event ProgramCancelled(uint256 programId, address charityAddress);
     event ProgramCompleted(uint256 programId, address charityAddress);
+    event DonationReceived(
+        uint256 amount,
+        address charityAddress,
+        uint256 programId,
+        address doner
+    );
 
     modifier isOwnerOrCharity(address charityAddress) {
         require(
@@ -159,6 +165,12 @@ contract Fundraisers is Ownable {
                 programId: programId,
                 amount: msg.value
             })
+        );
+        emit DonationReceived(
+            msg.value,
+            receivingProgram.charity,
+            programId,
+            msg.sender
         );
     }
 
