@@ -65,13 +65,15 @@ const renderDonerPrograms = async () => {
     const programs = await getPrograms();
     registeredPrograms.innerHTML = '';
     programs.forEach((programData, index) => {
-        const program = programRadioButton.content.cloneNode(true);
-        const label = program.querySelector('label');
-        program.querySelector('input').id = `program-${index}`;
-        program.querySelector('input').value = index;
-        label.setAttribute('for', `program-${index}`);
-        label.insertAdjacentText('beforeend', programData.title);
-        registeredPrograms.prepend(program);
+        if (programData.status == 0) {
+            const program = programRadioButton.content.cloneNode(true);
+            const label = program.querySelector('label');
+            program.querySelector('input').id = `program-${index}`;
+            program.querySelector('input').value = index;
+            label.setAttribute('for', `program-${index}`);
+            label.insertAdjacentText('beforeend', programData.title);
+            registeredPrograms.prepend(program);
+        }
     });
 }
 
