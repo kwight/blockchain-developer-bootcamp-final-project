@@ -167,10 +167,10 @@ contract('Fundraisers', async accounts => {
         'unauthorized',
       );
 
-      // await expectRevert(
-      //   instance.registerProgram('program4', { from: charity2 }),
-      //   'unauthorized',
-      // );
+      await expectRevert(
+        instance.registerProgram('program4', { from: charity2 }),
+        'revert'
+      );
     });
 
     it('allows only active charities to cancel their programs', async () => {
