@@ -9,6 +9,7 @@ const abi = [
     'function registerProgram(string memory title)',
     'function cancelProgram(uint256 index)',
     'function completeProgram(uint256 index)',
+    'function donate(uint256 programId, uint256 amount) public payable',
     'event CharityRegistered(address charityAddress)',
     'event CharityRemoved(address charityAddress)',
     'event ProgramRegistered(uint256 ProgramId, address charityAddress)',
