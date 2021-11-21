@@ -1,31 +1,42 @@
-import { getParticipants } from './participants.js';
-import { isMetaMaskInstalled } from './wallet.js';
-
-const participantRadioButton = document.getElementById('participant-radio-button');
-const donationForm = document.getElementById('donation-form');
+import { contract } from './fundraisers.js';
+import { renderPrograms } from './programs.js';
+import { addAccountsChangedListener, getConnectedAccount, isMetaMaskInstalled } from './wallet.js';
 
 const init = () => {
-    renderParticipantRadioButtons();
     if (!isMetaMaskInstalled()) {
         return;
     }
+
     try {
-
+        addAccountsChangedListener(renderDonerPrograms);
+        contract.on('ProgramRegistered', renderDonerPrograms);
+        contract.on('ProgramCancelled', renderDonerPrograms);
+        contract.on('ProgramCompleted', renderDonerPrograms);
+        renderDonerPrograms();
     } catch (error) {
-
+        console.log(error);
     }
 }
 
-const renderParticipantRadioButtons = async () => {
-    const participants = await getParticipants();
-    participants.forEach((address, index) => {
-        const participant = participantRadioButton.content.cloneNode(true);
-        const label = participant.querySelector('label');
-        participant.querySelector('input').id = `participant-${index}`;
-        label.setAttribute('for', `participant-${index}`);
-        label.innerText = address;
-        donationForm.prepend(participant);
-    });
+const renderDonerPrograms = async () => {
+    await renderPrograms();
+    const account = await getConnectedAccount();
+    const programs = document.querySelectorAll('.program');
+    if (account) {
+        programs.forEach(program => {
+            const index = program.id.match(/(?<=program-).+/)[0];
+            const status = program.querySelector('.program-status').innerText;
+            const button = document.createElement('button');
+            button.classList.add('donate');
+            button.innerText = 'Donate';
+            button.disabled = true;
+            if ('active' == status) {
+                button.disabled = false;
+                button.addEventListener('click', () => donateToProgram(index));
+            }
+            program.appendChild(button);
+        });
+    }
 }
 
 init();
