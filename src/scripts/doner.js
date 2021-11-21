@@ -1,6 +1,9 @@
 import { contract } from './fundraisers.js';
-import { renderPrograms } from './programs.js';
-import { addAccountsChangedListener, getConnectedAccount, isMetaMaskInstalled } from './wallet.js';
+import { getPrograms } from './programs.js';
+import { addAccountsChangedListener, isMetaMaskInstalled } from './wallet.js';
+
+const programRadioButton = document.getElementById('program-radio-button');
+const registeredPrograms = document.getElementById('registered-programs');
 
 const init = () => {
     if (!isMetaMaskInstalled()) {
@@ -37,6 +40,19 @@ const renderDonerPrograms = async () => {
             program.appendChild(button);
         });
     }
+}
+
+const renderDonerPrograms = async () => {
+    const programs = await getPrograms();
+    registeredPrograms.innerHTML = '';
+    programs.forEach((programData, index) => {
+        const program = programRadioButton.content.cloneNode(true);
+        const label = program.querySelector('label');
+        program.querySelector('input').id = `program-${index}`;
+        label.setAttribute('for', `program-${index}`);
+        label.insertAdjacentText('beforeend', programData.title);
+        registeredPrograms.prepend(program);
+    });
 }
 
 init();

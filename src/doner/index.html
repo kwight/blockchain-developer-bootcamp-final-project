@@ -26,7 +26,13 @@
     </header>
     <section id="programs-section">
         <h2>Programs</h2>
-        <div id="registered-programs"></div>
+        <form id="donation-form">
+            <div id="registered-programs"></div>
+            <label>Donation amount
+                <input type="number" name="" id="">
+            </label>
+            <button id="register-event-button" disabled>Donate!</button>
+        </form>
     </section>
     <section id="connect-section">
         <h2>Connect</h2>
@@ -41,6 +47,11 @@
     </template>
     <template id="registered-program">
         <p class="program"><span class="program-title"></span><span class="program-status"></span></p>
+    </template>
+    <template id="program-radio-button">
+        <label>
+            <input type="radio" name="program">
+        </label>
     </template>
 </body>
 
