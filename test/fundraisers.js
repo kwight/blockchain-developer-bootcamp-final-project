@@ -263,12 +263,19 @@ contract('Fundraisers', async accounts => {
 
     it('transfers donations to the charity', async () => {
       const charityBalance = Number(await web3.eth.getBalance(charity1));
+      const donerBalance = Number(await web3.eth.getBalance(doner));
       await instance.donate(0, { from: doner, value: 12345 });
 
       assert.equal(
-        await web3.eth.getBalance(charity1),
+        Number(await web3.eth.getBalance(charity1)),
         charityBalance + 12345,
-        'donations are not properly sent to charity'
+        'charities do not receive donations'
+      );
+
+      assert.isAtMost(
+        Number(await web3.eth.getBalance(doner)),
+        donerBalance - 12345,
+        'doners do not send donations'
       );
     });
 
