@@ -179,7 +179,7 @@ contract('Fundraisers', async accounts => {
 
       assert.equal(
         programs[0].status,
-        2,
+        1,
         'charity cannot cancel its programs'
       );
 

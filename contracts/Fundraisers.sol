@@ -11,8 +11,8 @@ contract Fundraisers is Ownable {
 
     enum ProgramStatus {
         Active,
-        Complete,
-        Cancelled
+        Cancelled,
+        Complete
     }
 
     struct Charity {

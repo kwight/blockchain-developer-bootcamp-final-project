@@ -4,8 +4,8 @@ const registeredPrograms = document.getElementById('registered-programs');
 const registeredProgram = document.getElementById('registered-program');
 const status = [
     'active',
-    'complete',
     'cancelled',
+    'complete',
 ]
 
 export const getPrograms = async () => {
