@@ -7,8 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script type="module" src="scripts/fundraisers.js" defer></script>
     <script type="module" src="scripts/charities.js" defer></script>
-    <script type="module" src="scripts/events.js" defer></script>
-    <script type="module" src="scripts/participants.js" defer></script>
+    <script type="module" src="scripts/programs.js" defer></script>
     <script type="module" src="scripts/home.js" defer></script>
     <title>Fun Run</title>
 </head>
@@ -20,7 +19,6 @@
             <li><a href="/">Home</a></li>
             <li><a href="/owner/">Owner</a></li>
             <li><a href="/charity/">Charity</a></li>
-            <li><a href="/participant/">Participate</a></li>
             <li><a href="/doner/">Donate</a></li>
         </ul>
     </header>
@@ -28,22 +26,15 @@
         <h2>Charities</h2>
         <div id="registered-charities"></div>
     </section>
-    <section id="events-section">
-        <h2>Events</h2>
-        <div id="registered-events"></div>
-    </section>
-    <section id="participants-section">
-        <h2>Participants</h2>
-        <div id="participants"></div>
+    <section id="programs-section">
+        <h2>Programs</h2>
+        <div id="registered-programs"></div>
     </section>
     <template id="registered-charity">
         <p class="charity"><span class="charity-address"></span></p>
     </template>
-    <template id="registered-event">
-        <p class="event"><span class="event-title"></span><span class="event-status"></span></p>
-    </template>
-    <template id="participant-template">
-        <p class="participant"><span class="participant-address"></span></p>
+    <template id="registered-program">
+        <p class="program"><span class="program-title"></span><span class="program-status"></span></p>
     </template>
 </body>
 

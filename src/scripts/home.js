@@ -1,12 +1,10 @@
 import { contract } from './fundraisers.js';
 import { renderCharities } from './charities.js';
-import { renderEvents } from './events.js';
-import { renderParticipants } from './participants.js';
+import { renderPrograms } from './programs.js';
 
 contract.on('CharityRegistered', renderCharities);
 contract.on('CharityRemoved', renderCharities);
-contract.on('EventRegistered', renderEvents);
-contract.on('EventCancelled', renderEvents);
+contract.on('ProgramRegistered', renderPrograms);
+contract.on('ProgramCancelled', renderPrograms);
 renderCharities();
-renderEvents();
-renderParticipants();
+renderPrograms();
