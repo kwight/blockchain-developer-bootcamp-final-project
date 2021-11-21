@@ -144,15 +144,21 @@ contract Fundraisers is Ownable {
         emit ProgramCompleted(programId, msg.sender);
     }
 
-    function donate(uint256 programId, uint256 amount) public payable {
+    function donate(uint256 programId) public payable {
         require(programs.length > programId, "program does not exist");
         require(
             programs[programId].status == ProgramStatus.Active,
             "program is not active"
         );
-        require(msg.value == amount, "amount must equal value sent");
+        Program memory receivingProgram = programs[programId];
+        (bool sent, ) = receivingProgram.charity.call{value: msg.value}("");
+        require(sent, "ether not sent to charity");
         donations.push(
-            Donation({doner: msg.sender, programId: programId, amount: amount})
+            Donation({
+                doner: msg.sender,
+                programId: programId,
+                amount: msg.value
+            })
         );
     }
 
