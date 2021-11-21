@@ -8,6 +8,7 @@ const abi = [
     'function getPrograms() view returns (tuple(string title, uint8 status, address charity, uint256 timestamp)[])',
     'function registerProgram(string memory title)',
     'function cancelProgram(uint256 index)',
+    'function completeProgram(uint256 index)',
     'event CharityRegistered(address charityAddress)',
     'event CharityRemoved(address charityAddress)',
     'event ProgramRegistered(uint256 ProgramId, address charityAddress)',

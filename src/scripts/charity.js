@@ -67,6 +67,16 @@ const cancelProgram = async (index) => {
     }
 }
 
+const completeProgram = async (index) => {
+    try {
+        const writableContract = contract.connect(getMetaMaskProvider().getSigner());
+        await writableContract.completeProgram(index);
+        renderCharityPrograms();
+    } catch (error) {
+        console.log(error);
+    }
+}
+
 const renderCharityPrograms = async () => {
     await renderPrograms();
     const account = await getConnectedAccount();
@@ -75,15 +85,22 @@ const renderCharityPrograms = async () => {
         programs.forEach(program => {
             const index = program.id.match(/(?<=program-).+/)[0];
             const status = program.querySelector('.program-status').innerText;
-            const button = document.createElement('button');
-            button.classList.add('cancel-program');
-            button.innerText = 'Cancel';
-            button.disabled = true;
+            const cancelButton = document.createElement('button');
+            const completeButton = document.createElement('button');
+            cancelButton.classList.add('cancel-program');
+            cancelButton.innerText = 'Cancel';
+            cancelButton.disabled = true;
+            completeButton.classList.add('complete-program');
+            completeButton.innerText = 'Complete';
+            completeButton.disabled = true;
             if ('active' == status) {
-                button.disabled = false;
-                button.addEventListener('click', () => cancelProgram(index));
+                cancelButton.disabled = false;
+                completeButton.disabled = false;
+                cancelButton.addEventListener('click', () => cancelProgram(index));
+                completeButton.addEventListener('click', () => completeProgram(index));
             }
-            program.appendChild(button);
+            program.appendChild(cancelButton);
+            program.appendChild(completeButton);
         });
     }
 }
