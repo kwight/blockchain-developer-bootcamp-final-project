@@ -6,7 +6,7 @@ const abi = [
     'function registerCharity(address charityAddress, string name) public',
     'function removeCharity(address charityAddress) public',
     'function getPrograms() view returns (tuple(string title, uint8 status, address charity, uint256 timestamp)[])',
-    'function registerProgram(string memory title, uint256 timestamp)',
+    'function registerProgram(string memory title)',
     'function cancelProgram(uint256 index)',
     'event CharityRegistered(address charityAddress)',
     'event CharityRemoved(address charityAddress)',

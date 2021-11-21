@@ -1,9 +1,9 @@
 import { contract } from './fundraisers.js';
-import { renderEvents } from './events.js';
+import { renderPrograms } from './programs.js';
 import { addAccountsChangedListener, getConnectedAccount, getMetaMaskProvider, isMetaMaskInstalled } from './wallet.js';
 
-const registerEventForm = document.getElementById('register-event');
-const registerEventButton = document.getElementById('register-event-button');
+const registerProgramForm = document.getElementById('register-program');
+const registerProgramButton = document.getElementById('register-program-button');
 
 const init = async () => {
     if (!isMetaMaskInstalled()) {
@@ -12,80 +12,78 @@ const init = async () => {
 
     try {
         const account = await getConnectedAccount();
-        updateRegisterEventButton(account);
-        addAccountsChangedListener(updateRegisterEventButton);
-        addAccountsChangedListener(renderCharityEvents);
-        contract.on('EventRegistered', renderCharityEvents);
-        contract.on('EventCancelled', renderCharityEvents);
-        renderCharityEvents();
+        updateRegisterProgramButton(account);
+        addAccountsChangedListener(updateRegisterProgramButton);
+        addAccountsChangedListener(renderCharityPrograms);
+        contract.on('ProgramRegistered', renderCharityPrograms);
+        contract.on('ProgramCancelled', renderCharityPrograms);
+        renderCharityPrograms();
     } catch (error) {
         console.log(error);
     }
 }
 
-const updateRegisterEventButton = (account) => {
+const updateRegisterProgramButton = (account) => {
     if (!account || account.length == 0) {
-        registerEventForm.removeEventListener('submit', registerEventListener);
-        registerEventButton.disabled = true;
+        registerProgramForm.removeEventListener('submit', registerProgramListener);
+        registerProgramButton.disabled = true;
     } else {
-        registerEventForm.addEventListener('submit', registerEventListener);
-        registerEventButton.disabled = false;
+        registerProgramForm.addEventListener('submit', registerProgramListener);
+        registerProgramButton.disabled = false;
     }
 }
 
-const registerEventListener = async (event) => {
-    event.preventDefault();
-    const title = new FormData(registerEventForm).get('title');
-    const date = new FormData(registerEventForm).get('date');
-    if (!title || !date) {
-        alert('Both fields are required.');
+const registerProgramListener = async (program) => {
+    program.preventDefault();
+    const title = new FormData(registerProgramForm).get('title');
+    if (!title) {
+        alert('The program title is required.');
         return;
     }
-    const timestamp = Math.floor(new Date(date).getTime() / 1000);
     try {
-        await registerEvent(title, timestamp);
+        await registerProgram(title);
     } catch (error) {
         console.log(error);
     }
 }
 
-const registerEvent = async (title, date) => {
-    try {
-        const writableContract = contract.connect(getMetaMaskProvider().getSigner());
-        await writableContract.registerEvent(title, date);
-        renderCharityEvents();
-    } catch (error) {
-        console.log(error);
-    }
-}
-
-const cancelEvent = async (index) => {
+const registerProgram = async (title) => {
     try {
         const writableContract = contract.connect(getMetaMaskProvider().getSigner());
-        await writableContract.cancelEvent(index);
-        renderCharityEvents();
+        await writableContract.registerProgram(title);
+        renderCharityPrograms();
     } catch (error) {
         console.log(error);
     }
 }
 
-const renderCharityEvents = async () => {
-    await renderEvents();
+const cancelProgram = async (index) => {
+    try {
+        const writableContract = contract.connect(getMetaMaskProvider().getSigner());
+        await writableContract.cancelProgram(index);
+        renderCharityPrograms();
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+const renderCharityPrograms = async () => {
+    await renderPrograms();
     const account = await getConnectedAccount();
-    const events = document.querySelectorAll('.event');
+    const programs = document.querySelectorAll('.program');
     if (account) {
-        events.forEach(event => {
-            const index = event.id.match(/(?<=event-).+/)[0];
-            const status = event.querySelector('.event-status').innerText;
+        programs.forEach(program => {
+            const index = program.id.match(/(?<=program-).+/)[0];
+            const status = program.querySelector('.program-status').innerText;
             const button = document.createElement('button');
-            button.classList.add('cancel-event');
+            button.classList.add('cancel-program');
             button.innerText = 'Cancel';
             button.disabled = true;
             if ('active' == status) {
                 button.disabled = false;
-                button.addEventListener('click', () => cancelEvent(index));
+                button.addEventListener('click', () => cancelProgram(index));
             }
-            event.appendChild(button);
+            program.appendChild(button);
         });
     }
 }
