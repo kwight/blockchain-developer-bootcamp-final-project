@@ -54,7 +54,7 @@ const donateListener = async (event) => {
 const donateToProgram = async (programId, amount) => {
     try {
         const writableContract = contract.connect(getMetaMaskProvider().getSigner());
-        await writableContract.donate(programId, { value: amount });
+        await writableContract.donate(programId, { from: await getConnectedAccount(), value: amount });
         renderDonerPrograms();
     } catch (error) {
         console.log(error);
