@@ -1,6 +1,6 @@
 import { ethers } from './ethers-5.1.esm.min.js';
 
-const contractAddress = '0x5b00D792A7A6ceFc7cFB6ee39DE6d4FD916B2402';
+const contractAddress = '0x8C26141B255E2eefA6087737ACBC7141f00484bd';
 const abi = [
     'function getCharities() public view returns (address[] memory)',
     'function registerCharity(address charityAddress, string name) public',
@@ -16,5 +16,5 @@ const abi = [
     'event ProgramCancelled(uint256 programId, address charityAddress)',
     'event ProgramCompleted(uint256 programId, address charityAddress)',
 ];
-const provider = ethers.getDefaultProvider('http://localhost:9545');
+const provider = ethers.getDefaultProvider();
 export const contract = new ethers.Contract(contractAddress, abi, provider);
