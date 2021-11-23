@@ -2,7 +2,7 @@ const Fundraisers = artifacts.require('Fundraisers');
 const { expectRevert } = require('@openzeppelin/test-helpers');
 
 contract('Fundraisers', async accounts => {
-  const [contractOwner, charity1, charity2, charity3, participant, doner, bystander] = accounts;
+  const [contractOwner, charity1, charity2, charity3, doner, bystander] = accounts;
   let instance;
 
   beforeEach(async () => {
@@ -150,163 +150,107 @@ contract('Fundraisers', async accounts => {
     });
   });
 
-  describe('Events', () => {
+  describe('Programs', () => {
     beforeEach(async () => {
       await instance.registerCharity(charity1, 'charity1');
       await instance.registerCharity(charity2, 'charity2');
       const latestBlock = await web3.eth.getBlock('latest');
-      await instance.registerEvent('event1', latestBlock.timestamp + 43205, { from: charity1 });
-      await instance.registerEvent('event2', latestBlock.timestamp + 43205, { from: charity1 });
+      await instance.registerProgram('program1', { from: charity1 });
+      await instance.registerProgram('program2', { from: charity1 });
     });
 
-    it('allows only active charities to create events', async () => {
+    it('allows only active charities to create programs', async () => {
       await instance.removeCharity(charity2);
-      const latestBlock = await web3.eth.getBlock('latest');
 
       await expectRevert(
-        instance.registerEvent('event3', latestBlock.timestamp + 45000),
+        instance.registerProgram('program3'),
         'unauthorized',
       );
 
       await expectRevert(
-        instance.registerEvent('event4', latestBlock.timestamp + 45000, { from: charity2 }),
-        'unauthorized',
+        instance.registerProgram('program4', { from: charity2 }),
+        'revert'
       );
     });
 
-    it('allows only active charities to cancel their events', async () => {
-      await instance.cancelEvent(0, { from: charity1 });
-      const events = await instance.getEvents();
+    it('allows only active charities to cancel their programs', async () => {
+      await instance.cancelProgram(0, { from: charity1 });
+      const programs = await instance.getPrograms();
 
       assert.equal(
-        events[0].status,
-        2,
-        'charity cannot cancel its events'
+        programs[0].status,
+        1,
+        'charity cannot cancel its programs'
       );
 
       await expectRevert(
-        instance.cancelEvent(1),
+        instance.cancelProgram(1),
         'unauthorized',
       );
 
       await expectRevert(
-        instance.cancelEvent(1, { from: charity2 }),
+        instance.cancelProgram(1, { from: charity2 }),
         'unauthorized',
       );
 
       await instance.removeCharity(charity1);
       await expectRevert(
-        instance.cancelEvent(1, { from: charity1 }),
+        instance.cancelProgram(1, { from: charity1 }),
         'unauthorized',
       );
     });
 
-    it('only allows existing active events to be cancelled', async () => {
-      await instance.cancelEvent(0, { from: charity1 });
-      await instance.completeEvent(1, { from: charity1 });
+    it('only allows existing active programs to be cancelled', async () => {
+      await instance.cancelProgram(0, { from: charity1 });
+      await instance.completeProgram(1, { from: charity1 });
 
       await expectRevert(
-        instance.cancelEvent(2, { from: charity1 }),
-        'event does not exist',
+        instance.cancelProgram(2, { from: charity1 }),
+        'program does not exist',
       );
 
       await expectRevert(
-        instance.cancelEvent(0, { from: charity1 }),
-        'event is not active',
-      );
-    });
-
-    it('only allows existing active events to be completed', async () => {
-      await instance.cancelEvent(0, { from: charity1 });
-      await instance.completeEvent(1, { from: charity1 });
-
-      await expectRevert(
-        instance.completeEvent(2, { from: charity1 }),
-        'event does not exist',
-      );
-
-      await expectRevert(
-        instance.completeEvent(0, { from: charity1 }),
-        'event is not active',
+        instance.cancelProgram(0, { from: charity1 }),
+        'program is not active',
       );
     });
 
-    it('only allows events to be registered at least twelve hours in advance', async () => {
-      let latestBlock = await web3.eth.getBlock('latest');
+    it('only allows existing active programs to be completed', async () => {
+      await instance.cancelProgram(0, { from: charity1 });
+      await instance.completeProgram(1, { from: charity1 });
+
       await expectRevert(
-        instance.registerEvent('event3', latestBlock.timestamp + 43200, { from: charity1 }),
-        'event is scheduled too soon',
+        instance.completeProgram(2, { from: charity1 }),
+        'program does not exist',
+      );
+
+      await expectRevert(
+        instance.completeProgram(0, { from: charity1 }),
+        'program is not active',
       );
     });
 
-    it('emits events on charity event registration, cancellation, and completion', async () => {
-      const latestBlock = await web3.eth.getBlock('latest');
-      const registration = await instance.registerEvent('event1', latestBlock.timestamp + 43205, { from: charity1 });
-      const cancellation = await instance.cancelEvent(0, { from: charity1 });
-      const completion = await instance.completeEvent(1, { from: charity1 });
+    it('emits events on program registration, cancellation, and completion', async () => {
+      const registration = await instance.registerProgram('program1', { from: charity1 });
+      const cancellation = await instance.cancelProgram(0, { from: charity1 });
+      const completion = await instance.completeProgram(1, { from: charity1 });
 
       assert.equal(
         registration.logs[0].event,
-        'EventRegistered',
-        'no event emitted on charity event registration'
+        'ProgramRegistered',
+        'no event emitted on program registration'
       );
 
       assert.equal(
         cancellation.logs[0].event,
-        'EventCancelled',
-        'no event emitted on charity event cancellation'
+        'ProgramCancelled',
+        'no event emitted on program cancellation'
       );
 
       assert.equal(
         completion.logs[0].event,
-        'EventCompleted',
-        'no event emitted on charity event completion'
-      );
-    });
-  });
-
-  describe('Participants', () => {
-    beforeEach(async () => {
-      await instance.registerCharity(charity1, 'charity1');
-      const latestBlock = await web3.eth.getBlock('latest');
-      await instance.registerEvent('event1', latestBlock.timestamp + 43205, { from: charity1 });
-    });
-
-    it('allows anyone to participate in an event', async () => {
-      await instance.registerForEvent(0, { from: bystander });
-
-      assert.equal(
-        await instance.isParticipatingInEvent(bystander, 0),
-        true,
-        'not anyone can participate in an event'
-      );
-    });
-
-    it('allows a participant to deregister', async () => {
-      await instance.registerForEvent(0, { from: bystander });
-      await instance.deregisterForEvent(0, { from: bystander });
-
-      assert.equal(
-        await instance.isParticipatingInEvent(bystander, 0),
-        false,
-        'a participant cannot deregister'
-      );
-    });
-
-    it('emits events on participant registration and deregistration', async () => {
-      const registration = await instance.registerForEvent(0);
-      const deregistration = await instance.deregisterForEvent(0);
-
-      assert.equal(
-        registration.logs[0].event,
-        'ParticipantRegistered',
-        'no event emitted on charity event registration'
-      );
-
-      assert.equal(
-        deregistration.logs[0].event,
-        'ParticipantDeregistered',
-        'no event emitted on charity event cancellation'
+        'ProgramCompleted',
+        'no event emitted on program completion'
       );
     });
   });
@@ -314,46 +258,49 @@ contract('Fundraisers', async accounts => {
   describe('Donations', () => {
     beforeEach(async () => {
       await instance.registerCharity(charity1, 'charity1');
-      const latestBlock = await web3.eth.getBlock('latest');
-      await instance.registerEvent('event1', latestBlock.timestamp + 43205, { from: charity1 });
-      await instance.registerForEvent(0, { from: participant });
+      await instance.registerProgram('program1', { from: charity1 });
     });
 
-    it('allows donations for only active events', async () => {
-      const latestBlock = await web3.eth.getBlock('latest');
-      await instance.registerEvent('cancelledEvent', latestBlock.timestamp + 43205, { from: charity1 });
-      await instance.cancelEvent(1, { from: charity1 });
-      const contractBalance = Number(await web3.eth.getBalance(instance.address));
-      await instance.donate(0, participant, 12345, { from: doner, value: 12345 });
+    it('transfers donations to the charity', async () => {
+      const charityBalance = Number(await web3.eth.getBalance(charity1));
+      const donerBalance = Number(await web3.eth.getBalance(doner));
+      await instance.donate(0, { from: doner, value: 12345 });
 
       assert.equal(
-        await web3.eth.getBalance(instance.address),
-        contractBalance + 12345,
-        'donations are not properly received by contract'
+        Number(await web3.eth.getBalance(charity1)),
+        charityBalance + 12345,
+        'charities do not receive donations'
       );
 
-      await expectRevert(
-        instance.donate(2, participant, 12345, { from: doner, value: 12345 }),
-        'event does not exist',
-      );
-
-      await expectRevert(
-        instance.donate(1, participant, 12345, { from: doner, value: 12345 }),
-        'event is not active',
+      assert.isAtMost(
+        Number(await web3.eth.getBalance(doner)),
+        donerBalance - 12345,
+        'doners do not send donations'
       );
     });
 
-    it('only allows donations for registered participants', async () => {
+    it('allows donations for only active programs', async () => {
+      await instance.registerProgram('program2', { from: charity1 });
+      await instance.cancelProgram(1, { from: charity1 });
+
       await expectRevert(
-        instance.donate(0, bystander, 12345, { from: doner, value: 12345 }),
-        'participant is not registered in this event',
+        instance.donate(2, { from: doner, value: 12345 }),
+        'program does not exist',
+      );
+
+      await expectRevert(
+        instance.donate(1, { from: doner, value: 12345 }),
+        'program is not active',
       );
     });
 
-    it('only allows donations for the given amount', async () => {
-      await expectRevert(
-        instance.donate(0, participant, 12345, { from: doner, value: 55555 }),
-        'amount must equal value sent',
+    it('emits an event on successful donation', async () => {
+      const donation = await instance.donate(0, { from: doner, value: 12345 });
+
+      assert.equal(
+        donation.logs[0].event,
+        'DonationReceived',
+        'no event emitted on donation'
       );
     });
   });

@@ -6,9 +6,10 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <base href="/">
+    <link rel="stylesheet" href="styles.css">
     <script type="module" src="scripts/fundraisers.js" defer></script>
     <script type="module" src="scripts/wallet.js" defer></script>
-    <script type="module" src="scripts/participants.js" defer></script>
+    <script type="module" src="scripts/programs.js" defer></script>
     <script type="module" src="scripts/doner.js" defer></script>
     <title>Doner</title>
 </head>
@@ -20,19 +21,17 @@
             <li><a href="/">Home</a></li>
             <li><a href="/owner/">Owner</a></li>
             <li><a href="/charity/">Charity</a></li>
-            <li><a href="/participant/">Participate</a></li>
-            <li><a href="/doner/">Donate</a></li>
+            <li><a href="/doner/">Doner</a></li>
         </ul>
     </header>
-    <section>
-        <h2>Donate by Participant</h2>
-        <p>Select a participant</p>
-        <div id="participants"></div>
+    <section id="programs-section">
+        <h2>Programs</h2>
         <form id="donation-form">
+            <div id="registered-programs"></div>
             <label>Donation amount
-                <input type="number" name="" id="">
+                <input type="number" name="amount">
             </label>
-            <button id="register-event-button" disabled>Donate!</button>
+            <button id="donate-button" disabled>Donate!</button>
         </form>
     </section>
     <section id="connect-section">
@@ -46,9 +45,13 @@
         <p id="current-account">Current account: <span id="account-address"></span>
         </p>
     </template>
-    <template id="participant-radio-button">
-        <input type="radio" name="participant">
-        <label></label>
+    <template id="registered-program">
+        <p class="program"><span class="program-title"></span><span class="program-status"></span></p>
+    </template>
+    <template id="program-radio-button">
+        <label>
+            <input type="radio" name="program">
+        </label>
     </template>
 </body>
 

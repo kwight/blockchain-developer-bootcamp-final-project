@@ -1,23 +1,20 @@
 import { ethers } from './ethers-5.1.esm.min.js';
 
-const contractAddress = '0xb4896ea2F21DFbE58fe0439E3d2a16F8561b15D7';
+const contractAddress = '0x5b00D792A7A6ceFc7cFB6ee39DE6d4FD916B2402';
 const abi = [
     'function getCharities() public view returns (address[] memory)',
-    'function registerCharity(address charityAddress) public',
+    'function registerCharity(address charityAddress, string name) public',
     'function removeCharity(address charityAddress) public',
-    'function getEvents() view returns (tuple(string title, uint8 status, address charity, uint256 timestamp)[])',
-    'function registerEvent(string memory title, uint256 timestamp)',
-    'function cancelEvent(uint256 index)',
-    'function registerForEvent(uint256 id) public',
-    'function deregisterForEvent(uint256 id) public',
-    'function eventParticipants(uint256 id, address account) view returns (bool)',
+    'function getPrograms() view returns (tuple(string title, uint8 status, address charity, uint256 timestamp)[])',
+    'function registerProgram(string memory title)',
+    'function cancelProgram(uint256 index)',
+    'function completeProgram(uint256 index)',
+    'function donate(uint256 programId) public payable',
     'event CharityRegistered(address charityAddress)',
     'event CharityRemoved(address charityAddress)',
-    'event EventRegistered(uint256 eventId, address charityAddress)',
-    'event EventCancelled(uint256 eventId, address charityAddress)',
-    'event ParticipantRegistered(address participantAddress, uint256 eventId)',
-    'event ParticipantDeregistered(address participantAddress, uint256 eventId)',
-    'function getParticipants() public view returns (address[] memory)',
+    'event ProgramRegistered(uint256 ProgramId, address charityAddress)',
+    'event ProgramCancelled(uint256 programId, address charityAddress)',
+    'event ProgramCompleted(uint256 programId, address charityAddress)',
 ];
 const provider = ethers.getDefaultProvider('http://localhost:9545');
 export const contract = new ethers.Contract(contractAddress, abi, provider);

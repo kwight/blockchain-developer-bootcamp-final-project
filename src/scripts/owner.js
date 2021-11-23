@@ -38,22 +38,23 @@ const updateRegisterCharityButton = (account) => {
 const registerCharityListener = async (event) => {
     event.preventDefault();
     const address = new FormData(registerCharityForm).get('address');
+    const name = new FormData(registerCharityForm).get('name');
     if (!ethers.utils.isAddress(address)) {
         alert('Address is invalid.');
         return;
     }
     try {
-        await registerCharity(address);
+        await registerCharity(address, name);
     } catch (error) {
         console.log(error);
     }
 
 }
 
-const registerCharity = async (address) => {
+const registerCharity = async (address, name) => {
     try {
         const writableContract = contract.connect(getMetaMaskProvider().getSigner());
-        await writableContract.registerCharity(address);
+        await writableContract.registerCharity(address, name);
         renderOwnerCharities();
     } catch (error) {
         console.log(error);

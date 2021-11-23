@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="styles.css">
     <script type="module" src="scripts/fundraisers.js" defer></script>
     <script type="module" src="scripts/wallet.js" defer></script>
-    <script type="module" src="scripts/events.js" defer></script>
+    <script type="module" src="scripts/programs.js" defer></script>
     <script type="module" src="scripts/charity.js" defer></script>
     <title>Charity</title>
 </head>
@@ -21,21 +21,17 @@
             <li><a href="/">Home</a></li>
             <li><a href="/owner/">Owner</a></li>
             <li><a href="/charity/">Charity</a></li>
-            <li><a href="/participant/">Participate</a></li>
-            <li><a href="/doner/">Donate</a></li>
+            <li><a href="/doner/">Doner</a></li>
         </ul>
     </header>
-    <section id="events-section">
-        <h2>Events</h2>
-        <div id="registered-events"></div>
-        <form id="register-event">
+    <section id="programs-section">
+        <h2>Programs</h2>
+        <div id="registered-programs"></div>
+        <form id="register-program">
             <label>Title:
-                <input placeholder="Event title" name="title">
+                <input placeholder="Program title" name="title">
             </label>
-            <label>Date and time:
-                <input type="datetime-local" name="date">
-            </label>
-            <button id="register-event-button" disabled>Register an event</button>
+            <button id="register-program-button" disabled>Register a program</button>
         </form>
     </section>
     <section id="connect-section">
@@ -49,8 +45,8 @@
         <p id="current-account">Current account: <span id="account-address"></span>
         </p>
     </template>
-    <template id="registered-event">
-        <p class="event"><span class="event-title"></span><span class="event-status"></span></p>
+    <template id="registered-program">
+        <p class="program"><span class="program-title"></span><span class="program-status"></span></p>
     </template>
 </body>
 
