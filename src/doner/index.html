@@ -10,6 +10,7 @@
     <script type="module" src="scripts/fundraisers.js" defer></script>
     <script type="module" src="scripts/wallet.js" defer></script>
     <script type="module" src="scripts/programs.js" defer></script>
+    <script type="module" src="scripts/donations.js" defer></script>
     <script type="module" src="scripts/doner.js" defer></script>
     <title>Doner</title>
 </head>
@@ -24,6 +25,10 @@
             <li><a href="/doner/">Doner</a></li>
         </ul>
     </header>
+    <section id="donations-section">
+        <h2>Donations</h2>
+        <div id="registered-donations"></div>
+    </section>
     <section id="programs-section">
         <h2>Programs</h2>
         <form id="donation-form">
@@ -53,6 +58,10 @@
         <label>
             <input type="radio" name="program">
         </label>
+    </template>
+    <template id="registered-donation">
+        <p class="donation"><span class="donation-amount"></span><span class="program-title"></span><span
+                class="doner"></span></p>
     </template>
     <template id="spinner">
         <div class="spinner">

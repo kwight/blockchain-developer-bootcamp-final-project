@@ -1,9 +1,12 @@
 import { ethers } from './ethers-5.1.esm.min.js';
 import { contract } from './fundraisers.js';
 import { getPrograms } from './programs.js';
+import { getDonations } from './donations.js';
 import { addAccountsChangedListener, getConnectedAccount, getMetaMaskProvider, isMetaMaskInstalled } from './wallet.js';
 
 const spinner = document.getElementById('spinner');
+const registeredDonations = document.getElementById('registered-donations');
+const registeredDonation = document.getElementById('registered-donation');
 const programRadioButton = document.getElementById('program-radio-button');
 const registeredPrograms = document.getElementById('registered-programs');
 const donationForm = document.getElementById('donation-form');
@@ -18,10 +21,12 @@ const init = async () => {
         const account = await getConnectedAccount();
         updateDonateButton(account);
         addAccountsChangedListener(updateDonateButton);
+        addAccountsChangedListener(renderDonerDonations);
         addAccountsChangedListener(renderDonerPrograms);
         contract.on('ProgramRegistered', renderDonerPrograms);
         contract.on('ProgramCancelled', renderDonerPrograms);
         contract.on('ProgramCompleted', renderDonerPrograms);
+        renderDonerDonations();
         renderDonerPrograms();
     } catch (error) {
         console.log(error);
@@ -60,6 +65,36 @@ const donateToProgram = async (programId, amount) => {
         const writableContract = contract.connect(getMetaMaskProvider().getSigner());
         await writableContract.donate(programId, { from: donerAccount, value: amountInWei });
         renderDonerPrograms();
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+export const renderDonerDonations = async () => {
+    try {
+        const donerAccount = await getConnectedAccount();
+        if (!donerAccount) {
+            registeredDonations.innerText = 'Connect your wallet to see your donations.';
+            return;
+        }
+        const loading = spinner.content.cloneNode(true);
+        registeredDonations.replaceChildren(loading);
+        let donations = await getDonations();
+        donations = donations.filter(donation => donation.doner.toLowerCase() === donerAccount.toLowerCase());
+        if (!donations.length) {
+            registeredDonations.innerText = 'No donations found for this account.';
+            return;
+        }
+        const programs = await getPrograms();
+        registeredDonations.innerHTML = '';
+        donations.forEach((donationData, index) => {
+            const donation = registeredDonation.content.cloneNode(true);
+            donation.querySelector('.donation').id = `donation-${index}`;
+            donation.querySelector('.donation-amount').innerText = ethers.utils.formatEther(donationData.amount);
+            donation.querySelector('.program-title').innerText = programs[donationData.programId].title;
+            donation.querySelector('.doner').innerText = donationData.doner;
+            registeredDonations.appendChild(donation);
+        });
     } catch (error) {
         console.log(error);
     }
