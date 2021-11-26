@@ -3,6 +3,7 @@ import { ethers } from './ethers-5.1.esm.min.js';
 // Update this to your migrated contract address if developing locally,
 // or to your public contract address when deploying the front-end to production.
 const contractAddress = '0x0000000000000000000000000000000000000000';
+
 const abi = [
     'function getCharities() public view returns (address[] memory)',
     'function registerCharity(address charityAddress, string name) public',
@@ -22,7 +23,7 @@ const abi = [
 ];
 
 // Use this provider if developing locally (and verify the localhost port).
-// const provider = ethers.getDefaultProvider('http://localhost:9545');
+const provider = ethers.getDefaultProvider('http://localhost:9545');
 
 // Use this provider to give your own keys for ethers.js.
 // const provider = ethers.getDefaultProvider('ropsten', {
@@ -30,5 +31,4 @@ const abi = [
 //     infura: INFURA_PROJECT_ID
 // });
 
-const provider = ethers.getDefaultProvider();
 export const contract = new ethers.Contract(contractAddress, abi, provider);
