@@ -12,11 +12,13 @@ const abi = [
     'function cancelProgram(uint256 index)',
     'function completeProgram(uint256 index)',
     'function donate(uint256 programId) public payable',
+    'function getDonations() view returns (tuple(address doner, uint256 programId, uint256 amount)[])',
     'event CharityRegistered(address charityAddress)',
     'event CharityRemoved(address charityAddress)',
     'event ProgramRegistered(uint256 ProgramId, address charityAddress)',
     'event ProgramCancelled(uint256 programId, address charityAddress)',
     'event ProgramCompleted(uint256 programId, address charityAddress)',
+    'event DonationReceived(uint256 amount, address charityAddress, uint256 programId, address doner)',
 ];
 
 // Use this provider if developing locally (and verify the localhost port).

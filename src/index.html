@@ -9,6 +9,7 @@
     <script type="module" src="scripts/fundraisers.js" defer></script>
     <script type="module" src="scripts/charities.js" defer></script>
     <script type="module" src="scripts/programs.js" defer></script>
+    <script type="module" src="scripts/donations.js" defer></script>
     <script type="module" src="scripts/home.js" defer></script>
     <title>Donate To Programs</title>
 </head>
@@ -31,11 +32,19 @@
         <h2>Programs</h2>
         <div id="registered-programs"></div>
     </section>
+    <section id="donations-section">
+        <h2>Donations</h2>
+        <div id="registered-donations"></div>
+    </section>
     <template id="registered-charity">
         <p class="charity"><span class="charity-address"></span></p>
     </template>
     <template id="registered-program">
         <p class="program"><span class="program-title"></span><span class="program-status"></span></p>
+    </template>
+    <template id="registered-donation">
+        <p class="donation"><span class="donation-amount"></span><span class="program-title"></span><span
+                class="doner"></span></p>
     </template>
     <template id="spinner">
         <div class="spinner">
