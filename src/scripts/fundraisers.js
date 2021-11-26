@@ -20,7 +20,7 @@ const abi = [
 ];
 
 // Use this provider if developing locally (and verify the localhost port).
-// const provider = ethers.getDefaultProvider('https://localhost:9545');
+// const provider = ethers.getDefaultProvider('http://localhost:9545');
 
 // Use this provider to give your own keys for ethers.js.
 // const provider = ethers.getDefaultProvider('ropsten', {
