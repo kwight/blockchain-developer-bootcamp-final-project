@@ -2,6 +2,7 @@ import { contract } from './fundraisers.js';
 import { getPrograms } from './programs.js';
 import { addAccountsChangedListener, getConnectedAccount, getMetaMaskProvider, isMetaMaskInstalled } from './wallet.js';
 
+const spinner = document.getElementById('spinner');
 const programRadioButton = document.getElementById('program-radio-button');
 const registeredPrograms = document.getElementById('registered-programs');
 const donationForm = document.getElementById('donation-form');
@@ -62,6 +63,8 @@ const donateToProgram = async (programId, amount) => {
 }
 
 const renderDonerPrograms = async () => {
+    const loading = spinner.content.cloneNode(true);
+    registeredPrograms.replaceChildren(loading);
     const programs = await getPrograms();
     registeredPrograms.innerHTML = '';
     programs.forEach((programData, index) => {
