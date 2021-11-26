@@ -1,3 +1,4 @@
+import { ethers } from './ethers-5.1.esm.min.js';
 import { contract } from './fundraisers.js';
 import { getPrograms } from './programs.js';
 import { addAccountsChangedListener, getConnectedAccount, getMetaMaskProvider, isMetaMaskInstalled } from './wallet.js';
@@ -54,8 +55,10 @@ const donateListener = async (event) => {
 
 const donateToProgram = async (programId, amount) => {
     try {
+        const donerAccount = await getConnectedAccount();
+        const amountInWei = ethers.utils.parseEther(amount);
         const writableContract = contract.connect(getMetaMaskProvider().getSigner());
-        await writableContract.donate(programId, { from: await getConnectedAccount(), value: amount });
+        await writableContract.donate(programId, { from: donerAccount, value: amountInWei });
         renderDonerPrograms();
     } catch (error) {
         console.log(error);
