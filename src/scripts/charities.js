@@ -1,5 +1,6 @@
 import { contract } from "./fundraisers.js";
 
+const spinner = document.getElementById('spinner');
 const registeredCharities = document.getElementById('registered-charities');
 const registeredCharity = document.getElementById('registered-charity');
 
@@ -8,6 +9,8 @@ export const getCharities = async () => {
 }
 
 export const renderCharities = async () => {
+    const loading = spinner.content.cloneNode(true);
+    registeredCharities.replaceChildren(loading);
     const charities = await getCharities();
     registeredCharities.innerHTML = '';
     charities.forEach(address => {

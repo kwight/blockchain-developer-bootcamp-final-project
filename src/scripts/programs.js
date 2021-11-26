@@ -1,5 +1,6 @@
 import { contract } from "./fundraisers.js";
 
+const spinner = document.getElementById('spinner');
 const registeredPrograms = document.getElementById('registered-programs');
 const registeredProgram = document.getElementById('registered-program');
 const status = [
@@ -13,6 +14,8 @@ export const getPrograms = async () => {
 }
 
 export const renderPrograms = async () => {
+    const loading = spinner.content.cloneNode(true);
+    registeredPrograms.replaceChildren(loading);
     const programs = await getPrograms();
     registeredPrograms.innerHTML = '';
     programs.forEach((programData, index) => {
