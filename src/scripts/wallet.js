@@ -12,8 +12,7 @@ const init = async () => {
     }
 
     try {
-        const account = await getConnectedAccount();
-        renderAccountData(account);
+        renderAccountData();
         window.ethereum.on('accountsChanged', renderAccountData);
         window.ethereum.on('chainChanged', renderAccountData);
     } catch (error) {
@@ -22,29 +21,27 @@ const init = async () => {
 }
 
 const renderAccountData = async () => {
-    const account = await getConnectedAccount();
-    if (!account || account.length == 0) {
-        connectButton.addEventListener('click', connectToMetaMask);
+    try {
+        const account = await getConnectedAccount();
         const accountData = document.getElementById('current-account');
         const networkData = document.getElementById('current-network');
         if (accountData) {
             accountData.remove();
             networkData.remove();
         }
-        connectButton.disabled = false;
-    } else {
-        const existingAccount = document.querySelector('#connect-section #current-account');
-        const existingNetwork = document.querySelector('#connect-section #current-network');
-        if (existingAccount) {
-            existingAccount.remove();
-            existingNetwork.remove();
+        if (!account || account.length == 0) {
+            connectButton.addEventListener('click', connectToMetaMask);
+            connectButton.disabled = false;
+        } else {
+            connectSection.appendChild(selectedAccount.cloneNode(true));
+            const accountAddress = document.getElementById('account-address');
+            const network = document.getElementById('network');
+            accountAddress.innerHTML = account;
+            network.innerText = getNetworkName();
+            connectButton.disabled = true;
         }
-        connectSection.appendChild(selectedAccount.cloneNode(true));
-        const accountAddress = document.getElementById('account-address');
-        const network = document.getElementById('network');
-        accountAddress.innerHTML = account;
-        network.innerText = getNetworkName();
-        connectButton.disabled = true;
+    } catch (error) {
+        console.log(error);
     }
 }
 
