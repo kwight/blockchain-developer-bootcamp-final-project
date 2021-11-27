@@ -6,6 +6,7 @@ const contractAddress = '0x0000000000000000000000000000000000000000';
 
 const abi = [
     'function getCharities() public view returns (address[] memory)',
+    'function getCharity(address charityAddress) public view returns (tuple(string name, uint256 index))',
     'function registerCharity(address charityAddress, string name) public',
     'function removeCharity(address charityAddress) public',
     'function getPrograms() view returns (tuple(string title, uint8 status, address charity, uint256 timestamp)[])',

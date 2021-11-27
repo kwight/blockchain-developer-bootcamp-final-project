@@ -26,7 +26,8 @@
     </header>
     <section id="charities-section">
         <h2>Charities</h2>
-        <div id="registered-charities"></div>
+        <table id="registered-charities">
+        </table>
     </section>
     <section id="programs-section">
         <h2>Programs</h2>
@@ -37,7 +38,10 @@
         <div id="registered-donations"></div>
     </section>
     <template id="registered-charity">
-        <p class="charity"><span class="charity-address"></span></p>
+        <tr class="charity">
+            <td class="charity-name"></td>
+            <td class="charity-address"></td>
+        </tr>
     </template>
     <template id="registered-program">
         <p class="program"><span class="program-title"></span><span class="program-status"></span></p>
