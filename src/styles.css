@@ -165,7 +165,7 @@ label {
 }
 
 /*
- * Menu
+ * Header
  */
 
 #menu,
@@ -191,6 +191,18 @@ svg:hover,
 #menu:hover,
 #close:hover {
     cursor: pointer;
+}
+
+.owner-view header {
+    border-bottom: 5px solid var(--blue);
+}
+
+.charity-view header {
+    border-bottom: 5px solid var(--cyan);
+}
+
+.doner-view header {
+    border-bottom: 5px solid var(--purple);
 }
 
 /*
