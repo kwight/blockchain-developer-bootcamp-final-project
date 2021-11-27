@@ -41,11 +41,11 @@ const navigation = document.getElementById('menu-content');
 const main = document.getElementById('main-content');
 
 const init = () => {
-    [menu, close].forEach(el => el.addEventListener('click', displayMenu));
+    [menu, close].forEach(element => element.addEventListener('click', displayMenu));
 }
 
 const displayMenu = () => {
-    [menu, close, navigation, main].forEach(el => el.classList.toggle('active'));
+    [menu, close, navigation, main].forEach(element => element.classList.toggle('active'));
 }
 
 export const formatAddress = address => {
