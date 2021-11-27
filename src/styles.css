@@ -89,7 +89,7 @@ header {
     justify-content: space-between;
     align-items: center;
     padding: 0.6em;
-    border-bottom: 1px solid var(--base01);
+    border-bottom: 5px solid var(--base01);
 }
 
 input,
@@ -196,8 +196,40 @@ label {
     left: 0;
     right: 0;
     z-index: -1;
-    line-height: 3;
+    line-height: 5;
     place-items: center;
+}
+
+#menu-content ul {
+    margin: 0;
+    padding: 0;
+    list-style-type: none;
+}
+
+#menu-content a {
+    display: flex;
+    align-items: center;
+    font-size: var(--font-m);
+    color: var(--base07);
+    text-decoration: underline solid 5px;
+    text-underline-offset: 0.4em;
+    text-transform: uppercase;
+}
+
+#menu-item-home a {
+    text-decoration-color: var(--base01);
+}
+
+#menu-item-owner a {
+    text-decoration-color: var(--blue);
+}
+
+#menu-item-charity a {
+    text-decoration-color: var(--cyan);
+}
+
+#menu-item-doner a {
+    text-decoration-color: var(--purple);
 }
 
 svg {
@@ -212,15 +244,15 @@ svg:hover,
 }
 
 .owner-view header {
-    border-bottom: 5px solid var(--blue);
+    border-bottom-color: var(--blue);
 }
 
 .charity-view header {
-    border-bottom: 5px solid var(--cyan);
+    border-bottom-color: var(--cyan);
 }
 
 .doner-view header {
-    border-bottom: 5px solid var(--purple);
+    border-bottom-color: var(--purple);
 }
 
 /*
