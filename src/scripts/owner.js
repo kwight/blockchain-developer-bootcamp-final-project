@@ -76,7 +76,7 @@ const renderOwnerCharities = async () => {
     const charities = document.querySelectorAll('.charity');
     if (account) {
         charities.forEach(charity => {
-            const address = charity.querySelector('.charity-address').innerText;
+            const address = charity.id.replace('charity-', '');
             const removeCell = charity.querySelector('.charity-remove');
             const button = document.createElement('button');
             button.classList.add('compact', 'remove-charity');
