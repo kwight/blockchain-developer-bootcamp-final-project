@@ -48,23 +48,21 @@ export const getAddressRole = async address => {
         return false;
     }
 
+    const ownerAddress = await contract.owner();
+    const charities = await contract.getCharities();
     const donations = await contract.getDonations();
     const doners = donations.map(donation => donation.doner);
-    if (doners.includes(address)) {
-        return 'doner';
-    }
 
-    const charities = await contract.getCharities();
-    if (charities.includes(address)) {
-        return 'charity';
+    switch (true) {
+        case ownerAddress === address:
+            return 'owner';
+        case charities.includes(address):
+            return 'charity';
+        case doners.includes(address):
+            return 'doner';
+        default:
+            return 'none';
     }
-
-    const ownerAddress = await contract.owner();
-    if (ownerAddress === address) {
-        return 'owner';
-    }
-
-    return 'none';
 }
 
 export const getAddressMarkup = async address => {
