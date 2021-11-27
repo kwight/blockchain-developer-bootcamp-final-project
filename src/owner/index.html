@@ -26,7 +26,7 @@
     </header>
     <section id="charities-section">
         <h2>Charities</h2>
-        <div id="registered-charities"></div>
+        <table id="registered-charities"></table>
         <form id="register-charity">
             <label>Address:
                 <input placeholder="Enter an Ethereum address." name="address">
@@ -51,7 +51,11 @@
         </p>
     </template>
     <template id="registered-charity">
-        <p class="charity"><span class="charity-address"></span></p>
+        <tr class="charity">
+            <td class="charity-name"></td>
+            <td class="charity-address"></td>
+            <td class="charity-remove"></td>
+        </tr>
     </template>
     <template id="spinner">
         <div class="spinner">

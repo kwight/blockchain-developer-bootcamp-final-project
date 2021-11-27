@@ -7,7 +7,6 @@ const registerCharityForm = document.getElementById('register-charity');
 const registerCharityButton = document.getElementById('register-charity-button');
 
 const init = async () => {
-    renderCharities();
     if (!isMetaMaskInstalled()) {
         return;
     }
@@ -78,11 +77,12 @@ const renderOwnerCharities = async () => {
     if (account) {
         charities.forEach(charity => {
             const address = charity.querySelector('.charity-address').innerText;
+            const removeCell = charity.querySelector('.charity-remove');
             const button = document.createElement('button');
             button.classList.add('remove-charity');
             button.innerText = 'X';
             button.addEventListener('click', () => removeCharity(address));
-            charity.appendChild(button);
+            removeCell.appendChild(button);
         });
     }
 }
