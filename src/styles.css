@@ -105,6 +105,10 @@ button {
     text-transform: uppercase;
 }
 
+button.compact {
+    padding: 0.4rem 0.8rem;
+}
+
 button:disabled {
    border-color: var(--base03);
    color: var(--base03);

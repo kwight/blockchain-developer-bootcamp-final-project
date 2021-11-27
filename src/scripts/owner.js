@@ -79,7 +79,7 @@ const renderOwnerCharities = async () => {
             const address = charity.querySelector('.charity-address').innerText;
             const removeCell = charity.querySelector('.charity-remove');
             const button = document.createElement('button');
-            button.classList.add('remove-charity');
+            button.classList.add('compact', 'remove-charity');
             button.innerText = 'X';
             button.addEventListener('click', () => removeCharity(address));
             removeCell.innerHTML = '';
