@@ -82,6 +82,7 @@ const renderOwnerCharities = async () => {
             button.classList.add('remove-charity');
             button.innerText = 'X';
             button.addEventListener('click', () => removeCharity(address));
+            removeCell.innerHTML = '';
             removeCell.appendChild(button);
         });
     }
