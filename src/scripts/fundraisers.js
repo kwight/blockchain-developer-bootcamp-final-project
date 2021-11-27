@@ -67,7 +67,7 @@ export const getAddressRole = async address => {
     const doners = donations.map(donation => donation.doner);
 
     switch (true) {
-        case ownerAddress === address:
+        case ownerAddress.toLowerCase() === address.toLowerCase():
             return 'owner';
         case charities.includes(address):
             return 'charity';
