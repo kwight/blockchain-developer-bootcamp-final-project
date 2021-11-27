@@ -73,8 +73,8 @@ body {
     margin: 0;
 }
 
-header, section, form {
-    margin-bottom: 3em;
+section, form {
+    margin: 3em 1em;
 }
 
 header {
@@ -177,9 +177,20 @@ label {
 
 #menu.active,
 #close.active,
-#menu-content.active,
 #main-content.active {
     display: block;
+}
+
+#menu-content.active {
+    display: grid;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: -1;
+    line-height: 3;
+    place-items: center;
 }
 
 svg {
