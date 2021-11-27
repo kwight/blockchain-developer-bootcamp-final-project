@@ -35,6 +35,19 @@ const provider = ethers.getDefaultProvider('http://localhost:9545');
 
 export const contract = new ethers.Contract(contractAddress, abi, provider);
 
+const menu = document.getElementById('menu');
+const close = document.getElementById('close');
+const navigation = document.getElementById('menu-content');
+const main = document.getElementById('main-content');
+
+const init = () => {
+    [menu, close].forEach(el => el.addEventListener('click', displayMenu));
+}
+
+const displayMenu = () => {
+    [menu, close, navigation, main].forEach(el => el.classList.toggle('active'));
+}
+
 export const formatAddress = address => {
     if (!ethers.utils.isAddress(address)) {
         return false;
@@ -72,3 +85,5 @@ export const getAddressMarkup = async address => {
     pill.innerText = formatAddress(address);
     return pill;
 }
+
+init();

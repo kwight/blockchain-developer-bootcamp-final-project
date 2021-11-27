@@ -77,6 +77,13 @@ header, section, form {
     margin-bottom: 3em;
 }
 
+header {
+    display: flex;
+    justify-content: space-between;
+    padding: 1em;
+    border-bottom: 1px solid var(--base01);
+}
+
 input,
 button {
     background: none;
@@ -152,9 +159,38 @@ label {
     background-color: var(--purple);
 }
 
- /*
-  * Spinner
-  */
+/*
+ * Menu
+ */
+
+#menu,
+#close,
+#menu-content,
+#main-content {
+    display: none;
+}
+
+#menu.active,
+#close.active,
+#menu-content.active,
+#main-content.active {
+    display: block;
+}
+
+svg {
+    height: 32px;
+    fill: var(--base07);
+}
+
+svg:hover,
+#menu:hover,
+#close:hover {
+    cursor: pointer;
+}
+
+/*
+ * Spinner
+ */
 
 @keyframes rotate-spinner {
     100% {
