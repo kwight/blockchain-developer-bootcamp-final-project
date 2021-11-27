@@ -34,7 +34,7 @@
         <form id="donation-form">
             <div id="registered-programs"></div>
             <label>Donation amount (ETH)
-                <input type="number" name="amount">
+                <input type="number" min=0 step="0.000000001" name="amount">
             </label>
             <button id="donate-button" disabled>Donate!</button>
         </form>
