@@ -1,4 +1,4 @@
-import { contract } from "./fundraisers.js";
+import { contract, getAddressMarkup } from "./fundraisers.js";
 
 const spinner = document.getElementById('spinner');
 const registeredCharities = document.getElementById('registered-charities');
@@ -16,10 +16,11 @@ export const renderCharities = async () => {
     const tableBody = registeredCharities.querySelector('tbody');
     for (const address of charities) {
         const charityData = await contract.getCharity(address);
+        const addressMarkup = await getAddressMarkup(address);
         const charity = registeredCharity.content.cloneNode(true);
         charity.querySelector('.charity').id = `charity-${address}`;
         charity.querySelector('.charity-name').innerText = charityData.name;
-        charity.querySelector('.charity-address').innerText = address;
+        charity.querySelector('.charity-address').replaceChildren(addressMarkup);
         tableBody.appendChild(charity);
     }
 }

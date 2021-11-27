@@ -5,6 +5,7 @@ import { ethers } from './ethers-5.1.esm.min.js';
 const contractAddress = '0x0000000000000000000000000000000000000000';
 
 const abi = [
+    'function owner() public view returns (address)',
     'function getCharities() public view returns (address[] memory)',
     'function getCharity(address charityAddress) public view returns (tuple(string name, uint256 index))',
     'function registerCharity(address charityAddress, string name) public',
@@ -33,3 +34,43 @@ const provider = ethers.getDefaultProvider('http://localhost:9545');
 // });
 
 export const contract = new ethers.Contract(contractAddress, abi, provider);
+
+export const formatAddress = address => {
+    if (!ethers.utils.isAddress(address)) {
+        return false;
+    }
+
+    return `${address.slice(0, 4).toLowerCase()}...${address.slice(-4).toLowerCase()}`;
+}
+
+export const getAddressRole = async address => {
+    if (!ethers.utils.isAddress(address)) {
+        return false;
+    }
+
+    const donations = await contract.getDonations();
+    const doners = donations.map(donation => donation.doner);
+    if (doners.includes(address)) {
+        return 'doner';
+    }
+
+    const charities = await contract.getCharities();
+    if (charities.includes(address)) {
+        return 'charity';
+    }
+
+    const ownerAddress = await contract.owner();
+    if (ownerAddress === address) {
+        return 'owner';
+    }
+
+    return 'none';
+}
+
+export const getAddressMarkup = async address => {
+    const pill = document.createElement('span');
+    const role = await getAddressRole(address);
+    pill.classList.add('address', `role-${role}`);
+    pill.innerText = formatAddress(address);
+    return pill;
+}
