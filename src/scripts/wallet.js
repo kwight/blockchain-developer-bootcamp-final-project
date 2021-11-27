@@ -1,8 +1,8 @@
 import { ethers } from './ethers-5.1.esm.min.js';
+import { getAddressMarkup } from './fundraisers.js';
 
-const connectButton = document.getElementById('connect-button');
 const connectSection = document.getElementById('connect-section');
-const selectedAccount = document.getElementById('selected-account').content;
+const connectButton = document.getElementById('connect').content;
 const installMetaMask = document.getElementById('install-metamask').content;
 
 const init = async () => {
@@ -22,23 +22,17 @@ const init = async () => {
 
 const renderAccountData = async () => {
     try {
+        const loading = spinner.content.cloneNode(true);
+        connectSection.replaceChildren(loading);
         const account = await getConnectedAccount();
-        const accountData = document.getElementById('current-account');
-        const networkData = document.getElementById('current-network');
-        if (accountData) {
-            accountData.remove();
-            networkData.remove();
-        }
-        if (!account || account.length == 0) {
-            connectButton.addEventListener('click', connectToMetaMask);
-            connectButton.disabled = false;
+        if (!account) {
+            const element = connectButton.cloneNode(true);
+            connectSection.replaceChildren(element);
+            const button = document.querySelector('#connect-section button');
+            button.addEventListener('click', connectToMetaMask);
         } else {
-            connectSection.appendChild(selectedAccount.cloneNode(true));
-            const accountAddress = document.getElementById('account-address');
-            const network = document.getElementById('network');
-            accountAddress.innerHTML = account;
-            network.innerText = getNetworkName();
-            connectButton.disabled = true;
+            const accountPill = await getAddressMarkup(account);
+            connectSection.replaceChildren(accountPill);
         }
     } catch (error) {
         console.log(error);
