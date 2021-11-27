@@ -73,6 +73,10 @@
      margin: 0;
  }
 
+ header, section, form {
+     margin-bottom: 3em;
+ }
+
  input,
  button {
      background: none;

@@ -27,16 +27,14 @@
     <section id="charities-section">
         <h2>Charities</h2>
         <table id="registered-charities"></table>
-        <form id="register-charity">
-            <label>Address:
-                <input placeholder="Enter an Ethereum address." name="address">
-            </label>
-            <label>Name:
-                <input placeholder="Enter the charity's name." name="name">
-            </label>
-            <button id="register-charity-button" disabled>Register a charity</button>
-        </form>
     </section>
+    <form id="register-charity">
+        <label for="address">Address</label>
+        <input id="address" placeholder="Enter an Ethereum address." name="address">
+        <label for="name">Name</label>
+        <input id="name" placeholder="Enter the charity's name." name="name">
+        <button id="register-charity-button" disabled>Register charity</button>
+    </form>
     <section id="connect-section">
         <h2>Connect</h2>
         <button id="connect-button" autocomplete="off" disabled>Connect wallet</button>
