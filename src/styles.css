@@ -77,6 +77,25 @@ label {
     display: block;
 }
 
+.address {
+    display: inline-block;
+    padding: 0.2rem 0.8rem;
+    border-radius: 1rem;
+    font-size: var(--font-s);
+}
+
+.role-owner {
+    background-color: var(--blue);
+}
+
+.role-charity {
+    background-color: var(--cyan);
+}
+
+.role-doner {
+    background-color: var(--purple);
+}
+
  /*
   * Spinner
   */
