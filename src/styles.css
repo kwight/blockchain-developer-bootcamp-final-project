@@ -73,6 +73,28 @@
      margin: 0;
  }
 
+ button {
+     background: none;
+     border: 1px solid var(--orange);
+     color: var(--orange);
+     border-radius: 0.3rem;
+     padding: 0.4rem 0.8rem;
+ }
+
+ button:enabled:hover,
+ button:enabled:active {
+     background-color: var(--orange);
+     color: var(--base07);
+     cursor: pointer;
+ }
+
+ button:disabled {
+     background-color: none;
+     border-color: var(--base03);
+     color: var(--base03);
+     cursor: not-allowed;
+ }
+
 label {
     display: block;
 }
