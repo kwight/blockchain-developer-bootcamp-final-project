@@ -35,7 +35,7 @@
     </section>
     <section id="donations-section">
         <h2>Donations</h2>
-        <div id="registered-donations"></div>
+        <table id="registered-donations"></table>
     </section>
     <template id="registered-charity">
         <tr class="charity">
@@ -51,8 +51,11 @@
         </tr>
     </template>
     <template id="registered-donation">
-        <p class="donation"><span class="donation-amount"></span><span class="program-title"></span><span
-                class="doner"></span></p>
+        <tr class="donation">
+            <td class="donation-amount"></td>
+            <td class="program-title"></td>
+            <td class="doner"></td>
+        </tr>
     </template>
     <template id="spinner">
         <div class="spinner">
