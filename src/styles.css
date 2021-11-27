@@ -3,130 +3,134 @@
  * https://github.com/mhartington/oceanic-next
  */
 
- :root {
-    --base00: #1b2b34;
-    --base01: #343d46;
-    --base02: #4f5b66;
-    --base03: #65737e;
-    --base04: #a7adba;
-    --base05: #c0c5ce;
-    --base06: #cdd3de;
-    --base07: #d8dee9;
-    --red: #ec5f67;
-    --orange: #f99157;
-    --yellow: #fac863;
-    --green: #99c794;
-    --cyan: #5fb3b3;
-    --blue: #6699cc;
-    --purple: #c594c5;
-    --brown: #ab7967;
- }
+:root {
+   --base00: #1b2b34;
+   --base01: #343d46;
+   --base02: #4f5b66;
+   --base03: #65737e;
+   --base04: #a7adba;
+   --base05: #c0c5ce;
+   --base06: #cdd3de;
+   --base07: #d8dee9;
+   --red: #ec5f67;
+   --orange: #f99157;
+   --yellow: #fac863;
+   --green: #99c794;
+   --cyan: #5fb3b3;
+   --blue: #6699cc;
+   --purple: #c594c5;
+   --brown: #ab7967;
+}
 
- /*
-  * Typography
-  */
+/*
+ * Typography
+ */
 
- body {
-     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-     font-size: calc(16px + (24 - 16) * ((100vw - 320px) / (1920 - 320)));
-     line-height: calc(1.3em + (1.5 - 1.3) * ((100vw - 320px)/(1920 - 320)));
- }
+body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    font-size: calc(16px + (24 - 16) * ((100vw - 320px) / (1920 - 320)));
+    line-height: calc(1.3em + (1.5 - 1.3) * ((100vw - 320px)/(1920 - 320)));
+}
 
- :root {
-     --font-xs: 0.5rem;
-     --font-s: 0.75rem;
-     --font-m: 1rem;
-     --font-l: 1.5rem;
-     --font-xl: 3rem;
-     --svg-size: 24px;
- }
+:root {
+    --font-xs: 0.5rem;
+    --font-s: 0.75rem;
+    --font-m: 1rem;
+    --font-l: 1.5rem;
+    --font-xl: 3rem;
+    --svg-size: 24px;
+}
 
- /*
-  * Global
-  */
+/*
+ * Global
+ */
 
- * {
-     box-sizing: border-box;
- }
+* {
+    box-sizing: border-box;
+}
 
- /* A declared value is needed for the following rules to apply. */
- *::-webkit-scrollbar {
-     width: revert;
- }
+/* A declared value is needed for the following rules to apply. */
+*::-webkit-scrollbar {
+    width: revert;
+}
 
- *::-webkit-scrollbar-track {
-     background: var(--base00);
- }
+*::-webkit-scrollbar-track {
+    background: var(--base00);
+}
 
- *::-webkit-scrollbar-thumb {
-     background-color: var(--base01);
-     border: 1px solid var(--base00);
-     border-radius: 20px;
- }
+*::-webkit-scrollbar-thumb {
+    background-color: var(--base01);
+    border: 1px solid var(--base00);
+    border-radius: 20px;
+}
 
- html {
-     background-color: var(--base00);
-     color: var(--base07);
- }
+html {
+    background-color: var(--base00);
+    color: var(--base07);
+}
 
- body {
-     margin: 0;
- }
+body {
+    margin: 0;
+}
 
- header, section, form {
-     margin-bottom: 3em;
- }
+header, section, form {
+    margin-bottom: 3em;
+}
 
- input,
- button {
-     background: none;
-     border: 1px solid;
-     border-radius: 0.3rem;
- }
+input,
+button {
+    background: none;
+    border: 1px solid;
+    border-radius: 0.3rem;
+}
 
- input {
-     border-color: var(--base05);
-     color: var(--base07);
-     padding: 0.4rem 0.8rem;
- }
-
- button {
-     padding: 1rem 1.4rem;
-     text-transform: uppercase;
- }
-
- button:disabled {
+input {
+    display: block;
+    background-color: var(--base01);
     border-color: var(--base03);
-    color: var(--base03);
- }
+    color: var(--base07);
+    padding: 0.4rem 0.8rem;
+    margin-bottom: 1em;
+}
 
- button:enabled {
+button {
+    padding: 1rem 1.4rem;
+    text-transform: uppercase;
+}
+
+button:disabled {
+   border-color: var(--base03);
+   color: var(--base03);
+}
+
+button:enabled {
+   border-color: var(--orange);
+   color: var(--orange);
+}
+
+button:enabled:hover,
+button:enabled:active {
+    background-color: var(--orange);
     border-color: var(--orange);
-    color: var(--orange);
- }
+    color: var(--base07);
+    cursor: pointer;
+}
 
- button:enabled:hover,
- button:enabled:active {
-     background-color: var(--orange);
-     border-color: var(--orange);
-     color: var(--base07);
-     cursor: pointer;
- }
+button:disabled {
+    cursor: not-allowed;
+}
 
- button:disabled {
-     cursor: not-allowed;
- }
+input::placeholder {
+    color: var(--base03);
+}
 
- input::placeholder {
-     color: var(--base03);
- }
-
- input:active {
-     border-color: var(--base07);
- }
+input:active {
+    border-color: var(--base07);
+}
 
 label {
     display: block;
+    text-transform: uppercase;
 }
 
 .address {
