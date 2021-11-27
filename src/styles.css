@@ -80,7 +80,7 @@ header, section, form {
 header {
     display: flex;
     justify-content: space-between;
-    padding: 1em;
+    padding: 0.6em;
     border-bottom: 1px solid var(--base01);
 }
 
