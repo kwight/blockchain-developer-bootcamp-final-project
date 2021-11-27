@@ -73,26 +73,52 @@
      margin: 0;
  }
 
+ input,
  button {
      background: none;
-     border: 1px solid var(--orange);
-     color: var(--orange);
+     border: 1px solid;
      border-radius: 0.3rem;
+ }
+
+ input {
+     border-color: var(--base05);
+     color: var(--base07);
      padding: 0.4rem 0.8rem;
+ }
+
+ button {
+     padding: 1rem 1.4rem;
+     text-transform: uppercase;
+ }
+
+ button:disabled {
+    border-color: var(--base03);
+    color: var(--base03);
+ }
+
+ button:enabled {
+    border-color: var(--orange);
+    color: var(--orange);
  }
 
  button:enabled:hover,
  button:enabled:active {
      background-color: var(--orange);
+     border-color: var(--orange);
      color: var(--base07);
      cursor: pointer;
  }
 
  button:disabled {
-     background-color: none;
-     border-color: var(--base03);
-     color: var(--base03);
      cursor: not-allowed;
+ }
+
+ input::placeholder {
+     color: var(--base03);
+ }
+
+ input:active {
+     border-color: var(--base07);
  }
 
 label {
