@@ -63,8 +63,16 @@ const donateToProgram = async (programId, amount) => {
         const donerAccount = await getConnectedAccount();
         const amountInWei = ethers.utils.parseEther(amount);
         const writableContract = contract.connect(getMetaMaskProvider().getSigner());
-        await writableContract.donate(programId, { from: donerAccount, value: amountInWei });
-        renderDonerPrograms();
+        const tx = await writableContract.donate(programId, { from: donerAccount, value: amountInWei });
+        const programs = await getPrograms();
+        const donation = registeredDonation.content.cloneNode(true);
+        donation.querySelector('.donation-amount').innerText = amount;
+        donation.querySelector('.program-title').innerText = programs[programId].title;
+        donation.querySelector('.doner').innerText = donerAccount;
+        donation.querySelector('.confirmed').innerText = 'pending';
+        registeredDonations.appendChild(donation);
+        await tx.wait(2);
+        renderDonerDonations();
     } catch (error) {
         console.log(error);
     }
