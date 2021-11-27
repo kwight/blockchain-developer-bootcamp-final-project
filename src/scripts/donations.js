@@ -1,5 +1,5 @@
 import { ethers } from "./ethers-5.1.esm.min.js";
-import { contract } from "./fundraisers.js";
+import { contract, getAddressMarkup } from "./fundraisers.js";
 import { getPrograms } from "./programs.js";
 
 const spinner = document.getElementById('spinner');
@@ -22,13 +22,14 @@ export const renderDonations = async () => {
         const programs = await getPrograms();
         registeredDonations.innerHTML = '<thead><tr><th>Amount</th><th>Program</th><th>Doner</th></tr></thead><tbody></tbody>';
         const tableBody = registeredDonations.querySelector('tbody');
-        donations.forEach((donationData, index) => {
+        donations.forEach(async (donationData, index) => {
             const donation = registeredDonation.content.cloneNode(true);
+            const addressMarkup = await getAddressMarkup(donationData.doner);
             const amountInEther = ethers.utils.formatEther(donationData.amount);
             donation.querySelector('.donation').id = `donation-${index}`;
             donation.querySelector('.donation-amount').innerText = parseFloat(amountInEther).toFixed(8);
             donation.querySelector('.program-title').innerText = programs[donationData.programId].title;
-            donation.querySelector('.doner').innerText = donationData.doner;
+            donation.querySelector('.doner').replaceChildren(addressMarkup);
             tableBody.appendChild(donation);
         });
     } catch (error) {
