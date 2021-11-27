@@ -256,6 +256,15 @@ svg:hover,
 }
 
 /*
+ * Main content
+ */
+
+#description-section {
+    border-bottom: 1px solid var(--base01);
+    padding-bottom: 1.5em;
+}
+
+/*
  * Spinner
  */
 
