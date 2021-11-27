@@ -38,7 +38,6 @@ body {
     --font-m: 1rem;
     --font-l: 1.5rem;
     --font-xl: 3rem;
-    --svg-size: 24px;
 }
 
 h1 {
@@ -46,8 +45,12 @@ h1 {
 }
 
 /*
- * Global
- */
+* Global
+*/
+
+:root {
+    --svg-size: 32px;
+}
 
 * {
     box-sizing: border-box;
@@ -198,7 +201,7 @@ label {
 }
 
 svg {
-    height: 32px;
+    height: var(--svg-size);
     fill: var(--base07);
 }
 
