@@ -94,11 +94,12 @@ export const renderDonerDonations = async () => {
             return;
         }
         const programs = await getPrograms();
-        registeredDonations.innerHTML = '';
+        registeredDonations.innerHTML = '<thead><tr><th>Amount</th><th>Program</th><th>Doner</th></tr></thead><tbody></tbody>';
         donations.forEach((donationData, index) => {
             const donation = registeredDonation.content.cloneNode(true);
+            const amountInEther = ethers.utils.formatEther(donationData.amount);
             donation.querySelector('.donation').id = `donation-${index}`;
-            donation.querySelector('.donation-amount').innerText = ethers.utils.formatEther(donationData.amount);
+            donation.querySelector('.donation-amount').innerText = parseFloat(amountInEther).toFixed(8);
             donation.querySelector('.program-title').innerText = programs[donationData.programId].title;
             donation.querySelector('.doner').innerText = donationData.doner;
             registeredDonations.appendChild(donation);
