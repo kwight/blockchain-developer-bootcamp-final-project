@@ -1,6 +1,85 @@
+/*
+ * Colour scheme: Oceanic Next
+ * https://github.com/mhartington/oceanic-next
+ */
+
+ :root {
+    --base00: #1b2b34;
+    --base01: #343d46;
+    --base02: #4f5b66;
+    --base03: #65737e;
+    --base04: #a7adba;
+    --base05: #c0c5ce;
+    --base06: #cdd3de;
+    --base07: #d8dee9;
+    --red: #ec5f67;
+    --orange: #f99157;
+    --yellow: #fac863;
+    --green: #99c794;
+    --cyan: #5fb3b3;
+    --blue: #6699cc;
+    --purple: #c594c5;
+    --brown: #ab7967;
+ }
+
+ /*
+  * Typography
+  */
+
+ body {
+     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+     font-size: calc(16px + (24 - 16) * ((100vw - 320px) / (1920 - 320)));
+     line-height: calc(1.3em + (1.5 - 1.3) * ((100vw - 320px)/(1920 - 320)));
+ }
+
+ :root {
+     --font-xs: 0.5rem;
+     --font-s: 0.75rem;
+     --font-m: 1rem;
+     --font-l: 1.5rem;
+     --font-xl: 3rem;
+     --svg-size: 24px;
+ }
+
+ /*
+  * Global
+  */
+
+ * {
+     box-sizing: border-box;
+ }
+
+ /* A declared value is needed for the following rules to apply. */
+ *::-webkit-scrollbar {
+     width: revert;
+ }
+
+ *::-webkit-scrollbar-track {
+     background: var(--base00);
+ }
+
+ *::-webkit-scrollbar-thumb {
+     background-color: var(--base01);
+     border: 1px solid var(--base00);
+     border-radius: 20px;
+ }
+
+ html {
+     background-color: var(--base00);
+     color: var(--base07);
+ }
+
+ body {
+     margin: 0;
+ }
+
 label {
     display: block;
 }
+
+ /*
+  * Spinner
+  */
 
 @keyframes rotate-spinner {
     100% {
