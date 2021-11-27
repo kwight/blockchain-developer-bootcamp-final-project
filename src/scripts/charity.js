@@ -89,10 +89,10 @@ const renderCharityPrograms = async () => {
             const completeCell = program.querySelector('.program-complete');
             const cancelButton = document.createElement('button');
             const completeButton = document.createElement('button');
-            cancelButton.classList.add('cancel-program');
+            cancelButton.classList.add('cancel-program', 'compact');
             cancelButton.innerText = 'Cancel';
             cancelButton.disabled = true;
-            completeButton.classList.add('complete-program');
+            completeButton.classList.add('complete-program', 'compact');
             completeButton.innerText = 'Complete';
             completeButton.disabled = true;
             if ('active' == status) {
