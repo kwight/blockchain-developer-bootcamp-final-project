@@ -26,7 +26,7 @@
     </header>
     <section id="programs-section">
         <h2>Programs</h2>
-        <div id="registered-programs"></div>
+        <table id="registered-programs"></table>
         <form id="register-program">
             <label>Title:
                 <input placeholder="Program title" name="title">
@@ -47,7 +47,13 @@
         </p>
     </template>
     <template id="registered-program">
-        <p class="program"><span class="program-title"></span><span class="program-status"></span></p>
+        <tr class="program">
+            <td class="program-title"></td>
+            <td class="program-charity"></td>
+            <td class="program-status"></td>
+            <td class="program-cancel"></td>
+            <td class="program-complete"></td>
+        </tr>
     </template>
     <template id="spinner">
         <div class="spinner">

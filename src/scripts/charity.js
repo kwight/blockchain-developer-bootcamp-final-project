@@ -85,6 +85,8 @@ const renderCharityPrograms = async () => {
         programs.forEach(program => {
             const index = program.id.match(/(?<=program-).+/)[0];
             const status = program.querySelector('.program-status').innerText;
+            const cancelCell = program.querySelector('.program-cancel');
+            const completeCell = program.querySelector('.program-complete');
             const cancelButton = document.createElement('button');
             const completeButton = document.createElement('button');
             cancelButton.classList.add('cancel-program');
@@ -99,8 +101,10 @@ const renderCharityPrograms = async () => {
                 cancelButton.addEventListener('click', () => cancelProgram(index));
                 completeButton.addEventListener('click', () => completeProgram(index));
             }
-            program.appendChild(cancelButton);
-            program.appendChild(completeButton);
+            cancelCell.innerHTML = '';
+            completeCell.innerHTML = '';
+            cancelCell.appendChild(cancelButton);
+            completeCell.appendChild(completeButton);
         });
     }
 }
