@@ -41,6 +41,10 @@ body {
     --svg-size: 24px;
 }
 
+h1 {
+    font-size: var(--font-xl);
+}
+
 /*
  * Global
  */
