@@ -283,6 +283,11 @@ svg:hover,
  * Tables
  */
 
+table {
+    border-spacing: 0.5em;
+    position: relative;
+    left: -0.5em;
+}
 th {
     text-align: left;
 }
