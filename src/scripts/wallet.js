@@ -47,8 +47,12 @@ export const connectToMetaMask = async () => {
 }
 
 export const getConnectedAccount = async () => {
-    const accounts = await window.ethereum.request({ method: 'eth_accounts' });
-    return (accounts.length > 0) ? window.ethereum.selectedAddress : false;
+    try {
+        const accounts = await window.ethereum.request({ method: 'eth_accounts' });
+        return (accounts.length > 0) ? window.ethereum.selectedAddress : false;
+    } catch (error) {
+        console.log(error);
+    }
 }
 
 export const getNetworkName = () => {
