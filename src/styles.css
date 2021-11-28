@@ -309,6 +309,14 @@ th {
     text-align: center;
 }
 
+.status-cancelled {
+    color: var(--red);
+}
+
+.status-complete {
+    color: var(--green);
+}
+
 /*
  * Spinner
  */

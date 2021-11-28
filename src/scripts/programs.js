@@ -25,7 +25,19 @@ export const renderPrograms = async () => {
         program.querySelector('.program').id = `program-${index}`;
         program.querySelector('.program-title').innerText = programData.title;
         program.querySelector('.program-charity').innerText = charityData.name;
-        program.querySelector('.program-status').innerText = status[programData.status];
+        const programStatus = program.querySelector('.program-status');
+        switch (programData.status) {
+            case 2:
+                programStatus.classList.add('status-complete');
+                break;
+            case 1:
+                programStatus.classList.add('status-cancelled');
+                break;
+            default:
+                programStatus.classList.add('status-active');
+                break;
+        }
+        programStatus.innerText = status[programData.status];
         tableBody.appendChild(program);
     }
 }
