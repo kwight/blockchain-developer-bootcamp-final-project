@@ -299,7 +299,9 @@ table {
     width: calc(100% + 0.5em);
 }
 th {
+    color: var(--brown);
     text-align: left;
+    text-transform: uppercase;
 }
 
 .address-column,
