@@ -3,7 +3,7 @@ import { contract } from "./fundraisers.js";
 const spinner = document.getElementById('spinner');
 const registeredPrograms = document.getElementById('registered-programs');
 const registeredProgram = document.getElementById('registered-program');
-const status = [
+export const status = [
     'active',
     'cancelled',
     'complete',

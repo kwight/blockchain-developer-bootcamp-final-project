@@ -1,9 +1,13 @@
 import { contract } from './fundraisers.js';
-import { renderPrograms } from './programs.js';
+import { getPrograms, status } from './programs.js';
 import { addAccountsChangedListener, getConnectedAccount, getMetaMaskProvider, isMetaMaskInstalled } from './wallet.js';
 
+const registeredPrograms = document.getElementById('registered-programs');
+const registeredProgram = document.getElementById('registered-program');
 const registerProgramForm = document.getElementById('register-program');
 const registerProgramButton = document.getElementById('register-program-button');
+const noConnection = document.getElementById('no-connection').content;
+const noPrograms = document.getElementById('no-programs').content;
 
 const init = async () => {
     if (!isMetaMaskInstalled()) {
@@ -78,34 +82,61 @@ const completeProgram = async (index) => {
 }
 
 const renderCharityPrograms = async () => {
-    await renderPrograms();
-    const account = await getConnectedAccount();
-    const programs = document.querySelectorAll('.program');
-    if (account) {
-        programs.forEach(program => {
-            const index = program.id.match(/(?<=program-).+/)[0];
-            const status = program.querySelector('.program-status').innerText;
-            const cancelCell = program.querySelector('.program-cancel');
-            const completeCell = program.querySelector('.program-complete');
+    try {
+        const loading = spinner.content.cloneNode(true);
+        registeredPrograms.replaceChildren(loading);
+        const account = await getConnectedAccount();
+        if (!account) {
+            const connectWallet = noConnection.cloneNode(true);
+            registeredPrograms.replaceChildren(connectWallet);
+            return;
+        }
+        let programs = await getPrograms();
+        programs = programs.filter(program => program.charity.toLowerCase() == account.toLowerCase());
+        if (!programs.length) {
+            const registerPrompt = noPrograms.cloneNode(true);
+            registeredPrograms.replaceChildren(registerPrompt);
+            return;
+        }
+        registeredPrograms.innerHTML = '<thead><tr><th>Title</th><th>Status</th></tr></thead><tbody></tbody>';
+        const tableBody = registeredPrograms.querySelector('tbody');
+        for (const [index, programData] of programs.entries()) {
+            const program = registeredProgram.content.cloneNode(true);
+            program.querySelector('.program').id = `program-${index}`;
+            program.querySelector('.program-title').innerText = programData.title;
+            const programStatus = program.querySelector('.program-status');
+            const actionsCell = program.querySelector('.program-actions');
+            switch (programData.status) {
+                case 2:
+                    programStatus.classList.add('status-complete');
+                    break;
+                case 1:
+                    programStatus.classList.add('status-cancelled');
+                    break;
+                default:
+                    programStatus.classList.add('status-active');
+                    break;
+            }
+            programStatus.innerText = status[programData.status];
             const cancelButton = document.createElement('button');
             const completeButton = document.createElement('button');
             cancelButton.classList.add('cancel-program', 'compact');
-            cancelButton.innerText = 'Cancel';
+            cancelButton.innerText = 'X';
             cancelButton.disabled = true;
             completeButton.classList.add('complete-program', 'compact');
-            completeButton.innerText = 'Complete';
+            completeButton.innerText = '✓';
             completeButton.disabled = true;
-            if ('active' == status) {
+            if ('active' == status[programData.status]) {
                 cancelButton.disabled = false;
                 completeButton.disabled = false;
                 cancelButton.addEventListener('click', () => cancelProgram(index));
                 completeButton.addEventListener('click', () => completeProgram(index));
             }
-            cancelCell.innerHTML = '';
-            completeCell.innerHTML = '';
-            cancelCell.appendChild(cancelButton);
-            completeCell.appendChild(completeButton);
-        });
+            actionsCell.replaceChildren(cancelButton, completeButton);
+            tableBody.appendChild(program);
+        }
+    } catch (error) {
+        console.log(error);
     }
 }
 

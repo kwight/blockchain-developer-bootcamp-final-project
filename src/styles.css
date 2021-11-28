@@ -316,6 +316,14 @@ th {
     color: var(--green);
 }
 
+.status-active {
+    color: var(--base07);
+}
+
+.cancel-program {
+    margin-right: 6px;
+}
+
 /*
  * Forms
  */
