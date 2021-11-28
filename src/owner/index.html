@@ -52,13 +52,18 @@
             <h2>Charities</h2>
             <table id="registered-charities"></table>
         </section>
-        <form id="register-charity">
-            <label for="address">Address</label>
-            <input id="address" placeholder="Enter an Ethereum address." name="address">
-            <label for="name">Name</label>
-            <input id="name" placeholder="Enter the charity's name." name="name">
-            <button id="register-charity-button" disabled>Register charity</button>
-        </form>
+        <section id="charity-form">
+            <h2>Register a charity</h2>
+            <p>Registering a charity allows them to post programs and accept donations. They can be removed by
+                themselves or the platform owner at any time.</p>
+            <form id="register-charity">
+                <label for="address">Address</label>
+                <input id="address" placeholder="Enter an Ethereum address." name="address">
+                <label for="name">Name</label>
+                <input id="name" placeholder="Enter the charity's name." name="name">
+                <button id="register-charity-button" disabled>Register charity</button>
+            </form>
+        </section>
     </main>
     <template id="install-metamask">
         <p id="no-wallet-found">No wallet found. Please <a href="https://metamask.io/">install MetaMask</a>.</p>

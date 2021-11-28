@@ -86,7 +86,7 @@ body {
     margin: 0;
 }
 
-section, form {
+section {
     margin: 3em 0;
     padding: 0 1em;
 }
@@ -113,7 +113,7 @@ input {
     border-color: var(--base03);
     color: var(--base07);
     padding: 0.4rem 0.8rem;
-    margin-bottom: 1em;
+    margin-bottom: 1.5em;
 }
 
 button,
@@ -315,6 +315,28 @@ th {
 
 .status-complete {
     color: var(--green);
+}
+
+/*
+ * Forms
+ */
+
+form {
+    margin: 2em 0;
+    padding: 0 1em;
+}
+
+label {
+    margin: 0.5em 0;
+}
+
+input {
+    padding: 1em 1.4em;
+    width: 100%;
+}
+
+form button {
+    margin-top: 0.5em;
 }
 
 /*
