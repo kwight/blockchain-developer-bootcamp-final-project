@@ -27,7 +27,7 @@ export const renderDonations = async () => {
             const addressMarkup = await getAddressMarkup(donationData.doner);
             const amountInEther = ethers.utils.formatEther(donationData.amount);
             donation.querySelector('.donation').id = `donation-${index}`;
-            donation.querySelector('.donation-amount').innerText = parseFloat(amountInEther).toFixed(8);
+            donation.querySelector('.donation-amount').innerText = parseFloat(amountInEther).toFixed(4);
             donation.querySelector('.program-title').innerText = programs[donationData.programId].title;
             donation.querySelector('.doner').replaceChildren(addressMarkup);
             tableBody.appendChild(donation);
