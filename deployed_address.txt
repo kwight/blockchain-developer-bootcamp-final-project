@@ -1,2 +1,3 @@
-Testnet address:
-Network:
+Contract address: 0x56dc89637668ba2D911B0A2b9406568Fd42a7432
+Network: Ropsten
+Etherscan URL: https://ropsten.etherscan.io/address/0x56dc89637668ba2D911B0A2b9406568Fd42a7432
