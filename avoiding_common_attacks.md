@@ -32,3 +32,5 @@ The contract has been scanned with MythX, which checks for almost all [SWC weakn
 * SWC-131
 
 The above list includes SWC-101, SWC-107, SWC-113, SWC-115, which are all of the SWCs covered in the bootcamp materials.
+
+In fact, a MythX deep (but not quick nor standard) scan found a SWC-107 vulnerability, due to my not following the [Checks-Effects-Interactions pattern](https://docs.soliditylang.org/en/latest/security-considerations.html#use-the-checks-effects-interactions-pattern). This has since been fixed in [7318064](https://github.com/kwight/blockchain-developer-bootcamp-final-project/commit/731806457f57aecf9a1700ce779cfdbffda02dbd).
