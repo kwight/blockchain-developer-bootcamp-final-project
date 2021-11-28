@@ -91,8 +91,7 @@ const renderCharityPrograms = async () => {
             registeredPrograms.replaceChildren(connectWallet);
             return;
         }
-        let programs = await getPrograms();
-        programs = programs.filter(program => program.charity.toLowerCase() == account.toLowerCase());
+        const programs = await getPrograms();
         if (!programs.length) {
             const registerPrompt = noPrograms.cloneNode(true);
             registeredPrograms.replaceChildren(registerPrompt);
@@ -101,6 +100,9 @@ const renderCharityPrograms = async () => {
         registeredPrograms.innerHTML = '<thead><tr><th>Title</th><th>Status</th></tr></thead><tbody></tbody>';
         const tableBody = registeredPrograms.querySelector('tbody');
         for (const [index, programData] of programs.entries()) {
+            if (programData.charity.toLowerCase() !== account.toLowerCase()) {
+                continue;
+            }
             const program = registeredProgram.content.cloneNode(true);
             program.querySelector('.program').id = `program-${index}`;
             program.querySelector('.program-title').innerText = programData.title;
