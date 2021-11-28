@@ -62,16 +62,18 @@ export const getAddressRole = async address => {
     }
 
     const ownerAddress = await contract.owner();
-    const charities = await contract.getCharities();
+    let charities = await contract.getCharities();
+    charities = charities.map(charity => charity.toLowerCase());
     const donations = await contract.getDonations();
-    const doners = donations.map(donation => donation.doner);
+    const doners = donations.map(donation => donation.doner.toLowerCase());
+    debugger;
 
     switch (true) {
         case ownerAddress.toLowerCase() === address.toLowerCase():
             return 'owner';
-        case charities.includes(address):
+        case charities.includes(address.toLowerCase()):
             return 'charity';
-        case doners.includes(address):
+        case doners.includes(address.toLowerCase()):
             return 'doner';
         default:
             return 'none';
