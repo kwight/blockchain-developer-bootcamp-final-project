@@ -45,6 +45,11 @@ h1 {
     font-size: var(--font-xl);
 }
 
+p,
+td {
+    color: var(--base05);
+}
+
 /*
 * Global
 */
@@ -165,6 +170,7 @@ label {
     padding: 0.2rem 0.8rem;
     border-radius: 1rem;
     font-size: var(--font-s);
+    color: var(--base07);
 }
 
 .role-owner {
