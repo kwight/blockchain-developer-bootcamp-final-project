@@ -111,21 +111,26 @@ export const renderDonerDonations = async () => {
 }
 
 const renderDonerPrograms = async () => {
-    const loading = spinner.content.cloneNode(true);
-    registeredPrograms.replaceChildren(loading);
-    const programs = await getPrograms();
-    registeredPrograms.innerHTML = '';
-    programs.forEach((programData, index) => {
-        if (programData.status == 0) {
-            const program = programRadioButton.content.cloneNode(true);
-            const label = program.querySelector('label');
-            program.querySelector('input').id = `program-${index}`;
-            program.querySelector('input').value = index;
-            label.setAttribute('for', `program-${index}`);
-            label.insertAdjacentText('beforeend', programData.title);
-            registeredPrograms.prepend(program);
-        }
-    });
+    try {
+        const loading = spinner.content.cloneNode(true);
+        registeredPrograms.replaceChildren(loading);
+        const programs = await getPrograms();
+        registeredPrograms.innerHTML = '';
+        programs.forEach(async (programData, index) => {
+            if (programData.status == 0) {
+                const program = programRadioButton.content.cloneNode(true);
+                const label = program.querySelector('label');
+                const charity = await contract.getCharity(programData.charity);
+                program.querySelector('input').id = `program-${index}`;
+                program.querySelector('input').value = index;
+                label.setAttribute('for', `program-${index}`);
+                label.insertAdjacentHTML('beforeend', `${programData.title} (${charity.name})`);
+                registeredPrograms.prepend(program);
+            }
+        });
+    } catch (error) {
+        console.log(error);
+    }
 }
 
 init();

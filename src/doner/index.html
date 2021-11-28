@@ -55,12 +55,12 @@
             <table id="registered-donations"></table>
         </section>
         <section id="programs-section">
-            <h2>Programs</h2>
+            <h2>Make a donation</h2>
+            <p>Select a program and enter an amount in ether to make a donation.</p>
             <form id="donation-form">
                 <div id="registered-programs"></div>
-                <label>Donation amount (ETH)
-                    <input type="number" min=0 step="0.000000001" name="amount">
-                </label>
+                <label for="donation-amount">Donation amount</label>
+                <input id="donation-amount" type="number" min=0 step="0.000000001" name="amount">
                 <button id="donate-button" disabled>Donate!</button>
             </form>
         </section>

@@ -359,11 +359,16 @@ form button {
     margin-top: 0.5em;
 }
 
+#registered-programs {
+    margin-bottom: 1.5em;
+}
+
 #registered-programs label {
     display: flex;
     align-items: center;
     font-weight: inherit;
     text-transform: inherit;
+    cursor: pointer;
 }
 
 /*
