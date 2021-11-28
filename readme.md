@@ -1,57 +1,38 @@
-# ConsenSys Blockchain Developer Bootcamp Final Project
+# CryptoGive
 
-## Charity Fun Run
-
-Charities sometimes do fundraisers often called "fun runs": participants raise funds from others based on their participation in a run/walk event. On the day of the event, the participant does the run, and may collect the funds themselves from their doners. The participant then turns over the funds to the charity.
-
-My final project will implement all? some? of the contract and mechanisms needed for a charity to host a fun run with maximum transparency for all involved.
-
-#### How does a blockchain help?
-A public blockchain of events and results can improve a charity's commitment to transparency for all involved. Depending on how they're organized, typical charity fun runs can involve a fair amount of trust:
-- participants trust doners will pay out,
-- doners trust participants perform in the event,
-- charities trust participants that collect funds will turn over all of the funds, and
-- participants and doners trust the charity accurately reports the results of the fundraising.
-
-A public blockchain can improve the visibility of all actors' actions and commitments at every stage of the fundraising event, growing goodwill for the charity in the community.
-
-### Actors' experiences
-#### As a Charity
-- Create an EVENT.
-- View all PARTICIPANTS and their DONERS.
-- View all PARTICIPANTS' involvement.
-- View EVENT results.
-- Collect funds from all DONERS.
-
-#### As a Doner
-- Choose an EVENT.
-- Sign up for a PARTICIPANT.
-- View PARTICIPANT involvement.
-- View EVENT results.
-- Have funds transferred to CHARITY.
-
-#### As a Participant
-- Choose an EVENT.
-- Sign up as a PARTICIPANT.
-- View personal DONERS.
-- Participate in the EVENT.
-- View EVENT results.
+CryptoGive is a platform for donating to your choice of charity programs with cryptocurrency.
 
 ---
 
-### Ideas
-- whistleblower platform
-- NFTs for certifications
-- blogging platform plus reader
-- habit-building app with financial encouragement
-- run for charity
+## How does a blockchain help?
 
-### Links
-- https://www.politico.com/gallery/2013/08/10-famous-infamous-whistleblowers-001083
-- https://en.wikipedia.org/wiki/List_of_whistleblowers
-- https://docs.chain.link/docs/beginners-tutorial/
-- Oracle Problem: https://medium.com/@teexofficial/what-are-oracles-smart-contracts-the-oracle-problem-911f16821b53
-- cron-type options
-  - https://www.ethereum-alarm-clock.com/
-  - https://docs.chain.link/docs/chainlink-keepers/introduction/
-  - can any of them be initialized with variable time spans (according to a user's form)?
+Donation platforms already exist – how is one based on a public blockchain an improvement?
+
+- Ease of use: Anyone with a wallet can donate, regardless of banking or credit access, in amounts that are not always possible with traditional currency.
+- Trust: Public blockchains can remove the need for trust between parties, as all transfers and wallet balances can be confirmed and scrutinized.
+- Transparency: Charitable activity is easily verified in the open, and doners can more easily track and confirm their own activity across multiple charities.
+- Speed and efficiency: Donations land in charities' wallets immediately, with no intermediaries taking a cut. Minimal infrastructure or technical needs are required by the charity.
+
+## How does CryptoGive work?
+
+The platform owner can register charities, who in turn register programs/campaigns. Potential doners select from the active programs available and donate an amount in ether (which is then transferred to the address of the charity).
+
+#### Owners
+
+The owner is the address that deployed the contract. The owner can:
+
+* Register new charities.
+* Remove existing charities.
+
+#### Charities
+
+A charity must first be registered by the owner to be considered active. A registered charity can:
+
+* Register a new program.
+* Cancel an active program.
+* Declare an active program completed.
+* Remove themselves from the platform (not available in the UI).
+
+#### Doners
+
+Anyone can be a doner to any active program, and see their own past donations.
