@@ -177,6 +177,10 @@ label {
     background-color: var(--purple);
 }
 
+.role-none {
+    background-color: var(--base01);
+}
+
 /*
  * Header
  */
