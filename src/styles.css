@@ -38,6 +38,7 @@ body {
     --font-m: 1rem;
     --font-l: 1.5rem;
     --font-xl: 3rem;
+    --font-bold: 700;
 }
 
 h1 {
@@ -155,6 +156,7 @@ input:active {
 
 label {
     display: block;
+    font-weight: var(--font-bold);
     text-transform: uppercase;
 }
 
@@ -220,6 +222,7 @@ label {
     display: flex;
     align-items: center;
     font-size: var(--font-m);
+    font-weight: var(--font-bold);
     color: var(--base07);
     text-decoration: underline solid 5px;
     text-underline-offset: 0.4em;
