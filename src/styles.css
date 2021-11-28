@@ -81,7 +81,8 @@ body {
 }
 
 section, form {
-    margin: 3em 1em;
+    margin: 3em 0;
+    padding: 0 1em;
 }
 
 header {
@@ -93,7 +94,8 @@ header {
 }
 
 input,
-button {
+button,
+#description-section a {
     background: none;
     border: 1px solid;
     border-radius: 0.3rem;
@@ -108,7 +110,8 @@ input {
     margin-bottom: 1em;
 }
 
-button {
+button,
+#description-section a {
     padding: 1rem 1.4rem;
     text-transform: uppercase;
 }
@@ -122,13 +125,16 @@ button:disabled {
    color: var(--base03);
 }
 
-button:enabled {
+button:enabled,
+#description-section a {
    border-color: var(--orange);
    color: var(--orange);
 }
 
 button:enabled:hover,
-button:enabled:active {
+button:enabled:active,
+#description-section a:hover,
+#description-section a:active {
     background-color: var(--orange);
     border-color: var(--orange);
     color: var(--base07);
@@ -262,6 +268,11 @@ svg:hover,
 #description-section {
     border-bottom: 1px solid var(--base01);
     padding-bottom: 1.5em;
+}
+
+#description-section a {
+    display: inline-block;
+    text-decoration: none;
 }
 
 /*

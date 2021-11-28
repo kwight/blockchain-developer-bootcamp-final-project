@@ -66,7 +66,6 @@ export const getAddressRole = async address => {
     charities = charities.map(charity => charity.toLowerCase());
     const donations = await contract.getDonations();
     const doners = donations.map(donation => donation.doner.toLowerCase());
-    debugger;
 
     switch (true) {
         case ownerAddress.toLowerCase() === address.toLowerCase():
