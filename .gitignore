@@ -1,4 +1,5 @@
 .env
 .firebase/
 build/
+bin/
 node_modules/
