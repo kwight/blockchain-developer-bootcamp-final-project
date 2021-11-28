@@ -1,5 +1,5 @@
 import { ethers } from './ethers-5.1.esm.min.js';
-import { contract } from './fundraisers.js';
+import { contract, getAddressMarkup } from './fundraisers.js';
 import { getPrograms } from './programs.js';
 import { getDonations } from './donations.js';
 import { addAccountsChangedListener, getConnectedAccount, getMetaMaskProvider, isMetaMaskInstalled } from './wallet.js';
@@ -94,14 +94,15 @@ export const renderDonerDonations = async () => {
             return;
         }
         const programs = await getPrograms();
-        registeredDonations.innerHTML = '<thead><tr><th>Amount</th><th>Program</th><th>Doner</th></tr></thead><tbody></tbody>';
-        donations.forEach((donationData, index) => {
+        registeredDonations.innerHTML = '<thead><tr><th>Amount</th><th>Program</th><th class="address-column">Doner</th></tr></thead><tbody></tbody>';
+        donations.forEach(async (donationData, index) => {
             const donation = registeredDonation.content.cloneNode(true);
+            const addressMarkup = await getAddressMarkup(donationData.doner);
             const amountInEther = ethers.utils.formatEther(donationData.amount);
             donation.querySelector('.donation').id = `donation-${index}`;
             donation.querySelector('.donation-amount').innerText = parseFloat(amountInEther).toFixed(4);
             donation.querySelector('.program-title').innerText = programs[donationData.programId].title;
-            donation.querySelector('.doner').innerText = donationData.doner;
+            donation.querySelector('.doner').replaceChildren(addressMarkup);
             registeredDonations.appendChild(donation);
         });
     } catch (error) {

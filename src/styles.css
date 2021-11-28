@@ -280,6 +280,18 @@ svg:hover,
 }
 
 /*
+ * Tables
+ */
+
+th {
+    text-align: left;
+}
+
+th.address-column {
+    text-align: center;
+}
+
+/*
  * Spinner
  */
 

@@ -20,7 +20,7 @@ export const renderDonations = async () => {
         registeredDonations.replaceChildren(loading);
         const donations = await getDonations();
         const programs = await getPrograms();
-        registeredDonations.innerHTML = '<thead><tr><th>Amount</th><th>Program</th><th>Doner</th></tr></thead><tbody></tbody>';
+        registeredDonations.innerHTML = '<thead><tr><th>Amount</th><th>Program</th><th class="address-column">Doner</th></tr></thead><tbody></tbody>';
         const tableBody = registeredDonations.querySelector('tbody');
         donations.forEach(async (donationData, index) => {
             const donation = registeredDonation.content.cloneNode(true);
