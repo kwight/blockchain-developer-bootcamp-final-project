@@ -157,8 +157,6 @@ contract Fundraisers is Ownable {
             "program is not active"
         );
         Program memory receivingProgram = programs[programId];
-        (bool sent, ) = receivingProgram.charity.call{value: msg.value}("");
-        require(sent, "ether not sent to charity");
         donations.push(
             Donation({
                 doner: msg.sender,
@@ -166,6 +164,8 @@ contract Fundraisers is Ownable {
                 amount: msg.value
             })
         );
+        (bool sent, ) = receivingProgram.charity.call{value: msg.value}("");
+        require(sent, "ether not sent to charity");
         emit DonationReceived(
             msg.value,
             receivingProgram.charity,
