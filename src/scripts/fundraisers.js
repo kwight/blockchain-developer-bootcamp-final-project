@@ -75,7 +75,7 @@ export const getAddressRole = async address => {
         case doners.includes(address.toLowerCase()):
             return 'doner';
         default:
-            return 'none';
+            return 'bystander';
     }
 }
 

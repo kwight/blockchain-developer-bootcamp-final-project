@@ -177,7 +177,7 @@ label {
     background-color: var(--purple);
 }
 
-.role-none {
+.role-bystander {
     background-color: var(--base01);
 }
 
