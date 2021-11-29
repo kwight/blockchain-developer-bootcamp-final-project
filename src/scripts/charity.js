@@ -1,4 +1,4 @@
-import { contract } from './fundraisers.js';
+import { contract, renderNotice } from './fundraisers.js';
 import { getPrograms, status } from './programs.js';
 import { addAccountsChangedListener, getConnectedAccount, getMetaMaskProvider, isMetaMaskInstalled } from './wallet.js';
 
@@ -23,7 +23,7 @@ const init = async () => {
         contract.on('ProgramCancelled', renderCharityPrograms);
         renderCharityPrograms();
     } catch (error) {
-        console.log(error);
+        renderNotice('error', error.data.message);
     }
 }
 
@@ -47,7 +47,7 @@ const registerProgramListener = async (program) => {
     try {
         await registerProgram(title);
     } catch (error) {
-        console.log(error);
+        renderNotice('error', error.data.message);
     }
 }
 
@@ -57,7 +57,7 @@ const registerProgram = async (title) => {
         await writableContract.registerProgram(title);
         renderCharityPrograms();
     } catch (error) {
-        console.log(error);
+        renderNotice('error', error.data.message);
     }
 }
 
@@ -67,7 +67,7 @@ const cancelProgram = async (index) => {
         await writableContract.cancelProgram(index);
         renderCharityPrograms();
     } catch (error) {
-        console.log(error);
+        renderNotice('error', error.data.message);
     }
 }
 
@@ -77,7 +77,7 @@ const completeProgram = async (index) => {
         await writableContract.completeProgram(index);
         renderCharityPrograms();
     } catch (error) {
-        console.log(error);
+        renderNotice('error', error.data.message);
     }
 }
 
@@ -138,7 +138,7 @@ const renderCharityPrograms = async () => {
             tableBody.appendChild(program);
         }
     } catch (error) {
-        console.log(error);
+        renderNotice('error', error.data.message);
     }
 }
 

@@ -1,5 +1,5 @@
 import { ethers } from './ethers-5.1.esm.min.js';
-import { getAddressMarkup } from './fundraisers.js';
+import { getAddressMarkup, renderNotice } from './fundraisers.js';
 
 const connectSection = document.getElementById('connect-section');
 const connectButton = document.getElementById('connect').content;
@@ -16,7 +16,7 @@ const init = async () => {
         window.ethereum.on('accountsChanged', renderAccountData);
         window.ethereum.on('chainChanged', renderAccountData);
     } catch (error) {
-        console.log(error);
+        renderNotice('error', error.data.message);
     }
 }
 
@@ -35,7 +35,7 @@ const renderAccountData = async () => {
             connectSection.replaceChildren(accountPill);
         }
     } catch (error) {
-        console.log(error);
+        renderNotice('error', error.data.message);
     }
 }
 
@@ -51,7 +51,7 @@ export const getConnectedAccount = async () => {
         const accounts = await window.ethereum.request({ method: 'eth_accounts' });
         return (accounts.length > 0) ? window.ethereum.selectedAddress : false;
     } catch (error) {
-        console.log(error);
+        renderNotice('error', error.data.message);
     }
 }
 

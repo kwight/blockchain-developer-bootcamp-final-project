@@ -1,5 +1,5 @@
 import { ethers } from "./ethers-5.1.esm.min.js";
-import { contract, getAddressMarkup } from "./fundraisers.js";
+import { contract, getAddressMarkup, renderNotice } from "./fundraisers.js";
 import { getPrograms } from "./programs.js";
 
 const spinner = document.getElementById('spinner');
@@ -10,7 +10,7 @@ export const getDonations = async () => {
     try {
         return await contract.getDonations();
     } catch (error) {
-        console.log(error);
+        renderNotice('error', error.data.message);
     }
 }
 
@@ -33,6 +33,6 @@ export const renderDonations = async () => {
             tableBody.appendChild(donation);
         });
     } catch (error) {
-        console.log(error);
+        renderNotice('error', error.data.message);
     }
 }

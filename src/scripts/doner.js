@@ -29,7 +29,7 @@ const init = async () => {
         renderDonerDonations();
         renderDonerPrograms();
     } catch (error) {
-        console.log(error);
+        renderNotice('error', error.data.message);
     }
 }
 
@@ -54,7 +54,7 @@ const donateListener = async (event) => {
     try {
         await donateToProgram(program, amount);
     } catch (error) {
-        console.log(error);
+        renderNotice('error', error.data.message);
     }
 }
 
@@ -69,7 +69,7 @@ const donateToProgram = async (programId, amount) => {
         renderNotice('success', 'Transaction confirmed. Thank you!');
         renderDonerDonations();
     } catch (error) {
-        console.log(error);
+        renderNotice('error', error.data.message);
     }
 }
 
@@ -101,7 +101,7 @@ export const renderDonerDonations = async () => {
             registeredDonations.appendChild(donation);
         });
     } catch (error) {
-        console.log(error);
+        renderNotice('error', error.data.message);
     }
 }
 
@@ -124,7 +124,7 @@ const renderDonerPrograms = async () => {
             }
         });
     } catch (error) {
-        console.log(error);
+        renderNotice('error', error.data.message);
     }
 }
 

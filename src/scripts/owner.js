@@ -1,5 +1,5 @@
 import { ethers } from './ethers-5.1.esm.min.js';
-import { contract } from './fundraisers.js';
+import { contract, renderNotice } from './fundraisers.js';
 import { renderCharities } from './charities.js';
 import { addAccountsChangedListener, getConnectedAccount, getMetaMaskProvider, isMetaMaskInstalled } from './wallet.js';
 
@@ -20,7 +20,7 @@ const init = async () => {
         contract.on('CharityRemoved', renderOwnerCharities);
         renderOwnerCharities();
     } catch (error) {
-        console.log(error);
+        renderNotice('error', error.data.message);
     }
 }
 
@@ -45,7 +45,7 @@ const registerCharityListener = async (event) => {
     try {
         await registerCharity(address, name);
     } catch (error) {
-        console.log(error);
+        renderNotice('error', error.data.message);
     }
 
 }
@@ -56,7 +56,7 @@ const registerCharity = async (address, name) => {
         await writableContract.registerCharity(address, name);
         renderOwnerCharities();
     } catch (error) {
-        console.log(error);
+        renderNotice('error', error.data.message);
     }
 }
 
@@ -66,7 +66,7 @@ const removeCharity = async (address) => {
         await writableContract.removeCharity(address);
         renderOwnerCharities();
     } catch (error) {
-        console.log(error);
+        renderNotice('error', error.data.message);
     }
 }
 
