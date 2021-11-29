@@ -305,6 +305,7 @@ table {
     position: relative;
     left: -0.5em;
     width: calc(100% + 0.5em);
+    z-index: -1;
 }
 th {
     text-align: left;
