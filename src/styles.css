@@ -95,7 +95,11 @@ header {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    position: fixed;
+    top: 0;
+    width: 100%;
     padding: 0.6em;
+    background-color: var(--base00);
     border-bottom: 5px solid var(--base01);
 }
 
@@ -278,7 +282,11 @@ svg:hover,
  * Main content
  */
 
-#description-section {
+#main-content {
+    margin-top: 6em;
+}
+
+ #description-section {
     border-bottom: 1px solid var(--base01);
     padding-bottom: 1.5em;
 }
