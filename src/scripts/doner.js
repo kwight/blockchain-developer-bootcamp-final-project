@@ -44,14 +44,14 @@ const updateDonateButton = (account) => {
 }
 
 const donateListener = async (event) => {
-    event.preventDefault();
-    const program = new FormData(donationForm).get('program');
-    const amount = new FormData(donationForm).get('amount');
-    if (!program || !amount) {
-        alert('Both an amount and a selected program are required.');
-        return;
-    }
     try {
+        event.preventDefault();
+        const program = new FormData(donationForm).get('program');
+        const amount = new FormData(donationForm).get('amount');
+        if (!program || !amount) {
+            alert('Both an amount and a selected program are required.');
+            return;
+        }
         await donateToProgram(program, amount);
     } catch (error) {
         renderNotice('error', error.data.message);
