@@ -58,25 +58,29 @@ export const formatAddress = address => {
 }
 
 export const getAddressRole = async address => {
-    if (!ethers.utils.isAddress(address)) {
-        return false;
-    }
+    try {
+        if (!ethers.utils.isAddress(address)) {
+            return false;
+        }
 
-    const ownerAddress = await contract.owner();
-    let charities = await contract.getCharities();
-    charities = charities.map(charity => charity.toLowerCase());
-    const donations = await contract.getDonations();
-    const doners = donations.map(donation => donation.doner.toLowerCase());
+        const ownerAddress = await contract.owner();
+        let charities = await contract.getCharities();
+        charities = charities.map(charity => charity.toLowerCase());
+        const donations = await contract.getDonations();
+        const doners = donations.map(donation => donation.doner.toLowerCase());
 
-    switch (true) {
-        case ownerAddress.toLowerCase() === address.toLowerCase():
-            return 'owner';
-        case charities.includes(address.toLowerCase()):
-            return 'charity';
-        case doners.includes(address.toLowerCase()):
-            return 'doner';
-        default:
-            return 'bystander';
+        switch (true) {
+            case ownerAddress.toLowerCase() === address.toLowerCase():
+                return 'owner';
+            case charities.includes(address.toLowerCase()):
+                return 'charity';
+            case doners.includes(address.toLowerCase()):
+                return 'doner';
+            default:
+                return 'bystander';
+        }
+    } catch (error) {
+        renderNotice('error', error.data.message);
     }
 }
 
