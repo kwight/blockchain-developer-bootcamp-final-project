@@ -71,20 +71,24 @@ const removeCharity = async (address) => {
 }
 
 const renderOwnerCharities = async () => {
-    await renderCharities();
-    const account = await getConnectedAccount();
-    const charities = document.querySelectorAll('.charity');
-    if (account) {
-        charities.forEach(charity => {
-            const address = charity.id.replace('charity-', '');
-            const removeCell = charity.querySelector('.charity-remove');
-            const button = document.createElement('button');
-            button.classList.add('compact', 'remove-charity');
-            button.innerText = 'X';
-            button.addEventListener('click', () => removeCharity(address));
-            removeCell.innerHTML = '';
-            removeCell.appendChild(button);
-        });
+    try {
+        await renderCharities();
+        const account = await getConnectedAccount();
+        const charities = document.querySelectorAll('.charity');
+        if (account) {
+            charities.forEach(charity => {
+                const address = charity.id.replace('charity-', '');
+                const removeCell = charity.querySelector('.charity-remove');
+                const button = document.createElement('button');
+                button.classList.add('compact', 'remove-charity');
+                button.innerText = 'X';
+                button.addEventListener('click', () => removeCharity(address));
+                removeCell.innerHTML = '';
+                removeCell.appendChild(button);
+            });
+        }
+    } catch (error) {
+        renderNotice('error', error.data.message);
     }
 }
 
