@@ -42,8 +42,12 @@ const renderAccountData = async () => {
 export const isMetaMaskInstalled = () => typeof window.ethereum !== 'undefined';
 
 export const connectToMetaMask = async () => {
-    await window.ethereum.request({ method: 'eth_requestAccounts' });
-    return window.ethereum.selectedAddress;
+    try {
+        await window.ethereum.request({ method: 'eth_requestAccounts' });
+        return window.ethereum.selectedAddress;
+    } catch (error) {
+        renderNotice('error', error.data.message);
+    }
 }
 
 export const getConnectedAccount = async () => {
@@ -72,7 +76,13 @@ export const getNetworkName = () => {
     }
 }
 
-export const addAccountsChangedListener = (listener) => window.ethereum.on('accountsChanged', listener);
+export const addAccountsChangedListener = (listener) => {
+    try {
+        window.ethereum.on('accountsChanged', listener);
+    } catch (error) {
+        renderNotice('error', error.data.message);
+    }
+}
 
 export const getMetaMaskProvider = () => new ethers.providers.Web3Provider(window.ethereum);
 
