@@ -55,8 +55,8 @@ To develop the project locally, you will need Truffle v5.4.15 or higher (Truffle
 
 * `contracts/`: Solidity contracts – the project's only contract is `Fundraisers.sol`.
 * `notes/`: Initial exploration.
-* `src/: Client app.
-* `test/: Unit tests for the contract in JS.
+* `src/`: Client app.
+* `test/`: Unit tests for the contract in JS.
 
 ### Installation
 
