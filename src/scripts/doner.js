@@ -1,5 +1,5 @@
 import { ethers } from './ethers-5.1.esm.min.js';
-import { contract, getAddressMarkup } from './fundraisers.js';
+import { contract, getAddressMarkup, renderNotice } from './fundraisers.js';
 import { getPrograms } from './programs.js';
 import { getDonations } from './donations.js';
 import { addAccountsChangedListener, getConnectedAccount, getMetaMaskProvider, isMetaMaskInstalled } from './wallet.js';

@@ -372,6 +372,63 @@ form button {
 }
 
 /*
+ * Notices
+ */
+
+#notice,
+#notice div {
+    display: flex;
+    align-items: center;
+}
+
+ #notice {
+    position: fixed;
+    bottom: 0;
+    justify-content: space-between;
+    padding: 1em 0;
+    border-top: 5px solid var(--base03);
+    background-color: var(--base00);
+    width: 100%;
+}
+
+#notice div {
+    flex: 1;
+}
+
+#notice p {
+    color: var(--base07);
+    margin: 0;
+}
+
+#notice.info {
+    border-color: var(--base03);
+}
+
+#icon-info {
+    fill: var(--base03);
+}
+
+#notice.error {
+    border-color: var(--red);
+}
+
+#icon-error {
+    fill: var(--red);
+}
+
+#notice.success {
+    border-color: var(--green);
+}
+
+#icon-success {
+    fill: var(--green);
+}
+
+.notice-icon {
+    flex: 0 0 calc(var(--svg-size) + 2em);
+}
+
+/*
  * Spinner
  */
 

@@ -39,6 +39,7 @@ const menu = document.getElementById('menu');
 const close = document.getElementById('close');
 const navigation = document.getElementById('menu-content');
 const main = document.getElementById('main-content');
+const noticeTemplate = document.getElementById('notice-template');
 
 const init = () => {
     [menu, close].forEach(element => element.addEventListener('click', displayMenu));
@@ -85,6 +86,35 @@ export const getAddressMarkup = async address => {
     pill.classList.add('address', `role-${role}`);
     pill.innerText = formatAddress(address);
     return pill;
+}
+
+const closeNotice = () => {
+    document.getElementById('notice').remove();
+}
+
+export const renderNotice = (type, notice) => {
+    const noticeMarkup = noticeTemplate.content.cloneNode(true);
+    const existingNotice = main.querySelector('#notice');
+    switch (type) {
+        case 'error':
+            noticeMarkup.querySelector('#icon-info').remove();
+            noticeMarkup.querySelector('#icon-success').remove();
+            break;
+        case 'success':
+            noticeMarkup.querySelector('#icon-error').remove();
+            noticeMarkup.querySelector('#icon-info').remove();
+            break;
+        default:
+            noticeMarkup.querySelector('#icon-error').remove();
+            noticeMarkup.querySelector('#icon-success').remove();
+    }
+    noticeMarkup.querySelector('div').classList.add(type);
+    noticeMarkup.querySelector('p').innerText = notice;
+    if (existingNotice) {
+        existingNotice.remove();
+    }
+    noticeMarkup.querySelector('#notice-close').addEventListener('click', closeNotice);
+    main.appendChild(noticeMarkup);
 }
 
 init();
