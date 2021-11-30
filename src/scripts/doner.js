@@ -2,7 +2,7 @@ import { ethers } from './ethers-5.1.esm.min.js';
 import { contract, getAddressMarkup, renderNotice } from './fundraisers.js';
 import { getPrograms } from './programs.js';
 import { getDonations } from './donations.js';
-import { addAccountsChangedListener, getConnectedAccount, getMetaMaskProvider, isMetaMaskInstalled } from './wallet.js';
+import { addAccountsChangedListener, getConnectedAccount, getMetaMaskProvider, isMetaMaskInstalled, renderAccountData } from './wallet.js';
 
 const spinner = document.getElementById('spinner');
 const registeredDonations = document.getElementById('registered-donations');
@@ -67,6 +67,7 @@ const donateToProgram = async (programId, amount) => {
         renderNotice('info', 'Transaction submitted – waiting for two confirmations.');
         await tx.wait(2);
         renderNotice('success', 'Transaction confirmed. Thank you!');
+        renderAccountData();
         renderDonerDonations();
     } catch (error) {
         renderNotice('error', error.data.message);

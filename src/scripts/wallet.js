@@ -20,7 +20,7 @@ const init = async () => {
     }
 }
 
-const renderAccountData = async () => {
+export const renderAccountData = async () => {
     try {
         const loading = spinner.content.cloneNode(true);
         connectSection.replaceChildren(loading);
