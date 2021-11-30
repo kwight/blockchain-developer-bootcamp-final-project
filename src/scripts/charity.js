@@ -23,7 +23,7 @@ const init = async () => {
         contract.on('ProgramCancelled', renderCharityPrograms);
         renderCharityPrograms();
     } catch (error) {
-        renderNotice('error', error.data.message);
+        renderNotice('error', error?.data?.message || 'Oops - something\'s wrong.');
     }
 }
 
@@ -47,7 +47,7 @@ const registerProgramListener = async (program) => {
     try {
         await registerProgram(title);
     } catch (error) {
-        renderNotice('error', error.data.message);
+        renderNotice('error', error?.data?.message || 'Oops - something\'s wrong.');
     }
 }
 
@@ -57,7 +57,7 @@ const registerProgram = async (title) => {
         await writableContract.registerProgram(title);
         renderCharityPrograms();
     } catch (error) {
-        renderNotice('error', error.data.message);
+        renderNotice('error', error?.data?.message || 'Oops - something\'s wrong.');
     }
 }
 
@@ -67,7 +67,7 @@ const cancelProgram = async (index) => {
         await writableContract.cancelProgram(index);
         renderCharityPrograms();
     } catch (error) {
-        renderNotice('error', error.data.message);
+        renderNotice('error', error?.data?.message || 'Oops - something\'s wrong.');
     }
 }
 
@@ -77,7 +77,7 @@ const completeProgram = async (index) => {
         await writableContract.completeProgram(index);
         renderCharityPrograms();
     } catch (error) {
-        renderNotice('error', error.data.message);
+        renderNotice('error', error?.data?.message || 'Oops - something\'s wrong.');
     }
 }
 
@@ -143,7 +143,7 @@ const renderCharityPrograms = async () => {
             tableBody.appendChild(program);
         }
     } catch (error) {
-        renderNotice('error', error.data.message);
+        renderNotice('error', error?.data?.message || 'Oops - something\'s wrong.');
     }
 }
 

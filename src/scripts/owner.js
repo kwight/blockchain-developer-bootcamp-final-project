@@ -20,7 +20,7 @@ const init = async () => {
         contract.on('CharityRemoved', renderOwnerCharities);
         renderOwnerCharities();
     } catch (error) {
-        renderNotice('error', error.data.message);
+        renderNotice('error', error?.data?.message || 'Oops - something\'s wrong.');
     }
 }
 
@@ -45,7 +45,7 @@ const registerCharityListener = async (event) => {
     try {
         await registerCharity(address, name);
     } catch (error) {
-        renderNotice('error', error.data.message);
+        renderNotice('error', error?.data?.message || 'Oops - something\'s wrong.');
     }
 
 }
@@ -56,7 +56,7 @@ const registerCharity = async (address, name) => {
         await writableContract.registerCharity(address, name);
         renderOwnerCharities();
     } catch (error) {
-        renderNotice('error', error.data.message);
+        renderNotice('error', error?.data?.message || 'Oops - something\'s wrong.');
     }
 }
 
@@ -66,7 +66,7 @@ const removeCharity = async (address) => {
         await writableContract.removeCharity(address);
         renderOwnerCharities();
     } catch (error) {
-        renderNotice('error', error.data.message);
+        renderNotice('error', error?.data?.message || 'Oops - something\'s wrong.');
     }
 }
 
@@ -88,7 +88,7 @@ const renderOwnerCharities = async () => {
             });
         }
     } catch (error) {
-        renderNotice('error', error.data.message);
+        renderNotice('error', error?.data?.message || 'Oops - something\'s wrong.');
     }
 }
 

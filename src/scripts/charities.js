@@ -8,7 +8,7 @@ export const getCharities = async () => {
     try {
         return await contract.getCharities();
     } catch (error) {
-        renderNotice('error', error.data.message);
+        renderNotice('error', error?.data?.message || 'Oops - something\'s wrong.');
     }
 }
 
@@ -33,6 +33,6 @@ export const renderCharities = async () => {
             tableBody.appendChild(charity);
         }
     } catch (error) {
-        renderNotice('error', error.data.message);
+        renderNotice('error', error?.data?.message || 'Oops - something\'s wrong.');
     }
 }

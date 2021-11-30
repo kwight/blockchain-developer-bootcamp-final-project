@@ -29,7 +29,7 @@ const init = async () => {
         renderDonerDonations();
         renderDonerPrograms();
     } catch (error) {
-        renderNotice('error', error.data.message);
+        renderNotice('error', error?.data?.message || 'Oops - something\'s wrong.');
     }
 }
 
@@ -54,7 +54,7 @@ const donateListener = async (event) => {
         }
         await donateToProgram(program, amount);
     } catch (error) {
-        renderNotice('error', error.data.message);
+        renderNotice('error', error?.data?.message || 'Oops - something\'s wrong.');
     }
 }
 
@@ -70,7 +70,7 @@ const donateToProgram = async (programId, amount) => {
         renderAccountData();
         renderDonerDonations();
     } catch (error) {
-        renderNotice('error', error.data.message);
+        renderNotice('error', error?.data?.message || 'Oops - something\'s wrong.');
     }
 }
 
@@ -102,7 +102,7 @@ export const renderDonerDonations = async () => {
             registeredDonations.appendChild(donation);
         });
     } catch (error) {
-        renderNotice('error', error.data.message);
+        renderNotice('error', error?.data?.message || 'Oops - something\'s wrong.');
     }
 }
 
@@ -129,7 +129,7 @@ const renderDonerPrograms = async () => {
             }
         });
     } catch (error) {
-        renderNotice('error', error.data.message);
+        renderNotice('error', error?.data?.message || 'Oops - something\'s wrong.');
     }
 }
 

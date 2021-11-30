@@ -80,7 +80,7 @@ export const getAddressRole = async address => {
                 return 'bystander';
         }
     } catch (error) {
-        renderNotice('error', error.data.message);
+        renderNotice('error', error?.data?.message || 'Oops - something\'s wrong.');
     }
 }
 

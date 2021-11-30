@@ -13,5 +13,5 @@ try {
     renderPrograms();
     renderDonations();
 } catch (error) {
-    renderNotice('error', error.data.message);
+    renderNotice('error', error?.data?.message || 'Oops - something\'s wrong.');
 }

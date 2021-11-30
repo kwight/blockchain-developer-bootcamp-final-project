@@ -10,7 +10,7 @@ export const getDonations = async () => {
     try {
         return await contract.getDonations();
     } catch (error) {
-        renderNotice('error', error.data.message);
+        renderNotice('error', error?.data?.message || 'Oops - something\'s wrong.');
     }
 }
 
@@ -37,6 +37,6 @@ export const renderDonations = async () => {
             tableBody.appendChild(donation);
         });
     } catch (error) {
-        renderNotice('error', error.data.message);
+        renderNotice('error', error?.data?.message || 'Oops - something\'s wrong.');
     }
 }

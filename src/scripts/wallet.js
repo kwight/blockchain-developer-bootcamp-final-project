@@ -16,7 +16,7 @@ const init = async () => {
         window.ethereum.on('accountsChanged', renderAccountData);
         window.ethereum.on('chainChanged', renderAccountData);
     } catch (error) {
-        renderNotice('error', error.data.message);
+        renderNotice('error', error?.data?.message || 'Oops - something\'s wrong.');
     }
 }
 
@@ -35,7 +35,7 @@ export const renderAccountData = async () => {
             connectSection.replaceChildren(accountPill);
         }
     } catch (error) {
-        renderNotice('error', error.data.message);
+        renderNotice('error', error?.data?.message || 'Oops - something\'s wrong.');
     }
 }
 
@@ -46,7 +46,7 @@ export const connectToMetaMask = async () => {
         await window.ethereum.request({ method: 'eth_requestAccounts' });
         return window.ethereum.selectedAddress;
     } catch (error) {
-        renderNotice('error', error.data.message);
+        renderNotice('error', error?.data?.message || 'Oops - something\'s wrong.');
     }
 }
 
@@ -55,7 +55,7 @@ export const getConnectedAccount = async () => {
         const accounts = await window.ethereum.request({ method: 'eth_accounts' });
         return (accounts.length > 0) ? window.ethereum.selectedAddress : false;
     } catch (error) {
-        renderNotice('error', error.data.message);
+        renderNotice('error', error?.data?.message || 'Oops - something\'s wrong.');
     }
 }
 
@@ -80,7 +80,7 @@ export const addAccountsChangedListener = (listener) => {
     try {
         window.ethereum.on('accountsChanged', listener);
     } catch (error) {
-        renderNotice('error', error.data.message);
+        renderNotice('error', error?.data?.message || 'Oops - something\'s wrong.');
     }
 }
 

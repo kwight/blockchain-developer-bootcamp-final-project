@@ -13,7 +13,7 @@ export const getPrograms = async () => {
     try {
         return await contract.getPrograms();
     } catch (error) {
-        renderNotice('error', error.data.message);
+        renderNotice('error', error?.data?.message || 'Oops - something\'s wrong.');
     }
 }
 
@@ -50,6 +50,6 @@ export const renderPrograms = async () => {
             tableBody.appendChild(program);
         }
     } catch (error) {
-        renderNotice('error', error.data.message);
+        renderNotice('error', error?.data?.message || 'Oops - something\'s wrong.');
     }
 }
