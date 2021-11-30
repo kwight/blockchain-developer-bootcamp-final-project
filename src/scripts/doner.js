@@ -111,6 +111,10 @@ const renderDonerPrograms = async () => {
         const loading = spinner.content.cloneNode(true);
         registeredPrograms.replaceChildren(loading);
         const programs = await getPrograms();
+        if (!programs.length) {
+            registeredPrograms.innerText = 'No programs are available.';
+            return;
+        }
         registeredPrograms.innerHTML = '';
         programs.forEach(async (programData, index) => {
             if (programData.status == 0) {
