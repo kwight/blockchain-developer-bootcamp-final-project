@@ -19,6 +19,10 @@ export const renderDonations = async () => {
         const loading = spinner.content.cloneNode(true);
         registeredDonations.replaceChildren(loading);
         const donations = await getDonations();
+        if (donations.length === 0) {
+            registeredDonations.innerText = 'No donations have been made.';
+            return;
+        }
         const programs = await getPrograms();
         registeredDonations.innerHTML = '<thead><tr><th>Amount</th><th>Program</th><th class="address-column">Doner</th></tr></thead><tbody></tbody>';
         const tableBody = registeredDonations.querySelector('tbody');

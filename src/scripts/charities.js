@@ -17,6 +17,10 @@ export const renderCharities = async () => {
         const loading = spinner.content.cloneNode(true);
         registeredCharities.replaceChildren(loading);
         const charities = await getCharities();
+        if (charities.length === 0) {
+            registeredCharities.innerText = 'No charities are registered.';
+            return;
+        }
         registeredCharities.innerHTML = '<thead><tr><th>Name</th><th class="address-column">Address</th></tr></thead><tbody></tbody>';
         const tableBody = registeredCharities.querySelector('tbody');
         for (const address of charities) {

@@ -22,6 +22,10 @@ export const renderPrograms = async () => {
         const loading = spinner.content.cloneNode(true);
         registeredPrograms.replaceChildren(loading);
         const programs = await getPrograms();
+        if (programs.length === 0) {
+            registeredPrograms.innerText = 'No programs have been registered.';
+            return;
+        }
         registeredPrograms.innerHTML = '<thead><tr><th>Title</th><th>Charity</th><th>Status</th></tr></thead><tbody></tbody>';
         const tableBody = registeredPrograms.querySelector('tbody');
         for (const [index, programData] of programs.entries()) {
