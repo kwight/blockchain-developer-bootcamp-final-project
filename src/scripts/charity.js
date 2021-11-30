@@ -91,10 +91,15 @@ const renderCharityPrograms = async () => {
             registeredPrograms.replaceChildren(connectWallet);
             return;
         }
-        const programs = await getPrograms();
+        let programs = await getPrograms();
         if (!programs.length) {
             const registerPrompt = noPrograms.cloneNode(true);
             registeredPrograms.replaceChildren(registerPrompt);
+            return;
+        }
+        programs = programs.filter(program => program.charity.toLowerCase() === account.toLowerCase());
+        if (!programs.length) {
+            registeredPrograms.innerText = 'No programs found for this account.';
             return;
         }
         registeredPrograms.innerHTML = '<thead><tr><th>Title</th><th>Status</th></tr></thead><tbody></tbody>';
