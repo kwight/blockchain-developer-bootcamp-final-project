@@ -98,7 +98,7 @@ const closeNotice = () => {
 
 export const renderNotice = (type, notice) => {
     const noticeMarkup = noticeTemplate.content.cloneNode(true);
-    const existingNotice = main.querySelector('#notice');
+    const existingNotice = document.querySelector('#notice');
     switch (type) {
         case 'error':
             noticeMarkup.querySelector('#icon-info').remove();
@@ -118,7 +118,7 @@ export const renderNotice = (type, notice) => {
         existingNotice.remove();
     }
     noticeMarkup.querySelector('#notice-close').addEventListener('click', closeNotice);
-    main.appendChild(noticeMarkup);
+    document.querySelector('body').appendChild(noticeMarkup);
 }
 
 init();
