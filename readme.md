@@ -48,7 +48,7 @@ CryptoGive is a standard-configured Truffle project with [few dependencies](http
 
 It uses `ethers.js` and MetaMask as providers and the wallet.
 
-The project UI is publicly available at https://blockchain-bootcamp-project.web.app/, which uses the deployed contract on the [Ropsten network](https://ropsten.etherscan.io/address/0x56dc89637668ba2D911B0A2b9406568Fd42a7432).
+The project UI is publicly available at https://blockchain-bootcamp-project.web.app/, which uses the deployed contract on the [Ropsten network](https://ropsten.etherscan.io/address/0x4fd8BCbBe61c5015CE12827bE005540fc7710695).
 
 To develop the project locally, you will need Truffle v5.4.15 or higher (Truffle's own [requirements](https://www.trufflesuite.com/docs/truffle/getting-started/installation) are Node v8.9.4 or later, and Linux, MacOS, or Windows).
 
