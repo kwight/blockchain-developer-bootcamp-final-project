@@ -57,7 +57,10 @@ const registerCharityListener = async (event) => {
 const registerCharity = async (address, name) => {
     try {
         const writableContract = contract.connect(getMetaMaskProvider().getSigner());
-        await writableContract.registerCharity(address, name);
+        const tx = await writableContract.registerCharity(address, name);
+        renderNotice('info', 'Charity submitted – waiting for confirmation.');
+        await tx.wait();
+        renderNotice('success', 'Charity successfully submitted.');
         renderOwnerCharities();
     } catch (error) {
         renderNotice('error', error?.data?.message || 'Oops - something\'s wrong.');
