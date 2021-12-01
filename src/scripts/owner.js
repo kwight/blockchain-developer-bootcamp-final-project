@@ -24,8 +24,10 @@ const init = async () => {
     }
 }
 
-const updateRegisterCharityButton = (account) => {
-    if (!account || account.length == 0) {
+const updateRegisterCharityButton = async (account) => {
+    account = (typeof account == 'object') ? account[0] : account;
+    const owner = await contract.owner();
+    if (!ethers.utils.isAddress(account) || account.toLowerCase() !== owner.toLowerCase()) {
         registerCharityForm.removeEventListener('submit', registerCharityListener);
         registerCharityButton.disabled = true;
     } else {
