@@ -75,9 +75,10 @@ const removeCharity = async (address) => {
 const renderOwnerCharities = async () => {
     try {
         await renderCharities();
+        const owner = await contract.owner();
         const account = await getConnectedAccount();
         const charities = document.querySelectorAll('.charity');
-        if (account) {
+        if (owner.toLowerCase() === account.toLowerCase()) {
             charities.forEach(charity => {
                 const address = charity.id.replace('charity-', '');
                 const removeCell = charity.querySelector('.charity-remove');
