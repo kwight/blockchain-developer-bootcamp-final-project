@@ -32,9 +32,9 @@ export const renderPrograms = async () => {
         registeredPrograms.innerHTML = '<thead><tr><th>Title</th><th>Charity</th><th>Status</th></tr></thead><tbody></tbody>';
         const tableBody = registeredPrograms.querySelector('tbody');
         for (let [index, programData] of programs.entries()) {
-            const charityExists = charities.includes(programData.charity);
+            const charityExists = charities.includes(programData.charity.toLowerCase());
             if (charityExists) {
-                const charityData = await contract.getCharity();
+                const charityData = await contract.getCharity(programData.charity);
                 charityName = charityData.name;
             } else {
                 charityName = '[charity was removed]';
