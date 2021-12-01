@@ -34,9 +34,11 @@ const updateRegisterProgramButton = async (account) => {
     const charities = await getCharities();
     if (!ethers.utils.isAddress(account) || !charities.includes(account.toLowerCase())) {
         registerProgramForm.removeEventListener('submit', registerProgramListener);
+        registerProgramForm.reset();
         registerProgramButton.disabled = true;
     } else {
         registerProgramForm.addEventListener('submit', registerProgramListener);
+        registerProgramForm.reset();
         registerProgramButton.disabled = false;
     }
 }
@@ -151,6 +153,7 @@ const renderCharityPrograms = async () => {
             }
             actionsCell.replaceChildren(cancelButton, completeButton);
             tableBody.appendChild(program);
+            registerProgramForm.reset();
         }
     } catch (error) {
         renderNotice('error', error?.data?.message || 'Oops - something\'s wrong.');
