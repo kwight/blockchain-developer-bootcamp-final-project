@@ -36,9 +36,11 @@ const init = async () => {
 const updateDonateButton = (account) => {
     if (!account || account.length == 0) {
         donationForm.removeEventListener('submit', donateListener);
+        donationForm.reset();
         donateButton.disabled = true;
     } else {
         donationForm.addEventListener('submit', donateListener);
+        donationForm.reset();
         donateButton.disabled = false;
     }
 }
@@ -101,6 +103,7 @@ export const renderDonerDonations = async () => {
             donation.querySelector('.doner').replaceChildren(addressMarkup);
             registeredDonations.appendChild(donation);
         });
+        donationForm.reset();
     } catch (error) {
         renderNotice('error', error?.data?.message || 'Oops - something\'s wrong.');
     }
@@ -128,6 +131,7 @@ const renderDonerPrograms = async () => {
                 registeredPrograms.prepend(program);
             }
         });
+        donationForm.reset();
     } catch (error) {
         renderNotice('error', error?.data?.message || 'Oops - something\'s wrong.');
     }
