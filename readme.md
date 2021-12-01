@@ -2,7 +2,8 @@
 
 CryptoGive is a platform for donating to your choice of charity programs with cryptocurrency.
 
-https://blockchain-bootcamp-project.web.app
+* [Public app using Ropsten](https://blockchain-bootcamp-project.web.app)
+* [Video demo](https://youtu.be/b5REuIe6S4M)
 
 ---
 
