@@ -11,6 +11,7 @@ const programRadioButton = document.getElementById('program-radio-button');
 const registeredPrograms = document.getElementById('registered-programs');
 const donationForm = document.getElementById('donation-form');
 const donateButton = document.getElementById('donate-button');
+const noPrograms = document.getElementById('no-programs').content;
 
 const init = async () => {
     if (!isMetaMaskInstalled()) {
@@ -113,23 +114,29 @@ const renderDonerPrograms = async () => {
     try {
         const loading = spinner.content.cloneNode(true);
         registeredPrograms.replaceChildren(loading);
-        const programs = await getPrograms();
+        debugger;
+        let programs = await getPrograms();
         if (!programs.length) {
-            registeredPrograms.innerText = 'No programs are available.';
+            const registerPrompt = noPrograms.cloneNode(true);
+            registeredPrograms.replaceChildren(registerPrompt);
+            return;
+        }
+        programs = programs.filter(program => program.status === 0);
+        if (!programs.length) {
+            const registerPrompt = noPrograms.cloneNode(true);
+            registeredPrograms.replaceChildren(registerPrompt);
             return;
         }
         registeredPrograms.innerHTML = '';
         programs.forEach(async (programData, index) => {
-            if (programData.status == 0) {
-                const program = programRadioButton.content.cloneNode(true);
-                const label = program.querySelector('label');
-                const charity = await contract.getCharity(programData.charity);
-                program.querySelector('input').id = `program-${index}`;
-                program.querySelector('input').value = index;
-                label.setAttribute('for', `program-${index}`);
-                label.insertAdjacentHTML('beforeend', `${programData.title} (${charity.name})`);
-                registeredPrograms.prepend(program);
-            }
+            const program = programRadioButton.content.cloneNode(true);
+            const label = program.querySelector('label');
+            const charity = await contract.getCharity(programData.charity);
+            program.querySelector('input').id = `program-${index}`;
+            program.querySelector('input').value = index;
+            label.setAttribute('for', `program-${index}`);
+            label.insertAdjacentHTML('beforeend', `${programData.title} (${charity.name})`);
+            registeredPrograms.prepend(program);
         });
         donationForm.reset();
     } catch (error) {
