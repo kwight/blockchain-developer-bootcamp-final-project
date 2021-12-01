@@ -23,6 +23,7 @@ const init = async () => {
         addAccountsChangedListener(renderCharityPrograms);
         contract.on('ProgramRegistered', renderCharityPrograms);
         contract.on('ProgramCancelled', renderCharityPrograms);
+        contract.on('ProgramCompleted', renderCharityPrograms);
         renderCharityPrograms();
     } catch (error) {
         renderNotice('error', error?.data?.message || 'Oops - something\'s wrong.');
