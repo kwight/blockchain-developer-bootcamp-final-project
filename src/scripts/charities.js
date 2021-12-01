@@ -6,7 +6,8 @@ const registeredCharity = document.getElementById('registered-charity');
 
 export const getCharities = async () => {
     try {
-        return await contract.getCharities();
+        const charities = await contract.getCharities();
+        return charities.map(charity => charity.toLowerCase());
     } catch (error) {
         renderNotice('error', error?.data?.message || 'Oops - something\'s wrong.');
     }
