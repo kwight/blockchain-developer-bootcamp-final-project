@@ -1,5 +1,6 @@
 import { contract, renderNotice } from './fundraisers.js';
 import { getPrograms, status } from './programs.js';
+import { getCharities } from './charities.js';
 import { addAccountsChangedListener, getConnectedAccount, getMetaMaskProvider, isMetaMaskInstalled } from './wallet.js';
 
 const registeredPrograms = document.getElementById('registered-programs');
@@ -93,6 +94,12 @@ const renderCharityPrograms = async () => {
         }
         let programs = await getPrograms();
         if (!programs.length) {
+            const registerPrompt = noPrograms.cloneNode(true);
+            registeredPrograms.replaceChildren(registerPrompt);
+            return;
+        }
+        const charities = await getCharities();
+        if (!charities.includes(account.toLowerCase())) {
             const registerPrompt = noPrograms.cloneNode(true);
             registeredPrograms.replaceChildren(registerPrompt);
             return;
