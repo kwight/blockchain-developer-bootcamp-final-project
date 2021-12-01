@@ -61,7 +61,10 @@ const registerProgramListener = async (program) => {
 const registerProgram = async (title) => {
     try {
         const writableContract = contract.connect(getMetaMaskProvider().getSigner());
-        await writableContract.registerProgram(title);
+        const tx = await writableContract.registerProgram(title);
+        renderNotice('info', 'Program submitted – waiting for confirmation.');
+        await tx.wait();
+        renderNotice('success', 'Program successfully registered.');
         renderCharityPrograms();
     } catch (error) {
         renderNotice('error', error?.data?.message || 'Oops - something\'s wrong.');
@@ -71,7 +74,10 @@ const registerProgram = async (title) => {
 const cancelProgram = async (index) => {
     try {
         const writableContract = contract.connect(getMetaMaskProvider().getSigner());
-        await writableContract.cancelProgram(index);
+        const tx = await writableContract.cancelProgram(index);
+        renderNotice('info', 'Cancellation submitted – waiting for confirmation.');
+        await tx.wait();
+        renderNotice('success', 'Program successfully cancelled.');
         renderCharityPrograms();
     } catch (error) {
         renderNotice('error', error?.data?.message || 'Oops - something\'s wrong.');
@@ -81,7 +87,10 @@ const cancelProgram = async (index) => {
 const completeProgram = async (index) => {
     try {
         const writableContract = contract.connect(getMetaMaskProvider().getSigner());
-        await writableContract.completeProgram(index);
+        const tx = await writableContract.completeProgram(index);
+        renderNotice('info', 'Completion submitted – waiting for confirmation.');
+        await tx.wait();
+        renderNotice('success', 'Program successfully marked as complete.');
         renderCharityPrograms();
     } catch (error) {
         renderNotice('error', error?.data?.message || 'Oops - something\'s wrong.');
