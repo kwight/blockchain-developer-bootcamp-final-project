@@ -104,6 +104,10 @@ header {
     z-index: 1;
 }
 
+a {
+    color: var(--base07);
+}
+
 input,
 button,
 #description-section a {
