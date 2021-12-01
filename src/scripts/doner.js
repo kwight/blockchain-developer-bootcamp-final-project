@@ -19,8 +19,6 @@ const init = async () => {
     }
 
     try {
-        const account = await getConnectedAccount();
-        updateDonateButton(account);
         addAccountsChangedListener(updateDonateButton);
         addAccountsChangedListener(renderDonerDonations);
         addAccountsChangedListener(renderDonerPrograms);
@@ -34,8 +32,16 @@ const init = async () => {
     }
 }
 
-const updateDonateButton = (account) => {
+const updateDonateButton = async (account) => {
     if (!account || account.length == 0) {
+        donationForm.removeEventListener('submit', donateListener);
+        donationForm.reset();
+        donateButton.disabled = true;
+        return;
+    }
+    let programs = await getPrograms();
+    programs = programs.filter(program => program.status === 0);
+    if (!programs.length) {
         donationForm.removeEventListener('submit', donateListener);
         donationForm.reset();
         donateButton.disabled = true;
@@ -114,17 +120,19 @@ const renderDonerPrograms = async () => {
     try {
         const loading = spinner.content.cloneNode(true);
         registeredPrograms.replaceChildren(loading);
-        debugger;
+        const account = await getConnectedAccount();
         let programs = await getPrograms();
         if (!programs.length) {
             const registerPrompt = noPrograms.cloneNode(true);
             registeredPrograms.replaceChildren(registerPrompt);
+            updateDonateButton(account);
             return;
         }
         programs = programs.filter(program => program.status === 0);
         if (!programs.length) {
             const registerPrompt = noPrograms.cloneNode(true);
             registeredPrograms.replaceChildren(registerPrompt);
+            updateDonateButton(account);
             return;
         }
         registeredPrograms.innerHTML = '';
@@ -139,6 +147,7 @@ const renderDonerPrograms = async () => {
             registeredPrograms.prepend(program);
         });
         donationForm.reset();
+        updateDonateButton(account);
     } catch (error) {
         renderNotice('error', error?.data?.message || 'Oops - something\'s wrong.');
     }
