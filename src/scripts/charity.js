@@ -1,3 +1,4 @@
+import { ethers } from './ethers-5.1.esm.min.js';
 import { contract, renderNotice } from './fundraisers.js';
 import { getPrograms, status } from './programs.js';
 import { getCharities } from './charities.js';
@@ -28,8 +29,10 @@ const init = async () => {
     }
 }
 
-const updateRegisterProgramButton = (account) => {
-    if (!account || account.length == 0) {
+const updateRegisterProgramButton = async (account) => {
+    account = (typeof account == 'object') ? account[0] : account;
+    const charities = await getCharities();
+    if (!ethers.utils.isAddress(account) || !charities.includes(account.toLowerCase())) {
         registerProgramForm.removeEventListener('submit', registerProgramListener);
         registerProgramButton.disabled = true;
     } else {
