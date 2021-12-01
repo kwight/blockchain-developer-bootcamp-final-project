@@ -121,22 +121,25 @@ const renderDonerPrograms = async () => {
         const loading = spinner.content.cloneNode(true);
         registeredPrograms.replaceChildren(loading);
         const account = await getConnectedAccount();
-        let programs = await getPrograms();
+        const programs = await getPrograms();
         if (!programs.length) {
             const registerPrompt = noPrograms.cloneNode(true);
             registeredPrograms.replaceChildren(registerPrompt);
             updateDonateButton(account);
             return;
         }
-        programs = programs.filter(program => program.status === 0);
-        if (!programs.length) {
+        const filteredPrograms = programs.filter(program => program.status === 0);
+        if (!filteredPrograms.length) {
             const registerPrompt = noPrograms.cloneNode(true);
             registeredPrograms.replaceChildren(registerPrompt);
             updateDonateButton(account);
             return;
         }
         registeredPrograms.innerHTML = '';
-        programs.forEach(async (programData, index) => {
+        for (const [index, programData] of programs.entries()) {
+            if (programData.status !== 0) {
+                continue;
+            }
             const program = programRadioButton.content.cloneNode(true);
             const label = program.querySelector('label');
             const charity = await contract.getCharity(programData.charity);
@@ -145,7 +148,7 @@ const renderDonerPrograms = async () => {
             label.setAttribute('for', `program-${index}`);
             label.insertAdjacentHTML('beforeend', `${programData.title} (${charity.name})`);
             registeredPrograms.prepend(program);
-        });
+        };
         donationForm.reset();
         updateDonateButton(account);
     } catch (error) {
