@@ -1,4 +1,5 @@
 import { contract, renderNotice } from "./fundraisers.js";
+import { getCharities } from './charities.js';
 
 const spinner = document.getElementById('spinner');
 const registeredPrograms = document.getElementById('registered-programs');
@@ -22,18 +23,29 @@ export const renderPrograms = async () => {
         const loading = spinner.content.cloneNode(true);
         registeredPrograms.replaceChildren(loading);
         const programs = await getPrograms();
+        let charityName;
         if (programs.length === 0) {
             registeredPrograms.innerText = 'No programs have been registered.';
             return;
         }
+        const charities = await getCharities();
         registeredPrograms.innerHTML = '<thead><tr><th>Title</th><th>Charity</th><th>Status</th></tr></thead><tbody></tbody>';
         const tableBody = registeredPrograms.querySelector('tbody');
-        for (const [index, programData] of programs.entries()) {
-            const charityData = await contract.getCharity(programData.charity);
+        for (let [index, programData] of programs.entries()) {
+            const charityExists = charities.includes(programData.charity);
+            if (charityExists) {
+                const charityData = await contract.getCharity();
+                charityName = charityData.name;
+            } else {
+                charityName = '[charity was removed]';
+                programData = {
+                    ...programData, ...{ status: 1 }
+                };
+            }
             const program = registeredProgram.content.cloneNode(true);
             program.querySelector('.program').id = `program-${index}`;
             program.querySelector('.program-title').innerText = programData.title;
-            program.querySelector('.program-charity').innerText = charityData.name;
+            program.querySelector('.program-charity').innerText = charityName;
             const programStatus = program.querySelector('.program-status');
             switch (programData.status) {
                 case 2:
