@@ -95,7 +95,7 @@ const renderCharityPrograms = async () => {
             registeredPrograms.replaceChildren(connectWallet);
             return;
         }
-        let programs = await getPrograms();
+        const programs = await getPrograms();
         if (!programs.length) {
             const registerPrompt = noPrograms.cloneNode(true);
             registeredPrograms.replaceChildren(registerPrompt);
@@ -107,8 +107,8 @@ const renderCharityPrograms = async () => {
             registeredPrograms.replaceChildren(registerPrompt);
             return;
         }
-        programs = programs.filter(program => program.charity.toLowerCase() === account.toLowerCase());
-        if (!programs.length) {
+        const accountPrograms = programs.filter(program => program.charity.toLowerCase() === account.toLowerCase());
+        if (!accountPrograms.length) {
             registeredPrograms.innerText = 'No programs found for this account.';
             return;
         }
