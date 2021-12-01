@@ -70,7 +70,10 @@ const registerCharity = async (address, name) => {
 const removeCharity = async (address) => {
     try {
         const writableContract = contract.connect(getMetaMaskProvider().getSigner());
-        await writableContract.removeCharity(address);
+        const tx = await writableContract.removeCharity(address);
+        renderNotice('info', 'Removal submitted – waiting for confirmation.');
+        await tx.wait();
+        renderNotice('success', 'Charity successfully removed.');
         renderOwnerCharities();
     } catch (error) {
         renderNotice('error', error?.data?.message || 'Oops - something\'s wrong.');
