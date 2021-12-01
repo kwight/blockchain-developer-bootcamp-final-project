@@ -27,11 +27,12 @@ const abi = [
 // Use this provider if developing locally (and verify the localhost port).
 const provider = ethers.getDefaultProvider('http://localhost:9545');
 
-// Use this provider to give your own keys for ethers.js.
+// Use these providers as examples for giving your own keys to ethers.js.
 // const provider = ethers.getDefaultProvider('ropsten', {
 //     etherscan: ETHERSCAN_API_KEY,
 //     infura: INFURA_PROJECT_ID
 // });
+// const provider = new ethers.providers.InfuraProvider('ropsten', INFURA_PROJECT_ID);
 
 export const contract = new ethers.Contract(contractAddress, abi, provider);
 
