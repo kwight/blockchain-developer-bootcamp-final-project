@@ -30,9 +30,11 @@ const updateRegisterCharityButton = async (account) => {
     if (!ethers.utils.isAddress(account) || account.toLowerCase() !== owner.toLowerCase()) {
         registerCharityForm.removeEventListener('submit', registerCharityListener);
         registerCharityButton.disabled = true;
+        registerCharityForm.reset();
     } else {
         registerCharityForm.addEventListener('submit', registerCharityListener);
         registerCharityButton.disabled = false;
+        registerCharityForm.reset();
     }
 }
 
@@ -90,6 +92,7 @@ const renderOwnerCharities = async () => {
                 removeCell.appendChild(button);
             });
         }
+        registerCharityForm.reset();
     } catch (error) {
         renderNotice('error', error?.data?.message || 'Oops - something\'s wrong.');
     }
