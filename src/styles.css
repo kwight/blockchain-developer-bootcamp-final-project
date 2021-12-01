@@ -101,6 +101,7 @@ header {
     padding: 0.6em;
     background-color: var(--base00);
     border-bottom: 5px solid var(--base01);
+    z-index: 1;
 }
 
 input,
