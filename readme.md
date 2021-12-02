@@ -5,6 +5,10 @@ CryptoGive is a platform for donating to your choice of charity programs with cr
 * [Public app using Ropsten](https://blockchain-bootcamp-project.web.app)
 * [Video demo](https://youtu.be/b5REuIe6S4M)
 
+| Home View | Donations View |
+| --- | --- |
+| <img width="375" alt="Screen Shot 2021-12-01 at 8 16 50 PM" src="https://user-images.githubusercontent.com/349751/144357448-0fadceab-a207-467e-83b7-d81c7b6e0ef7.png"> | <img width="375" alt="Screen Shot 2021-12-01 at 8 18 52 PM" src="https://user-images.githubusercontent.com/349751/144357458-5ee0262e-78c2-493f-9931-f15616afee18.png"> |
+
 ---
 
 ## How does a blockchain help?
