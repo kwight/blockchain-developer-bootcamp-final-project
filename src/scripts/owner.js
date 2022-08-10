@@ -85,6 +85,10 @@ const renderOwnerCharities = async () => {
         await renderCharities();
         const owner = await contract.owner();
         const account = await getConnectedAccount();
+        if (!account) {
+            renderNotice('info', 'Connect as the owner to manage charities.');
+            return;
+        }
         const charities = document.querySelectorAll('.charity');
         if (owner.toLowerCase() === account.toLowerCase()) {
             charities.forEach(charity => {
